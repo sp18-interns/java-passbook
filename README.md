@@ -1,4 +1,5 @@
-# java-passbook
+# PassBook
+# Basic Entry Passbook
 
 # Build java project
 ```bash
