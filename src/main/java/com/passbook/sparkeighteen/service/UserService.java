@@ -7,6 +7,7 @@ import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
 import lombok.NonNull;
+import org.hibernate.annotations.Check;
 import org.springframework.stereotype.Service;
 
 
@@ -40,23 +41,34 @@ public class UserService {
                 .build();
     }
 
-    public LoginResponse login (final LoginRequest loginRequest) throws Exception {
-        final Optional<UserEntity> byEmail =
-                userRepository.findByEmail(loginRequest.getEmail());
-        if (byEmail.isPresent()) {
+    public LoginResponse login(final LoginRequest loginRequest) throws Exception {
+
+
+        final Optional<UserEntity> byEmailAndPassword =
+                userRepository.findByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
+        if (byEmailAndPassword.isPresent()) {
             return LoginResponse.builder()
-                    .message(" user login successful")
+                    .message("User login successful")
+                    .build();
+        } else {
+            final Optional<UserEntity> byEmail =
+                    userRepository.findByEmail(loginRequest.getEmail());
+            if (byEmail.isEmpty()) {
+                return LoginResponse.builder()
+                        .message("Enter valid email")
+                        .build();
+            } else {
+                final Optional<UserEntity> byPassword =
+                        userRepository.findByPassword(loginRequest.getPassword());
+                if (byPassword.isEmpty()) {
+                    return LoginResponse.builder()
+                            .message("Your password is wrong enter valid password and try again")
+                            .build();
+                }
+            }
+            return LoginResponse.builder()
+                    .message("User not found goto sign-up")
                     .build();
         }
-        UserEntity save = userRepository.save(UserEntity.builder()
-                .email(loginRequest.getEmail())
-                .password(loginRequest.getPassword())
-                .build());
-
-        return LoginResponse.builder()
-                .message("user not found goto singup")
-                .build();
     }
-
-
 }
