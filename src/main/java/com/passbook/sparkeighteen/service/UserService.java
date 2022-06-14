@@ -1,5 +1,7 @@
 package com.passbook.sparkeighteen.service;
 
+import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
+import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
@@ -37,4 +39,24 @@ public class UserService {
                 .message("Sign-up is successful.")
                 .build();
     }
+
+    public LoginResponse login (final LoginRequest loginRequest) throws Exception {
+        final Optional<UserEntity> byEmail =
+                userRepository.findByEmail(loginRequest.getEmail());
+        if (byEmail.isPresent()) {
+            return LoginResponse.builder()
+                    .message(" user login successful")
+                    .build();
+        }
+        UserEntity save = userRepository.save(UserEntity.builder()
+                .email(loginRequest.getEmail())
+                .password(loginRequest.getPassword())
+                .build());
+
+        return LoginResponse.builder()
+                .message("user not found goto singup")
+                .build();
+    }
+
+
 }
