@@ -1,10 +1,8 @@
 package com.passbook.sparkeighteen.config;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -27,12 +25,10 @@ public class SwaggerConfig {
     }
 
     private ApiInfo getApiInfo() {
-
         return new ApiInfoBuilder()
                 .title("Swagger API Doc")
                 .description("More description about the API")
                 .version("1.0.0")
                 .build();
     }
-
 }
