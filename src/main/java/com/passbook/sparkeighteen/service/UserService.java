@@ -17,18 +17,22 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public SignUpResponse signUp(@NonNull final SignUpRequest userSignUp) throws Exception {
-        final Optional<UserEntity> byEmail =
-                userRepository.findByEmail(userSignUp.getEmail());
-        if (byEmail.isPresent()) {
+    public SignUpResponse signUp(@NonNull final SignUpRequest signUpRequest) throws Exception {
+
+        final Optional<UserEntity> user =
+                userRepository.findByEmail(signUpRequest.getEmail());
+
+        if (user.isPresent()) {
             return SignUpResponse.builder()
                     .message("Email already exists.")
                     .build();
         }
-        UserEntity save = userRepository.save(UserEntity.builder()
-                .email(userSignUp.getEmail())
-                .password(userSignUp.getPassword())
+
+        userRepository.save(UserEntity.builder()
+                .email(signUpRequest.getEmail())
+                .password(signUpRequest.getPassword())
                 .build());
+
         return SignUpResponse.builder()
                 .message("Sign-up is successful.")
                 .build();
