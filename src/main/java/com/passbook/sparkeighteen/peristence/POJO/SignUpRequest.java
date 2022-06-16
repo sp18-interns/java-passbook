@@ -14,6 +14,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class SignUpRequest {
 
+    @NotBlank
     @NotEmpty(message = "email is mandatory")
     private String email;
 
