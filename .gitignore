@@ -32,7 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
-# Custom files
+## Custom files ##
 .idea
 .mvn/*
 mvnw

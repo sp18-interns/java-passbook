@@ -1,5 +1,7 @@
 package com.passbook.sparkeighteen.controller;
 
+import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
+import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.service.UserService;
@@ -16,9 +18,9 @@ import javax.validation.Valid;
 @RestController
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    public UserController(final UserService userService){
+    public UserController(final UserService userService) {
         this.userService = userService;
     }
 
@@ -27,5 +29,12 @@ public class UserController {
     public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody final SignUpRequest signUpRequest) throws Exception {
         return ResponseEntity.ok(userService.signUp(signUpRequest));
     }
+
+    @ApiOperation("login the user to passbook")
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody final LoginRequest loginRequest) throws Exception {
+        return ResponseEntity.ok(userService.login(loginRequest));
+    }
+
 
 }
