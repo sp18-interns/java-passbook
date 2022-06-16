@@ -18,9 +18,9 @@ import javax.validation.Valid;
 @RestController
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    public UserController(final UserService userService){
+    public UserController(final UserService userService) {
         this.userService = userService;
     }
 
@@ -32,10 +32,9 @@ public class UserController {
 
     @ApiOperation("login the user to passbook")
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login (@Valid @RequestBody final LoginRequest loginRequest) throws Exception {
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody final LoginRequest loginRequest) throws Exception {
         return ResponseEntity.ok(userService.login(loginRequest));
     }
-
 
 
 }

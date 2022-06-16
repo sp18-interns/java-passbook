@@ -7,30 +7,26 @@ import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
 import lombok.NonNull;
-import org.hibernate.annotations.Check;
 import org.springframework.stereotype.Service;
-
 
 import java.util.Optional;
 
 @Service
 public class UserService {
-
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     public SignUpResponse signUp(@NonNull final SignUpRequest signUpRequest) throws Exception {
-        final Optional<UserEntity> byEmail =
-                userRepository.findByEmail(signUpRequest.getEmail());
+        final Optional<UserEntity> byEmail = userRepository
+                .findByEmail(signUpRequest.getEmail());
         if (byEmail.isPresent()) {
             return SignUpResponse.builder()
                     .message("Email already exists.")
                     .build();
         }
-
         UserEntity save = userRepository.save(UserEntity.builder()
                 .email(signUpRequest.getEmail())
                 .password(signUpRequest.getPassword())
@@ -41,34 +37,24 @@ public class UserService {
                 .build();
     }
 
-    public LoginResponse login(final LoginRequest loginRequest) throws Exception {
-
-
-        final Optional<UserEntity> byEmailAndPassword =
-                userRepository.findByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
-        if (byEmailAndPassword.isPresent()) {
+    public LoginResponse login(final LoginRequest userLogin) throws Exception {
+        Optional<UserEntity> email = userRepository
+                .findByEmail(userLogin.getEmail());
+        if (!email.isPresent()) {
             return LoginResponse.builder()
-                    .message("User login successful")
+                    .message("User not registered with provided email")
                     .build();
-        } else {
-            final Optional<UserEntity> byEmail =
-                    userRepository.findByEmail(loginRequest.getEmail());
-            if (byEmail.isEmpty()) {
+
+        } else if (email.isPresent()) {
+            UserEntity userEntity = email.get();
+            if (!userEntity.getPassword().equals(userLogin.getPassword())) {
                 return LoginResponse.builder()
-                        .message("Enter valid email")
+                        .message("Enter valid password to continue")
                         .build();
-            } else {
-                final Optional<UserEntity> byPassword =
-                        userRepository.findByPassword(loginRequest.getPassword());
-                if (byPassword.isEmpty()) {
-                    return LoginResponse.builder()
-                            .message("Your password is wrong enter valid password and try again")
-                            .build();
-                }
             }
-            return LoginResponse.builder()
-                    .message("User not found goto sign-up")
-                    .build();
         }
+        return LoginResponse.builder()
+                .message("User login successful")
+                .build();
     }
 }
