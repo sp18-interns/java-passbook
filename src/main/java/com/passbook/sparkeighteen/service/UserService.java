@@ -20,14 +20,17 @@ public class UserService {
     }
 
     public SignUpResponse signUp(@NonNull final SignUpRequest signUpRequest) throws Exception {
-        final Optional<UserEntity> byEmail = userRepository
-                .findByEmail(signUpRequest.getEmail());
-        if (byEmail.isPresent()) {
+
+        final Optional<UserEntity> user =
+                userRepository.findByEmail(signUpRequest.getEmail());
+
+        if (user.isPresent()) {
             return SignUpResponse.builder()
                     .message("Email already exists.")
                     .build();
         }
-        UserEntity save = userRepository.save(UserEntity.builder()
+
+        userRepository.save(UserEntity.builder()
                 .email(signUpRequest.getEmail())
                 .password(signUpRequest.getPassword())
                 .build());
