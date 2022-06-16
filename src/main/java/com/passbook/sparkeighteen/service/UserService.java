@@ -10,28 +10,28 @@ import lombok.NonNull;
 import org.hibernate.annotations.Check;
 import org.springframework.stereotype.Service;
 
-
 import java.util.Optional;
 
 @Service
 public class UserService {
-
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     public SignUpResponse signUp(@NonNull final SignUpRequest signUpRequest) throws Exception {
-        final Optional<UserEntity> byEmail =
+
+        final Optional<UserEntity> user =
                 userRepository.findByEmail(signUpRequest.getEmail());
-        if (byEmail.isPresent()) {
+
+        if (user.isPresent()) {
             return SignUpResponse.builder()
                     .message("Email already exists.")
                     .build();
         }
 
-        UserEntity save = userRepository.save(UserEntity.builder()
+        userRepository.save(UserEntity.builder()
                 .email(signUpRequest.getEmail())
                 .password(signUpRequest.getPassword())
                 .build());
