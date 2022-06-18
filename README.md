@@ -1,12 +1,12 @@
-# PassBook
 # Basic Entry Passbook
 
-# Build java project
+## Build java project
+
 ```bash
 mvn spring-boot:run
 ```
+## Swagger url
 
-# Running project url
 ```bash
 http://localhost:8080/swagger-ui/
 ```
