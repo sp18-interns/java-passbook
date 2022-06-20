@@ -17,7 +17,7 @@ import java.util.UUID;
 @Table(name = "user", schema = "public")
 public class UserEntity {
 
-    // CREATE TABLE IF NOT EXISTS USER (id UUID, email varchar(50), password varchar(50))
+    // CREATE TABLE IF NOT EXISTS USER Reformat (id UUID, email varchar(50), password varchar(50))
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -32,6 +32,4 @@ public class UserEntity {
 
     @Column(name = "password")
     private String password;
-
-
 }
