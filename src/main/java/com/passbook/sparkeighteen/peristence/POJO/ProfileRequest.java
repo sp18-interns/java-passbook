@@ -23,7 +23,7 @@ public class ProfileRequest {
 
     @NotBlank
     @NotEmpty(message = "mobile number is mandatory")
-    private String mobile_number;
+    private String mobileNumber;
 
     @NotEmpty(message = "email is mandatory")
     private String email;
@@ -35,18 +35,18 @@ public class ProfileRequest {
     private String gender;
 
     //    @DateTimeFormat(pattern="dd/MM/yyyy")
-    private LocalDate date_of_birth;
+    private LocalDate dateOfBirth;
 
     @NotEmpty(message = "address is mandatory")
     private String address;
 
     @NotBlank
     @NotEmpty(message = "pan number is mandatory")
-    private String pan_number;
+    private String panNumber;
 
     @NotBlank
     @NotEmpty(message = "aadhar number is mandatory")
-    private BigInteger aadhar_number;
+    private BigInteger aadharNumber;
 
 
 }

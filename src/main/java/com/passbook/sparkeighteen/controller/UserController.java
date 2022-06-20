@@ -1,9 +1,6 @@
 package com.passbook.sparkeighteen.controller;
 
-import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
-import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
-import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
-import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
+import com.passbook.sparkeighteen.peristence.POJO.*;
 import com.passbook.sparkeighteen.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
@@ -36,4 +33,10 @@ public class UserController {
         return ResponseEntity.ok(userService.login(loginRequest));
     }
 
+    @ApiOperation("To create user profile")
+    @PostMapping("/user/profile")
+    public ResponseEntity<ProfileResponse> createProfile(@Valid @RequestBody final ProfileRequest profile) throws Exception {
+        return ResponseEntity.ok(userService.createProfile(profile));
+
+    }
 }

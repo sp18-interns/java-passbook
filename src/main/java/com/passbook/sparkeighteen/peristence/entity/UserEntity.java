@@ -1,6 +1,9 @@
 package com.passbook.sparkeighteen.peristence.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -11,9 +14,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user",schema = "public")
+@Table(name = "user", schema = "public")
 public class UserEntity {
 
+    // CREATE TABLE IF NOT EXISTS USER (id UUID, email varchar(50), password varchar(50))
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -28,5 +32,6 @@ public class UserEntity {
 
     @Column(name = "password")
     private String password;
+
 
 }
