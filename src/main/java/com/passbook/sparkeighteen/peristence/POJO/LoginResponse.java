@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginResponse {
-
+    private Integer userID;
+    private Integer profileID;
     private String message;
 }

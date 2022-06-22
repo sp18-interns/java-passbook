@@ -1,5 +1,6 @@
 package com.passbook.sparkeighteen.peristence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,59 +15,48 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user_profile", schema = "public")
+@Table(name = "profile", schema = "public")
 public class ProfileEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private UUID profileId;
+    private Integer id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
 
-    @Column(name = "name")
-    private String name;
-
-    @Size(max = 10)
+    @Pattern(regexp = "(^$|[0-9]{10})")
     @Column(name = "mobile_number")
     private String mobileNumber;
 
-    @Column(name = "email")
-    private String email;
-
+    @JsonIgnore
+    @NotNull
     @Column(name = "age")
     private Integer age;
-
-    @Column(name = "gender")
-    private String gender;
-
-    @Column(name = "date_of_birth")
-//    @DateTimeFormat(pattern="dd/MM/yyyy")
-    private LocalDate dateOfBirth;
 
     @Column(name = "address")
     private String address;
 
-    @Column(name = "CRN")
-    private Integer CRN;
+    @NotNull
+    @Size(min = 10, max=10)
+    @Column(name = "pan", length = 10)
+    private String pan;
 
-    @Column(name = "pan_number")
-    private String panNumber;
-
-    @Size(max = 12)
-    @Column(name = "aadhar_number")
-    private BigInteger aadharNumber;
+    @NotNull
+    @Size(min = 12, max=12)
+    @Column(name = "aadhar", length = 12)
+    private String aadhar;
 
 }

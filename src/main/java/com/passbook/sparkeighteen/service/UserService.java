@@ -13,6 +13,8 @@ import com.passbook.sparkeighteen.peristence.repository.UserRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Optional;
 
 @Service
@@ -25,10 +27,35 @@ public class UserService {
         this.profileRepository = profileRepository;
     }
 
-    public SignUpResponse signUp(@NonNull final SignUpRequest signUpRequest) throws Exception {
+    public LoginResponse login(final LoginRequest userLogin) throws Exception {
+        Optional<UserEntity> optionalUser = userRepository
+                .findByEmail(userLogin.getEmail());
+        if (optionalUser.isEmpty()) {
+            return LoginResponse.builder()
+                    .message("User not registered with provided email")
+                    .build();
+        } else {
+            UserEntity userEntity = optionalUser.get();
+            if (!userEntity.getPassword().equals(userLogin.getPassword())) {
+                return LoginResponse.builder()
+                        .message("Enter valid password to continue")
+                        .build();
+            }
+        }
+//
+        UserEntity user = optionalUser.get();
+        ProfileEntity profile = profileRepository.findByUser(user);
+        return LoginResponse.builder()
+                .userID(user.getId())
+                .profileID(profile.getId())
+                .message("User login successful")
+                .build();
+    }
+
+    public SignUpResponse signUp(@NonNull final SignUpRequest request) throws Exception {
 
         final Optional<UserEntity> user =
-                userRepository.findByEmail(signUpRequest.getEmail());
+                userRepository.findByEmail(request.getEmail());
 
         if (user.isPresent()) {
             return SignUpResponse.builder()
@@ -36,53 +63,30 @@ public class UserService {
                     .build();
         }
 
-        userRepository.save(UserEntity.builder()
-                .email(signUpRequest.getEmail())
-                .password(signUpRequest.getPassword())
+        UserEntity savedUser = userRepository.save(UserEntity.builder()
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
+                .gender(request.getGender())
+                .dob(request.getDob())
+                .email(request.getEmail())
+                .password(request.getPassword())
                 .build());
 
+        ProfileEntity profile = profileRepository.save(ProfileEntity.builder()
+                .user(savedUser)
+                .age(calculateAge(savedUser.getDob()))
+                .build());
+
+
         return SignUpResponse.builder()
+                .userID(profile.getUser().getId())
+                .profileID(profile.getId())
                 .message("Sign-up is successful.")
                 .build();
     }
 
-    public LoginResponse login(final LoginRequest userLogin) throws Exception {
-        Optional<UserEntity> email = userRepository
-                .findByEmail(userLogin.getEmail());
-        if (!email.isPresent()) {
-            return LoginResponse.builder()
-                    .message("User not registered with provided email")
-                    .build();
-
-        } else if (email.isPresent()) {
-            UserEntity userEntity = email.get();
-            if (!userEntity.getPassword().equals(userLogin.getPassword())) {
-                return LoginResponse.builder()
-                        .message("Enter valid password to continue")
-                        .build();
-            }
-        }
-        return LoginResponse.builder()
-                .message("User login successful")
-                .build();
+    private Integer calculateAge(LocalDate dob) {
+        return Period.between(dob, LocalDate.now()).getYears();
     }
 
-    public ProfileResponse createProfile(@NonNull ProfileRequest profileRequest) {
-        profileRepository.save(ProfileEntity.builder()
-                .name(profileRequest.getName())
-                .mobileNumber(profileRequest.getMobileNumber())
-                .email(profileRequest.getEmail())
-                .age(profileRequest.getAge())
-                .gender(profileRequest.getGender())
-                .dateOfBirth(profileRequest.getDateOfBirth())
-                .address(profileRequest.getAddress())
-                .panNumber(profileRequest.getPanNumber())
-                .aadharNumber(profileRequest.getAadharNumber())
-                .build());
-
-        return ProfileResponse.builder()
-                .message("Profile Created.")
-                .build();
-
-    }
 }

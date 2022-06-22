@@ -10,5 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignUpResponse {
+
+    private Integer userID;
+    private Integer profileID;
     private String message;
+
 }

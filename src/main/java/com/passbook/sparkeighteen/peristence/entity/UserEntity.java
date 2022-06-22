@@ -1,17 +1,14 @@
 package com.passbook.sparkeighteen.peristence.entity;
 
+import com.passbook.sparkeighteen.peristence.POJO.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -23,17 +20,29 @@ public class UserEntity {
 
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private UUID userId;
+    private Integer id;
 
-    @Column(name = "email")
-    private String email;
+    @NotNull
+    @Column(name = "firstname")
+    private String firstname;
+
+    @Column(name = "lastname")
+    private String lastname;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", length = 20)
+    private Gender gender;
+
+    @NotNull
+    @Column(name = "dob")
+    private LocalDate dob;
 
     @Column(name = "password")
     private String password;
+
+    @NotNull
+    @Column(name = "email")
+    private String email;
 }
