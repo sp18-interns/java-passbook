@@ -89,4 +89,41 @@ public class UserService {
         return Period.between(dob, LocalDate.now()).getYears();
     }
 
+    public ProfileResponse getProfile(Integer profileID) {
+        Optional<ProfileEntity> optionalProfile = profileRepository.findById(profileID);
+        if (optionalProfile.isEmpty()) {
+            return ProfileResponse.builder()
+                    .message("Profile doesn't exist. Please attempt Sign-Up.")
+                    .build();
+        }
+
+        return ProfileResponse.builder()
+                .profile(optionalProfile.get())
+                .message("Profile fetch successful")
+                .build();
+    }
+
+    public ProfileResponse updateProfile(Integer profileID, ProfileRequest request) {
+        ProfileResponse response = this.getProfile(profileID);
+        Optional<ProfileEntity> optionalProfile = Optional.ofNullable(response.getProfile());
+
+        if (optionalProfile.isEmpty()) {
+            response.setMessage("ProfileID incorrect. Please send appropriate profileID or register");
+            return response;
+        }
+
+        // Updating existing user extracted with GetProfile
+        ProfileEntity profile = optionalProfile.get();
+        profile.setAadhar(request.getAadhar());
+        profile.setPan(request.getPan());
+        profile.setMobileNumber(request.getMobileNumber());
+        profile.setAddress(request.getAddress());
+
+        profileRepository.save(profile);
+
+        return ProfileResponse.builder()
+                .profile(profile)
+                .message("Profile Updated Successfully")
+                .build();
+    }
 }

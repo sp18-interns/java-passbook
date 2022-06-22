@@ -43,4 +43,16 @@ public class UserController {
             return ResponseEntity.ok(response);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ApiOperation("Update Profile by Profile ID")
+    @PostMapping("/profile/{profileID}")
+    public ResponseEntity<ProfileResponse> updateProfile(@Valid @PathVariable Integer profileID, @Valid @RequestBody ProfileRequest request) {
+        ProfileResponse response = userService.updateProfile(profileID, request);
+        Optional<ProfileEntity> optionalProfile = Optional.ofNullable(response.getProfile());
+
+        if (optionalProfile.isPresent())
+            return ResponseEntity.ok(response);
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }
