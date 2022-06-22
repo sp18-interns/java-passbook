@@ -5,7 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -19,7 +27,6 @@ import java.util.UUID;
 @Table(name = "user_profile", schema = "public")
 public class ProfileEntity {
 
-    // CREATE TABLE IF NOT EXISTS USER_PROFILE(id UUID, user_id UUID,name varchar(50), mobile varchar(10),age int4,gender varchar(50), email varchar(50), password varchar(50))
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

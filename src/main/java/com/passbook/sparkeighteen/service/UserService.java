@@ -1,6 +1,11 @@
 package com.passbook.sparkeighteen.service;
 
-import com.passbook.sparkeighteen.peristence.POJO.*;
+import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
+import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
+import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
+import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.peristence.entity.ProfileEntity;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.ProfileRepository;
@@ -15,7 +20,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final ProfileRepository profileRepository;
 
-    public UserService(final UserRepository userRepository, ProfileRepository profileRepository) {
+    public UserService(final UserRepository userRepository, final ProfileRepository profileRepository) {
         this.userRepository = userRepository;
         this.profileRepository = profileRepository;
     }
@@ -62,7 +67,7 @@ public class UserService {
                 .build();
     }
 
-    public ProfileResponse createProfile(ProfileRequest profileRequest) {
+    public ProfileResponse createProfile(@NonNull ProfileRequest profileRequest) {
         profileRepository.save(ProfileEntity.builder()
                 .name(profileRequest.getName())
                 .mobileNumber(profileRequest.getMobileNumber())

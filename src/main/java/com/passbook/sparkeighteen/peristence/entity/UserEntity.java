@@ -6,7 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
 @Data
@@ -17,7 +21,7 @@ import java.util.UUID;
 @Table(name = "user", schema = "public")
 public class UserEntity {
 
-    // CREATE TABLE IF NOT EXISTS USER Reformat (id UUID, email varchar(50), password varchar(50))
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
