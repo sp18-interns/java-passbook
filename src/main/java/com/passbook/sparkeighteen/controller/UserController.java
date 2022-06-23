@@ -44,6 +44,18 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ApiOperation("Get Profile by Profile ID")
+    @GetMapping("/profile/{profileID}")
+    public ResponseEntity<ProfileResponse> getProfile(@Valid @PathVariable Integer profileID) {
+        ProfileResponse response = userService.getProfile(profileID);
+        Optional<ProfileEntity> optionalProfile = Optional.ofNullable(response.getProfile());
+
+        if (optionalProfile.isPresent())
+            return ResponseEntity.ok(response);
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
     @ApiOperation("Update Profile by Profile ID")
     @PostMapping("/profile/{profileID}")
     public ResponseEntity<ProfileResponse> updateProfile(@Valid @PathVariable Integer profileID, @Valid @RequestBody ProfileRequest request) {
