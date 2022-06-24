@@ -19,5 +19,4 @@ public class LoginRequest {
 
     @NotEmpty(message = "password is mandatory")
     private String password;
-
 }

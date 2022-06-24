@@ -1,10 +1,7 @@
 package com.passbook.sparkeighteen.controller;
 
-import com.passbook.sparkeighteen.peristence.entity.ProfileEntity;
 import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
 import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
-import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
-import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.service.UserService;
@@ -14,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
+
 
 @RequestMapping("/api/v1")
 @RestController
@@ -29,42 +26,12 @@ public class UserController {
     @ApiOperation("Sign-Up the user to passbook")
     @PostMapping("/sign-up")
     public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody final SignUpRequest request) throws Exception {
-        SignUpResponse response = userService.signUp(request);
-        if (response.getUserID() != null)
-            return ResponseEntity.ok(response);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(userService.signUp(request),HttpStatus.OK);
     }
 
     @ApiOperation("login the user to passbook")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody final LoginRequest request) throws Exception {
-        LoginResponse response = userService.login(request);
-        if (response.getUserID() != null)
-            return ResponseEntity.ok(response);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    @ApiOperation("Get Profile by Profile ID")
-    @GetMapping("/profile/{profileID}")
-    public ResponseEntity<ProfileResponse> getProfile(@Valid @PathVariable Integer profileID) {
-        ProfileResponse response = userService.getProfile(profileID);
-        Optional<ProfileEntity> optionalProfile = Optional.ofNullable(response.getProfile());
-
-        if (optionalProfile.isPresent())
-            return ResponseEntity.ok(response);
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    @ApiOperation("Update Profile by Profile ID")
-    @PostMapping("/profile/{profileID}")
-    public ResponseEntity<ProfileResponse> updateProfile(@Valid @PathVariable Integer profileID, @Valid @RequestBody ProfileRequest request) {
-        ProfileResponse response = userService.updateProfile(profileID, request);
-        Optional<ProfileEntity> optionalProfile = Optional.ofNullable(response.getProfile());
-
-        if (optionalProfile.isPresent())
-            return ResponseEntity.ok(response);
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(userService.login(request),HttpStatus.OK);
     }
 }

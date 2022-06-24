@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -50,12 +49,12 @@ public class ProfileEntity {
     private String address;
 
     @NotNull
-    @Size(min = 10, max=10)
+    @Size(min = 10, max = 10)
     @Column(name = "pan", length = 10)
     private String pan;
 
     @NotNull
-    @Size(min = 12, max=12)
+    @Size(min = 12, max = 12)
     @Column(name = "aadhar", length = 12)
     private String aadhar;
 
