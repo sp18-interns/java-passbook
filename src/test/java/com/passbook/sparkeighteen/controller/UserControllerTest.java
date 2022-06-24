@@ -34,17 +34,4 @@ class UserControllerTest {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
 
     }
-
-    @Test
-    void validRequest_errorResponse_SignupSuccessful() throws Exception {
-
-        SignUpRequest signUpRequest  = SignUpRequest.builder()
-                .email("test@gmail.com")
-                .password("password")
-                .build();
-
-        ResponseEntity<SignUpResponse> response = userController.signUp(signUpRequest);
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
-
-    }
 }
