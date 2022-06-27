@@ -1,9 +1,7 @@
 package com.passbook.sparkeighteen.service;
 
-import com.passbook.sparkeighteen.peristence.POJO.Gender;
 import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
 import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
-import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.peristence.entity.ProfileEntity;
@@ -11,7 +9,6 @@ import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.ProfileRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
 import lombok.NonNull;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -68,24 +65,24 @@ public class UserService {
                     .build();
         }
 
-            UserEntity savedUser = userRepository.save(UserEntity.builder()
-                    .firstname(request.getFirstname())
-                    .lastname(request.getLastname())
-                    .gender(request.getGender())
-                    .dob(request.getDob())
-                    .email(request.getEmail())
-                    .password(request.getPassword())
-                    .build());
+        UserEntity savedUser = userRepository.save(UserEntity.builder()
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
+                .gender(request.getGender())
+                .dob(request.getDob())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .build());
 
-            ProfileEntity profile = profileRepository.save(ProfileEntity.builder()
-                    .user(savedUser)
-                    .age(calculateAge(savedUser.getDob()))
-                    .build());
+        ProfileEntity profile = profileRepository.save(ProfileEntity.builder()
+                .user(savedUser)
+                .age(calculateAge(savedUser.getDob()))
+                .build());
 
-            return SignUpResponse.builder()
-                    .userID(profile.getUser().getId())
-                    .message("Sign-up is successful.")
-                    .build();
+        return SignUpResponse.builder()
+                .userID(profile.getUser().getId())
+                .message("Sign-up is successful.")
+                .build();
 
     }
 

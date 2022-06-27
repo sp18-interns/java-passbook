@@ -1,6 +1,5 @@
 package com.passbook.sparkeighteen.peristence.POJO;
 
-import com.passbook.sparkeighteen.peristence.POJO.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +19,7 @@ public class SignUpRequest {
     @NotBlank(message = "First name cannot be left Blank")
     private String firstname;
 
+    @NotBlank(message = "Last name cannot be left Blank")
     private String lastname;
 
     @NotBlank(message = "Gender cannot be left Blank")
