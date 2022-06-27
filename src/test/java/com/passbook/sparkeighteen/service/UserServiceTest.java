@@ -1,6 +1,10 @@
 package com.passbook.sparkeighteen.service;
 
-import com.passbook.sparkeighteen.peristence.POJO.*;
+import com.passbook.sparkeighteen.peristence.POJO.Gender;
+import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
+import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
+import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
+import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.peristence.entity.ProfileEntity;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.ProfileRepository;
@@ -21,19 +25,19 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+public class UserServiceTest {
 
     @Mock
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Mock
-    ProfileRepository profileRepository;
+    private ProfileRepository profileRepository;
 
     @InjectMocks
-    UserService userService;
+    private UserService userService;
 
     @Test
-    void validPayload_successResponse_signUpSuccessful() throws Exception {
+    public void validPayload_successResponse_signUpSuccessful() throws Exception {
         SignUpRequest signUpRequest  = SignUpRequest.builder()
                 .email("ketan@gmail.com")
                 .dob(LocalDate.of(2000, 10, 6))
@@ -66,7 +70,7 @@ class UserServiceTest {
     }
 
     @Test
-    void validPayload_errorResponse_signUpUnSuccessful() throws Exception {
+    public void validPayload_errorResponse_signUpUnSuccessful() throws Exception {
         SignUpRequest signUpRequest  = SignUpRequest.builder()
                 .email("ketan@gmail.com")
                 .dob(LocalDate.of(2000, 10, 6))
@@ -93,7 +97,7 @@ class UserServiceTest {
     }
 
     @Test
-    void validPayload_successResponse_loginSuccessful() throws Exception {
+    public void validPayload_successResponse_loginSuccessful() throws Exception {
         LoginRequest request  = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("password")
@@ -122,7 +126,7 @@ class UserServiceTest {
     }
 
     @Test
-    void validPayload_userNotExists_loginUnSuccessful() throws Exception {
+    public void validPayload_userNotExists_loginUnSuccessful() throws Exception {
         LoginRequest request  = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("password")
@@ -136,7 +140,7 @@ class UserServiceTest {
     }
 
     @Test
-    void inValidPayload_passwordMismatch_loginUnSuccessful() throws Exception {
+    public void inValidPayload_passwordMismatch_loginUnSuccessful() throws Exception {
         LoginRequest request  = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("something")

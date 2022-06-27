@@ -55,7 +55,6 @@ public class UserService {
     }
 
     public SignUpResponse signUp(@NonNull final SignUpRequest request) throws Exception {
-
         final Optional<UserEntity> user =
                 userRepository.findByEmail(request.getEmail());
 

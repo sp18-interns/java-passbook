@@ -58,9 +58,9 @@ public class UserEntity {
     private String password;
 
     @NotNull
-    @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$")
+    @Pattern(regexp = "^(.+)@(.+)$")
     @Column(name = "email")
-    @Email(message = "Email is not valid")
+    @Email(message = "Email")
     private String email;
 
     @JsonIgnore

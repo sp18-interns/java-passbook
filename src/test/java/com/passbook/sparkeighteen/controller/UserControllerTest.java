@@ -18,16 +18,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith({MockitoExtension.class})
-class UserControllerTest {
+public class UserControllerTest {
 
     @Mock
-    UserService userService;
+    public UserService userService;
 
     @InjectMocks
-    UserController userController;
+    public UserController userController;
 
     @Test
-    void validRequest_successfulResponse_SignupSuccessfull() throws Exception {
+    public void validRequest_successfulResponse_SignupSuccessfull() throws Exception {
 
         SignUpRequest signUpRequest  = SignUpRequest.builder()
                 .email("test@gmail.com")
@@ -45,7 +45,7 @@ class UserControllerTest {
     }
 
     @Test
-    void validRequest_errorResponse_SignupSuccessful() throws Exception {
+    public void validRequest_errorResponse_SignupSuccessful() throws Exception {
 
         SignUpRequest signUpRequest  = SignUpRequest.builder()
                 .email("test@gmail.com")
@@ -62,7 +62,7 @@ class UserControllerTest {
     }
 
     @Test
-    void validRequest_successfulResponse_LoginSuccessfull() throws Exception {
+    public void validRequest_successfulResponse_LoginSuccessfull() throws Exception {
 
         LoginRequest loginRequest  = LoginRequest.builder()
                 .email("test@gmail.com")
@@ -80,7 +80,7 @@ class UserControllerTest {
     }
 
     @Test
-    void validRequest_errorResponse_LoginSuccessfull() throws Exception {
+    public void validRequest_errorResponse_LoginSuccessfull() throws Exception {
 
         LoginRequest loginRequest  = LoginRequest.builder()
                 .email("test@gmail.com")
