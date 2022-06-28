@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
+
 @ExtendWith({MockitoExtension.class})
 public class UserControllerTest {
 
@@ -46,7 +47,7 @@ public class UserControllerTest {
 
     @Test
     public void validRequest_errorResponse_SignupSuccessful() throws Exception {
-
+    
         SignUpRequest signUpRequest  = SignUpRequest.builder()
                 .email("test@gmail.com")
                 .password("")
@@ -58,7 +59,6 @@ public class UserControllerTest {
                 .build());
         ResponseEntity<SignUpResponse> response = userController.signUp(signUpRequest);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
-
     }
 
     @Test
