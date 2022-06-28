@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Data
@@ -22,16 +23,14 @@ public class SignUpRequest {
     @NotBlank(message = "Last name cannot be left Blank")
     private String lastname;
 
-    @NotBlank(message = "Gender cannot be left Blank")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @NotBlank(message = "Date of Birth of a user cannot be blank")
     private LocalDate dob;
 
     @NotBlank(message = "Password cannot be blank")
     private String password;
 
-    @NotBlank(message = "Email cannot be blank")
+    @Pattern(regexp = "^([a-zA-Z0-9_\\.\\-]+)@([a-zA-Z0-9_\\-]+)\\.([a-zA-Z]{2,5})$", message = "email is not valid")
     private String email;
 }

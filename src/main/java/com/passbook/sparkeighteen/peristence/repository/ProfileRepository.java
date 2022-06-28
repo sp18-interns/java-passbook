@@ -4,6 +4,9 @@ import com.passbook.sparkeighteen.peristence.entity.ProfileEntity;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface ProfileRepository extends JpaRepository<ProfileEntity, Integer> {
-    ProfileEntity findByUser(UserEntity user);
+    Optional<ProfileEntity> findByUser(UserEntity user);
+
 }

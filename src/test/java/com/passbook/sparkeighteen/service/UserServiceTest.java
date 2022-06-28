@@ -118,7 +118,7 @@ public class UserServiceTest {
                 .build();
 
         when(userRepository.findByEmail("ketan@gmail.com")).thenReturn(Optional.of(ketan));
-        when(profileRepository.findByUser(ketan)).thenReturn(ketansProfile);
+        when(profileRepository.findByUser(ketan)).thenReturn(Optional.ofNullable(ketansProfile));
 
         LoginResponse response = userService.login(request);
         assertEquals("User login successful", response.getMessage());

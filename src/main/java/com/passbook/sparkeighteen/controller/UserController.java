@@ -28,13 +28,14 @@ public class UserController {
 
     @ApiOperation("Sign-Up the user to passbook")
     @PostMapping("/sign-up")
-    public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody final SignUpRequest request) throws Exception {
-        return new ResponseEntity<>(userService.signUp(request),HttpStatus.OK);
+    public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid final SignUpRequest request) {
+        return new ResponseEntity<>(userService.signUp(request), HttpStatus.OK);
     }
 
     @ApiOperation("login the user to passbook")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody final LoginRequest request) throws Exception {
-        return new ResponseEntity<>(userService.login(request),HttpStatus.OK);
+        return new ResponseEntity<>(userService.login(request), HttpStatus.OK);
     }
+
 }

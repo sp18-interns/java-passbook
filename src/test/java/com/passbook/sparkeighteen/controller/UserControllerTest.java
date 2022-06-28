@@ -21,10 +21,10 @@ import static org.mockito.ArgumentMatchers.any;
 public class UserControllerTest {
 
     @Mock
-    public UserService userService;
+    private UserService userService;
 
     @InjectMocks
-    public UserController userController;
+    private UserController userController;
 
     @Test
     public void validRequest_successfulResponse_SignupSuccessfull() throws Exception {

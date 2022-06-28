@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,9 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Setter
@@ -31,7 +28,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "user", schema = "public")
 public class UserEntity {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,16 +47,14 @@ public class UserEntity {
 
     @NotNull
     @Column(name = "dob")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
 
+    @NotNull
     @Column(name = "password")
     private String password;
 
     @NotNull
-    @Pattern(regexp = "^(.+)@(.+)$")
     @Column(name = "email")
-    @Email(message = "Email")
     private String email;
 
     @JsonIgnore

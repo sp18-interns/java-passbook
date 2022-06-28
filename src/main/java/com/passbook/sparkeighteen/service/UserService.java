@@ -42,19 +42,19 @@ public class UserService {
 
         }
         UserEntity user = optionalUser.get();
-        ProfileEntity profile = profileRepository.findByUser(user);
+        Optional<ProfileEntity> profile = profileRepository.findByUser(user);
         return LoginResponse.builder()
                 .userID(user.getId()).firstname(user.getFirstname())
                 .lastname(user.getLastname())
                 .age(calculateAge(user.getDob()))
-                .aadhar(profile.getAadhar())
-                .pan(profile.getPan())
+                .aadhar(user.getProfile().getAadhar())
+                .pan(user.getProfile().getPan())
                 .gender(user.getGender())
                 .message("User login successful")
                 .build();
     }
 
-    public SignUpResponse signUp(@NonNull final SignUpRequest request) throws Exception {
+    public SignUpResponse signUp(@NonNull final SignUpRequest request) {
         final Optional<UserEntity> user =
                 userRepository.findByEmail(request.getEmail());
 
@@ -85,10 +85,10 @@ public class UserService {
 
     }
 
-
     private Integer calculateAge(LocalDate dob) {
         return Period.between(dob, LocalDate.now()).getYears();
     }
 
 
 }
+

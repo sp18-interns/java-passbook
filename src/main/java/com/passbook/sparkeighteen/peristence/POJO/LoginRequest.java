@@ -6,7 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Data
 @Builder
@@ -14,9 +15,9 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class LoginRequest {
 
-    @NotEmpty(message = "email is mandatory")
+    @Pattern(regexp = "^([a-zA-Z0-9_\\.\\-]+)@([a-zA-Z0-9_\\-]+)\\.([a-zA-Z]{2,5})$", message = "email is not valid")
     private String email;
 
-    @NotEmpty(message = "password is mandatory")
+    @NotBlank
     private String password;
 }
