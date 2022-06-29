@@ -1,9 +1,6 @@
 package com.passbook.sparkeighteen.service;
 
-import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
-import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
-import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
-import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
+import com.passbook.sparkeighteen.peristence.POJO.*;
 import com.passbook.sparkeighteen.peristence.entity.ProfileEntity;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.ProfileRepository;
@@ -11,6 +8,7 @@ import com.passbook.sparkeighteen.peristence.repository.UserRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Optional;
@@ -54,6 +52,7 @@ public class UserService {
 
         return LoginResponse.builder()
                 .userID(user.getId())
+                .firstname(user.getFirstname())
                 .lastname(user.getLastname())
                 .age(calculateAge(user.getDob()))
                 .aadhar(profile.getAadhar())
@@ -97,6 +96,46 @@ public class UserService {
 
     private Integer calculateAge(LocalDate dob) {
         return Period.between(dob, LocalDate.now()).getYears();
+    }
+
+    public ProfileResponse updateProfile(Integer userID, @Valid ProfileRequest request) {
+        Optional<UserEntity> optionalUser = userRepository.findById(userID);
+        if (optionalUser.isEmpty()) {
+            return ProfileResponse.builder()
+                    .message("User ID is missing. Retry with registered user")
+                    .build();
+        }
+
+        final UserEntity user = optionalUser.get();
+        Optional<ProfileEntity> optionalProfile = profileRepository.findByUser(user);
+        if (optionalProfile.isEmpty()) {
+            return ProfileResponse.builder()
+                    .message(String.format("Profile for user %s with UserID: %d is missing", user.getFirstname(), user.getId()))
+                    .build();
+        }
+
+        ProfileEntity profile = optionalProfile.get();
+        profile.setAadhar(request.getAadhar());
+        profile.setPan(request.getPan());
+        profile.setMobileNumber(request.getMobileNumber());
+        profile.setAddress(request.getAddress());
+        try {
+            profileRepository.save(profile);
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+        return ProfileResponse.builder()
+                .userID(profile.getUser().getId())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .age(profile.getAge())
+                .gender(profile.getUser().getGender())
+                .mobileNumber(profile.getMobileNumber())
+                .aadhar(profile.getAadhar())
+                .pan(profile.getPan())
+                .message("Profile Updated successful.")
+                .build();
     }
 
 

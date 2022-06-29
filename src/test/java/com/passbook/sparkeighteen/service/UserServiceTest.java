@@ -3,6 +3,8 @@ package com.passbook.sparkeighteen.service;
 import com.passbook.sparkeighteen.peristence.POJO.Gender;
 import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
 import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.peristence.entity.ProfileEntity;
@@ -15,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -25,19 +28,21 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+class UserServiceTest {
+
+    private MockMvc mockMvc;
 
     @Mock
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
     @Mock
-    private ProfileRepository profileRepository;
+    ProfileRepository profileRepository;
 
     @InjectMocks
-    private UserService userService;
+    UserService userService;
 
     @Test
-    public void validPayload_successResponse_signUpSuccessful() throws Exception {
+    void validPayload_successResponse_signUpSuccessful() throws Exception {
         SignUpRequest signUpRequest  = SignUpRequest.builder()
                 .email("ketan@gmail.com")
                 .dob(LocalDate.of(2000, 10, 6))
@@ -70,7 +75,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void validPayload_errorResponse_signUpUnSuccessful() throws Exception {
+    void validPayload_errorResponse_signUpUnSuccessful() throws Exception {
         SignUpRequest signUpRequest  = SignUpRequest.builder()
                 .email("ketan@gmail.com")
                 .dob(LocalDate.of(2000, 10, 6))
@@ -97,7 +102,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void validPayload_successResponse_loginSuccessful() throws Exception {
+    void validPayload_successResponse_loginSuccessful() throws Exception {
         LoginRequest request  = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("password")
@@ -117,8 +122,8 @@ public class UserServiceTest {
                 .age(Period.between(ketan.getDob(), LocalDate.now()).getYears())
                 .build();
 
-        Mockito.when(userRepository.findByEmail("ketan@gmail.com")).thenReturn(Optional.of(ketan));
-        Mockito.when(profileRepository.findByUser(ketan)).thenReturn(Optional.ofNullable(ketansProfile));
+        when(userRepository.findByEmail("ketan@gmail.com")).thenReturn(Optional.of(ketan));
+        when(profileRepository.findByUser(ketan)).thenReturn(Optional.ofNullable(ketansProfile));
 
         LoginResponse response = userService.login(request);
         assertEquals("User login successful", response.getMessage());
@@ -126,7 +131,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void validPayload_userNotExists_loginUnSuccessful() throws Exception {
+    void validPayload_userNotExists_loginUnSuccessful() throws Exception {
         LoginRequest request  = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("password")
@@ -140,7 +145,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void inValidPayload_passwordMismatch_loginUnSuccessful() throws Exception {
+    void inValidPayload_passwordMismatch_loginUnSuccessful() throws Exception {
         LoginRequest request  = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("something")
@@ -161,6 +166,36 @@ public class UserServiceTest {
         assertEquals("Enter valid password to continue", response.getMessage());
 
     }
+
+    @Test
+    void ValidPayload_errorResponse_userUpdateUnSuccessfull() throws Exception {
+        ProfileRequest request = ProfileRequest.builder()
+                .aadhar("123456554445")
+                .pan("asdfghjdf")
+                .address("koparkhairne")
+                .mobileNumber("9022068607")
+                .build();
+
+        ProfileResponse response = userService.updateProfile(1,request);
+        assertEquals("User ID is missing. Retry with registered user", response.getMessage());
+
+    }
+
+//    @Test
+//    void ValidPayLoad_successResponse_userUpdateSuccessfull() throws Exception {
+
+//        Mockito.when(profileRepository.findById(1)).thenReturn();
+//
+//    }
+
+//    @Test
+//    void ValidPayLoad_successResponse_userUpdateSuccessfull() throws Exception {
+//
+//        this.mockMvc.perform(get("/user/{userID}/profile", 1)).andExcept(status().isOk())
+
+//          ProfileResponse profileResponse = userService.updateProfile(1,request);
+//        assertEquals("Profile Updated successful.", profileResponse.getMessage());
+//    }
 
 
 }

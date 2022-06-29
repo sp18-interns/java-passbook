@@ -48,8 +48,6 @@ public class ProfileEntity {
     @Column(name = "address")
     private String address;
 
-    @Size(min = 10, max = 10)
-    @Column(name = "pan", length = 10)
     private String pan;
 
     @Size(min = 12, max = 12)

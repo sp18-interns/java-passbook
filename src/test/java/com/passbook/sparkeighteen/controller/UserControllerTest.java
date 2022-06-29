@@ -2,6 +2,8 @@ package com.passbook.sparkeighteen.controller;
 
 import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
 import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.service.UserService;
@@ -17,18 +19,17 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
-
 @ExtendWith({MockitoExtension.class})
-public class UserControllerTest {
+class UserControllerTest {
 
     @Mock
-    private UserService userService;
+    UserService userService;
 
     @InjectMocks
-    private UserController userController;
+    UserController userController;
 
     @Test
-    public void validRequest_successfulResponse_SignupSuccessfull() throws Exception {
+    void validRequest_successfulResponse_SignupSuccessfull() throws Exception {
 
         SignUpRequest signUpRequest  = SignUpRequest.builder()
                 .email("test@gmail.com")
@@ -46,8 +47,8 @@ public class UserControllerTest {
     }
 
     @Test
-    public void validRequest_errorResponse_SignupSuccessful() throws Exception {
-    
+    void validRequest_errorResponse_SignupUnSuccessful() throws Exception {
+
         SignUpRequest signUpRequest  = SignUpRequest.builder()
                 .email("test@gmail.com")
                 .password("")
@@ -59,10 +60,11 @@ public class UserControllerTest {
                 .build());
         ResponseEntity<SignUpResponse> response = userController.signUp(signUpRequest);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
+
     }
 
     @Test
-    public void validRequest_successfulResponse_LoginSuccessfull() throws Exception {
+    void validRequest_successfulResponse_LoginSuccessfull() throws Exception {
 
         LoginRequest loginRequest  = LoginRequest.builder()
                 .email("test@gmail.com")
@@ -80,7 +82,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void validRequest_errorResponse_LoginSuccessfull() throws Exception {
+    void validRequest_errorResponse_LoginUnSuccessfull() throws Exception {
 
         LoginRequest loginRequest  = LoginRequest.builder()
                 .email("test@gmail.com")
@@ -96,4 +98,35 @@ public class UserControllerTest {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
 
     }
+
+
+    @Test
+    void validRequest_errorResponse_UserUpdateUnSuccessfull() throws Exception {
+        ProfileRequest profileRequest = ProfileRequest.builder()
+                .aadhar("123456554445")
+                .pan("asdfghjdf")
+                .address("koparkhairne")
+                .mobileNumber("9022068607")
+                .build();
+
+        ResponseEntity<ProfileResponse> response = userController.updateProfile(null,profileRequest);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+    }
+
+    @Test
+    void validRequest_successfulResponse_UserUpdateSuccessfull() throws Exception {
+
+        ProfileRequest profileRequest = ProfileRequest.builder()
+                .aadhar("123456554445")
+                .pan("asdfghjdf")
+                .address("koparkhairne")
+                .mobileNumber("9022068607")
+                .build();
+
+        ResponseEntity<ProfileResponse> response = userController.updateProfile(1,profileRequest);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+    }
+
 }
