@@ -9,10 +9,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignUpResponse {
+public class ProfileResponse {
 
     private Integer userID;
-
+    private String firstname;
+    private String lastname;
     private String message;
-
+    private Integer age;
+    private String mobileNumber;
+    private String pan;
+    private String aadhar;
+    private Gender gender;
 }
