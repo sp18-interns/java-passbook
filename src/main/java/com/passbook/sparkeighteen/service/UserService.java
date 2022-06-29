@@ -42,13 +42,22 @@ public class UserService {
 
         }
         UserEntity user = optionalUser.get();
-        Optional<ProfileEntity> profile = profileRepository.findByUser(user);
+        Optional<ProfileEntity> optionalProfile = profileRepository.findByUser(user);
+
+        if (optionalProfile.isEmpty())
+            return LoginResponse.builder()
+                    .userID(user.getId())
+                    .message("Profile for UserID doesn't exist. Make sure User is registered.")
+                    .build();
+
+        ProfileEntity profile = optionalProfile.get();
+
         return LoginResponse.builder()
-                .userID(user.getId()).firstname(user.getFirstname())
+                .userID(user.getId())
                 .lastname(user.getLastname())
                 .age(calculateAge(user.getDob()))
-                .aadhar(user.getProfile().getAadhar())
-                .pan(user.getProfile().getPan())
+                .aadhar(profile.getAadhar())
+                .pan(profile.getPan())
                 .gender(user.getGender())
                 .message("User login successful")
                 .build();
@@ -84,6 +93,7 @@ public class UserService {
                 .build();
 
     }
+
 
     private Integer calculateAge(LocalDate dob) {
         return Period.between(dob, LocalDate.now()).getYears();

@@ -117,8 +117,8 @@ public class UserServiceTest {
                 .age(Period.between(ketan.getDob(), LocalDate.now()).getYears())
                 .build();
 
-        when(userRepository.findByEmail("ketan@gmail.com")).thenReturn(Optional.of(ketan));
-        when(profileRepository.findByUser(ketan)).thenReturn(Optional.ofNullable(ketansProfile));
+        Mockito.when(userRepository.findByEmail("ketan@gmail.com")).thenReturn(Optional.of(ketan));
+        Mockito.when(profileRepository.findByUser(ketan)).thenReturn(Optional.ofNullable(ketansProfile));
 
         LoginResponse response = userService.login(request);
         assertEquals("User login successful", response.getMessage());
