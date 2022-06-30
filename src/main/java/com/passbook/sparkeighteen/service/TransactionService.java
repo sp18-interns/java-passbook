@@ -34,11 +34,25 @@ public class TransactionService {
 
         UserEntity user = optionalUser.get();
 
-        Optional<TransactionEntity> optionalTxn = deposit(user, request);
+        Optional<TransactionEntity> optionalTxn = Optional.empty();
+        String msg = "";
+        if (txnType.equals(TransactionType.CREDIT)) {
+            optionalTxn = deposit(user, request);
+
+            if (optionalTxn.isEmpty())
+                msg = "Deposit amount cannot be 0 or less";
+
+        } else if (txnType.equals(TransactionType.DEBIT)) {
+            optionalTxn = withdraw(user, request);
+
+            if (optionalTxn.isEmpty())
+                msg = String.format("Withdrawal request is invalid. Current balance: %.2f | Withdrawal Amount: %.2f", getZeroOrLastBalance(user), request.getAmount());
+        } else
+            msg = "Invalid Transaction Type. Neither of CREDIT/DEBIT";
 
         if (optionalTxn.isEmpty())
             return TransactionResponse.builder()
-                    .message("Deposit amount cannot be 0 or less.")
+                    .message(msg)
                     .build();
 
         TransactionEntity transaction = optionalTxn.get();
@@ -53,12 +67,39 @@ public class TransactionService {
                 .build();
     }
 
+    private Optional<TransactionEntity> withdraw(UserEntity user, TransactionRequest request) {
+        if (request.getAmount() <= 0)
+            return Optional.empty();
+
+        Float balance = getZeroOrLastBalance(user);
+        if (balance < request.getAmount())
+            return Optional.empty();
+
+        TransactionEntity transaction = transactionRepository.save(TransactionEntity.builder()
+                .amount(request.getAmount())
+                .note(request.getNote())
+                .user(user)
+                .closingBalance(getZeroOrLastBalance(user) - request.getAmount())
+                .time(LocalDateTime.now())
+                .transactionType(TransactionType.DEBIT)
+                .build());
+
+        return Optional.of(transaction);
+    }
+
     private Optional<TransactionEntity> deposit(UserEntity user, TransactionRequest request) {
         if (request.getAmount() <= 0) {
             return Optional.empty();
         }
 
-        TransactionEntity transaction = transactionRepository.save(TransactionEntity.builder().amount(request.getAmount()).note(request.getNote()).user(user).closingBalance(request.getAmount() + getZeroOrLastBalance(user)).time(LocalDateTime.now()).transactionType(TransactionType.CREDIT).build());
+        TransactionEntity transaction = transactionRepository.save(TransactionEntity.builder()
+                .amount(request.getAmount())
+                .note(request.getNote())
+                .user(user)
+                .closingBalance(request.getAmount() + getZeroOrLastBalance(user))
+                .time(LocalDateTime.now())
+                .transactionType(TransactionType.CREDIT)
+                .build());
 
         return Optional.of(transaction);
     }
@@ -69,9 +110,11 @@ public class TransactionService {
         Optional<List<TransactionEntity>> optionalTxns = transactionRepository.findByUser(user);
         if (optionalTxns.isPresent()) {
             List<TransactionEntity> txns = optionalTxns.get();
-            if (txns.size() > 0) balance = txns.get(txns.size() - 1).getClosingBalance();
+            if (txns.size() > 0)
+                balance = txns.get(txns.size() - 1).getClosingBalance();
         }
 
         return balance;
     }
+
 }

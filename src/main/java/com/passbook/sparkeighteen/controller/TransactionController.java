@@ -24,10 +24,16 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @ApiOperation("user can make Transaction")
+    @ApiOperation("User deposits a certain amount")
     @PostMapping("/{userID}/deposit")
     public ResponseEntity<TransactionResponse> deposit(@PathVariable Integer userID, @RequestBody final @Valid TransactionRequest request) throws Exception {
         return new ResponseEntity<>(transactionService.transact(userID, request, TransactionType.CREDIT), HttpStatus.OK);
+    }
+
+    @ApiOperation("User withdraws a certain amount")
+    @PostMapping("/{userID}/withdraw")
+    public ResponseEntity<TransactionResponse> withdraw(@PathVariable Integer userID, @RequestBody final @Valid TransactionRequest request) throws Exception {
+        return new ResponseEntity<>(transactionService.transact(userID, request, TransactionType.DEBIT), HttpStatus.OK);
     }
 
 }
