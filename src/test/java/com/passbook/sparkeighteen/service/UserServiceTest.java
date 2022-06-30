@@ -3,6 +3,8 @@ package com.passbook.sparkeighteen.service;
 import com.passbook.sparkeighteen.peristence.POJO.Gender;
 import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
 import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.peristence.entity.ProfileEntity;
@@ -162,5 +164,48 @@ public class UserServiceTest {
 
     }
 
+    @Test
+    void ValidPayload_errorResponse_userUpdateUnSuccessfull() throws Exception {
+        ProfileRequest request = ProfileRequest.builder()
+                .aadhar("123456554445")
+                .pan("asdfghjdf")
+                .address("koparkhairne")
+                .mobileNumber("9022068607")
+                .build();
+
+        ProfileResponse response = userService.updateProfile(1,request);
+        assertEquals("User ID is missing. Retry with registered user", response.getMessage());
+
+    }
+
+    @Test
+    void ValidPayLoad_successResponse_userUpdateSuccessfull() throws Exception {
+        ProfileRequest request = ProfileRequest.builder()
+                .aadhar("23456789875")
+                .pan("567456765")
+                .address("Vashi")
+                .mobileNumber("9922567842")
+                .build();
+
+        UserEntity ketan = UserEntity.builder()
+                .id(1)
+                .email("ketan@gmail.com")
+                .dob(LocalDate.of(2000, 10, 6))
+                .password("password")
+                .gender(Gender.MALE)
+                .lastname("Shinde")
+                .firstname("Ketan")
+                .build();
+
+        ProfileEntity ketansProfile = ProfileEntity.builder()
+                .user(ketan)
+                .age(Period.between(ketan.getDob(), LocalDate.now()).getYears())
+                .build();
+
+        Mockito.when(userRepository.findById(1)).thenReturn(Optional.of(ketan));
+        Mockito.when(profileRepository.findByUser(ketan)).thenReturn(Optional.ofNullable(ketansProfile));
+        ProfileResponse profileResponse = userService.updateProfile(1, request);
+        assertEquals("Profile Updated Successfully", profileResponse.getMessage());
+    }
 
 }

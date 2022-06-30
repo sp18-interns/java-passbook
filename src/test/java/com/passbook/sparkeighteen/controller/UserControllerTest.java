@@ -2,6 +2,8 @@ package com.passbook.sparkeighteen.controller;
 
 import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
 import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.service.UserService;
@@ -96,4 +98,28 @@ public class UserControllerTest {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
 
     }
+
+    @Test
+    void validRequest_successfulResponse_UserUpdateSuccessfull() throws Exception {
+        ProfileRequest profileRequest = ProfileRequest.builder()
+                .aadhar("123456554445")
+                .pan("asdfghjdf")
+                .address("koparkhairne")
+                .mobileNumber("9022068607")
+                .build();
+        ResponseEntity<ProfileResponse> response = userController.updateProfile(1,profileRequest);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+    }
+    @Test
+    void validRequest_errorResponse_UserUpdateUnSuccessfull() throws Exception {
+        ProfileRequest profileRequest = ProfileRequest.builder()
+                .aadhar("123456554445")
+                .pan("asdfghjdf")
+                .address("koparkhairne")
+                .mobileNumber("9022068607")
+                .build();
+        ResponseEntity<ProfileResponse> response = userController.updateProfile(null,profileRequest);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+    }
+
 }
