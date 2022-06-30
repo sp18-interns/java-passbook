@@ -54,6 +54,7 @@ public class UserService {
 
         return LoginResponse.builder()
                 .userID(user.getId())
+                .firstname(user.getFirstname())
                 .lastname(user.getLastname())
                 .age(calculateAge(user.getDob()))
                 .aadhar(profile.getAadhar())
