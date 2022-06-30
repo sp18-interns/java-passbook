@@ -54,6 +54,7 @@ public class UserService {
 
         return LoginResponse.builder()
                 .userID(user.getId())
+                .firstname(user.getFirstname())
                 .lastname(user.getLastname())
                 .age(calculateAge(user.getDob()))
                 .aadhar(profile.getAadhar())
@@ -94,11 +95,18 @@ public class UserService {
 
     }
 
-
     private Integer calculateAge(LocalDate dob) {
         return Period.between(dob, LocalDate.now()).getYears();
     }
 
+    public String deleteProfile(Integer userId) {
+        final Optional<UserEntity> userEntity = userRepository.findById(userId);
+        if (userEntity.isPresent()) {
+            userRepository.deleteById(userId);
+            return "user deleted " + userId;
+        }
+        return "user id is not found";
+    }
 
 }
 
