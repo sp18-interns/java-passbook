@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -140,27 +141,34 @@ public class UserServiceTest {
     }
 
     @Test
-    public void inValidPayload_passwordMismatch_loginUnSuccessful() throws Exception {
-        LoginRequest request  = LoginRequest.builder()
-                .email("ketan@gmail.com")
-                .password("something")
-                .build();
+    public void missingUser_deleteProfileUnSuccessful() throws Exception {
+        Integer userID = 1;
 
-        UserEntity ketan = UserEntity.builder()
-                .email("ketan@gmail.com")
-                .dob(LocalDate.of(2000, 10, 6))
-                .password("password")
-                .gender(Gender.MALE)
-                .lastname("Shinde")
-                .firstname("Ketan")
-                .build();
+        when(userRepository.findById(userID)).thenReturn(Optional.empty());
 
-        when(userRepository.findByEmail("ketan@gmail.com")).thenReturn(Optional.ofNullable(ketan));
-
-        LoginResponse response = userService.login(request);
-        assertEquals("Enter valid password to continue", response.getMessage());
+        String response = userService.deleteProfile(userID);
+        assertEquals("user id is not found", response);
 
     }
 
+    @Test
+    public void userExists_deleteProfileSuccessful() throws Exception {
+        Integer userID = 1;
+
+        UserEntity hrishi = UserEntity.builder()
+                .email("hrishi@gmail.com")
+                .dob(LocalDate.of(2000, 2, 25))
+                .password("qwerty")
+                .gender(Gender.MALE)
+                .lastname("Shedge")
+                .firstname("Hrishikesh")
+                .build();
+
+        when(userRepository.findById(userID)).thenReturn(Optional.ofNullable(hrishi));
+
+        String response = userService.deleteProfile(userID);
+        assertEquals("user deleted " + userID, response);
+
+    }
 
 }

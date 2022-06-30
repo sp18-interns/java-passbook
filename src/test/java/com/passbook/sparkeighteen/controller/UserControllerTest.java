@@ -96,4 +96,28 @@ public class UserControllerTest {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
 
     }
+
+    @Test
+    public void validRequest_successfulResponse_DeleteSuccessfull() throws Exception {
+
+        Integer userID = 1;
+
+        Mockito.when(userService.deleteProfile(any())).thenReturn("user deleted " + userID);
+
+        ResponseEntity<String> response = userController.deleteProfile(userID);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+    }
+
+    @Test
+    public void validRequest_errorResponse_DeleteSuccessfull() throws Exception {
+
+        Integer userID = 1;
+
+        Mockito.when(userService.deleteProfile(any())).thenReturn("user id is not found");
+
+        ResponseEntity<String> response = userController.deleteProfile(userID);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+    }
 }
