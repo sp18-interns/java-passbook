@@ -45,7 +45,6 @@ public class TransactionService {
 
         return TransactionResponse.builder()
                 .amount(transaction.getAmount())
-                .id(transaction.getId())
                 .note(transaction.getNote())
                 .time(transaction.getTime())
                 .closingBalance(transaction.getClosingBalance())
