@@ -19,4 +19,7 @@ public class TransactionRequest {
     private String name;
 
     private String note;
+
+    @NotNull
+    private TransactionType transactionType;
 }

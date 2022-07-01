@@ -32,6 +32,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "transaction", schema = "public")
 public class TransactionEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

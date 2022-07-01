@@ -31,7 +31,7 @@ public class TransactionResponse {
 
     private Float closingBalance;
 
-    @JsonFormat(pattern = "MMM dd, yyyy hh:mm:ss a", timezone = "Europe/Zagreb")
+    @JsonFormat(pattern = "MMM dd, yyyy hh:mm:ss a", timezone = "Asia/Kolkata")
     @NotNull
     private LocalDateTime time;
 

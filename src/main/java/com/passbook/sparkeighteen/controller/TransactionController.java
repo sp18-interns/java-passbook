@@ -27,7 +27,7 @@ public class TransactionController {
     @ApiOperation("user can make Transaction")
     @PostMapping("/{userID}/deposit")
     public ResponseEntity<TransactionResponse> deposit(@PathVariable Integer userID, @RequestBody final @Valid TransactionRequest request) throws Exception {
-        return new ResponseEntity<>(transactionService.transact(userID, request, TransactionType.CREDIT), HttpStatus.OK);
+        return new ResponseEntity<>(transactionService.transact(userID, request), HttpStatus.OK);
     }
 
 }

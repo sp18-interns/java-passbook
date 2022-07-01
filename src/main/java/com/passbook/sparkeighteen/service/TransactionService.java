@@ -24,7 +24,7 @@ public class TransactionService {
         this.userRepository = userRepository;
     }
 
-    public TransactionResponse transact(Integer userID, TransactionRequest request, TransactionType txnType) throws Exception {
+    public TransactionResponse transact(Integer userID, TransactionRequest request) throws Exception {
 
         Optional<UserEntity> optionalUser = userRepository.findById(userID);
         if (optionalUser.isEmpty())
@@ -34,7 +34,7 @@ public class TransactionService {
 
         UserEntity user = optionalUser.get();
 
-        Optional<TransactionEntity> optionalTxn = deposit(user, request);
+        Optional<TransactionEntity> optionalTxn = transaction(user, request);
 
         if (optionalTxn.isEmpty())
             return TransactionResponse.builder()
@@ -53,12 +53,17 @@ public class TransactionService {
                 .build();
     }
 
-    private Optional<TransactionEntity> deposit(UserEntity user, TransactionRequest request) {
+    private Optional<TransactionEntity> transaction(UserEntity user, TransactionRequest request) {
         if (request.getAmount() <= 0) {
             return Optional.empty();
         }
 
-        TransactionEntity transaction = transactionRepository.save(TransactionEntity.builder().amount(request.getAmount()).note(request.getNote()).user(user).closingBalance(request.getAmount() + getZeroOrLastBalance(user)).time(LocalDateTime.now()).transactionType(TransactionType.CREDIT).build());
+        TransactionEntity transaction = transactionRepository.save(TransactionEntity.builder()
+                .amount(request.getAmount())
+                .note(request.getNote())
+                .user(user).closingBalance(request.getAmount() + getZeroOrLastBalance(user))
+                .time(LocalDateTime.now()).transactionType(request.getTransactionType())
+                .build());
 
         return Optional.of(transaction);
     }
@@ -71,7 +76,6 @@ public class TransactionService {
             List<TransactionEntity> txns = optionalTxns.get();
             if (txns.size() > 0) balance = txns.get(txns.size() - 1).getClosingBalance();
         }
-
         return balance;
     }
 }
