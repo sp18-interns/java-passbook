@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,6 +34,7 @@ public class ProfileEntity {
     private Integer id;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile")
     private UserEntity user;
 
     @Column(name = "mobile_number")
