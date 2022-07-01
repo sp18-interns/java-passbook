@@ -32,7 +32,7 @@ public class UserControllerTest {
     @Test
     public void validRequest_successfulResponse_SignupSuccessfull() throws Exception {
 
-        SignUpRequest signUpRequest  = SignUpRequest.builder()
+        SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("test@gmail.com")
                 .password("password")
                 .build();
@@ -49,8 +49,8 @@ public class UserControllerTest {
 
     @Test
     public void validRequest_errorResponse_SignupSuccessful() throws Exception {
-    
-        SignUpRequest signUpRequest  = SignUpRequest.builder()
+
+        SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("test@gmail.com")
                 .password("")
                 .build();
@@ -66,7 +66,7 @@ public class UserControllerTest {
     @Test
     public void validRequest_successfulResponse_LoginSuccessfull() throws Exception {
 
-        LoginRequest loginRequest  = LoginRequest.builder()
+        LoginRequest loginRequest = LoginRequest.builder()
                 .email("test@gmail.com")
                 .password("password")
                 .build();
@@ -84,7 +84,7 @@ public class UserControllerTest {
     @Test
     public void validRequest_errorResponse_LoginSuccessfull() throws Exception {
 
-        LoginRequest loginRequest  = LoginRequest.builder()
+        LoginRequest loginRequest = LoginRequest.builder()
                 .email("test@gmail.com")
                 .password("password")
                 .build();

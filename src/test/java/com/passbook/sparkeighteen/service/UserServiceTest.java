@@ -40,7 +40,7 @@ public class UserServiceTest {
 
     @Test
     public void validPayload_successResponse_signUpSuccessful() throws Exception {
-        SignUpRequest signUpRequest  = SignUpRequest.builder()
+        SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("ketan@gmail.com")
                 .dob(LocalDate.of(2000, 10, 6))
                 .password("password")
@@ -73,7 +73,7 @@ public class UserServiceTest {
 
     @Test
     public void validPayload_errorResponse_signUpUnSuccessful() throws Exception {
-        SignUpRequest signUpRequest  = SignUpRequest.builder()
+        SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("ketan@gmail.com")
                 .dob(LocalDate.of(2000, 10, 6))
                 .password("password")
@@ -100,7 +100,7 @@ public class UserServiceTest {
 
     @Test
     public void validPayload_successResponse_loginSuccessful() throws Exception {
-        LoginRequest request  = LoginRequest.builder()
+        LoginRequest request = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("password")
                 .build();
@@ -129,7 +129,7 @@ public class UserServiceTest {
 
     @Test
     public void validPayload_userNotExists_loginUnSuccessful() throws Exception {
-        LoginRequest request  = LoginRequest.builder()
+        LoginRequest request = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("password")
                 .build();
@@ -143,7 +143,7 @@ public class UserServiceTest {
 
     @Test
     public void inValidPayload_passwordMismatch_loginUnSuccessful() throws Exception {
-        LoginRequest request  = LoginRequest.builder()
+        LoginRequest request = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("something")
                 .build();
