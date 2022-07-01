@@ -17,7 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Setter
 @Getter
@@ -48,11 +47,10 @@ public class ProfileEntity {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "pan", length = 10)
+    @Column(name = "pan")
     private String pan;
 
-    @Size(min = 12, max = 12)
-    @Column(name = "aadhar", length = 12)
+    @Column(name = "aadhar")
     private String aadhar;
 
 }

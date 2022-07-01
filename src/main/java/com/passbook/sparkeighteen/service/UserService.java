@@ -13,7 +13,6 @@ import com.passbook.sparkeighteen.peristence.repository.UserRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Optional;
@@ -98,12 +97,11 @@ public class UserService {
 
     }
 
-
     private Integer calculateAge(LocalDate dob) {
         return Period.between(dob, LocalDate.now()).getYears();
     }
 
-    public ProfileResponse updateProfile(Integer userID, @Valid ProfileRequest request) {
+    public ProfileResponse updateProfile(Integer userID, ProfileRequest request) {
         Optional<UserEntity> optionalUser = userRepository.findById(userID);
         if (optionalUser.isEmpty()) {
             return ProfileResponse.builder()
@@ -121,11 +119,10 @@ public class UserService {
         }
 
         ProfileEntity profile = optionalProfile.get();
-
-        profile.setAadhar(request.getAadhar());
-        profile.setPan(request.getPan());
-        profile.setMobileNumber(request.getMobileNumber());
-        profile.setAddress(request.getAddress());
+        profile.setAadhar(request.getAadhar() != null ? request.getAadhar() : profile.getAadhar());
+        profile.setPan(request.getPan() != null ? request.getPan() : profile.getPan());
+        profile.setMobileNumber(request.getMobileNumber() != null ? request.getMobileNumber() : profile.getMobileNumber());
+        profile.setAddress(request.getAddress() != null ? request.getAddress() : profile.getAddress());
         profileRepository.save(profile);
 
         return ProfileResponse.builder()
@@ -137,6 +134,7 @@ public class UserService {
                 .mobileNumber(profile.getMobileNumber())
                 .aadhar(profile.getAadhar())
                 .pan(profile.getPan())
+                .address(profile.getAddress())
                 .message("Profile Updated Successfully")
                 .build();
     }

@@ -6,20 +6,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfileRequest {
-    @NotBlank(message = "mobile number is mandatory")
+
+    @Pattern(regexp = "^([+]\\d{2})?\\d{10}$", message = "mobile number is not valid")
     private String mobileNumber;
 
     @NotBlank(message = "address is mandatory")
     private String address;
 
+    @Pattern(regexp = "[A-Z]{3}[ABCFGHLJPTF]{1}[A-Z]{1}[0-9]{4}[A-Z]{1}$", message = "PAN number is not valid")
     private String pan;
 
-    @NotBlank(message = "aadhar number is mandatory")
+    @Pattern(regexp = "^\\d{4}\\s\\d{4}\\s\\d{4}$", message = "aadhar number is not valid")
     private String aadhar;
 }

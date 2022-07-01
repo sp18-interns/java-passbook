@@ -20,4 +20,5 @@ public class ProfileResponse {
     private String pan;
     private String aadhar;
     private Gender gender;
+    private String address;
 }

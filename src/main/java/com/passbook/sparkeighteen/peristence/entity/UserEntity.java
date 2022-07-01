@@ -42,10 +42,9 @@ public class UserEntity {
     private String lastname;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", length = 20)
+    @Column(name = "gender")
     private Gender gender;
 
-    @NotNull
     @Column(name = "dob")
     private LocalDate dob;
 
