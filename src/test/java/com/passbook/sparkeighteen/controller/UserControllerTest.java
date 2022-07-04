@@ -110,7 +110,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void deleteProfile_UserIdNotExist_deleteProfileUnsuccessful() throws Exception {
+    public void deleteProfile_userIdNotExist_deleteProfileUnsuccessful() throws Exception {
 
         Integer userID = 1;
 
