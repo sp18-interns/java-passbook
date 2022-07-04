@@ -110,7 +110,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void validRequest_errorResponse_DeleteSuccessfull() throws Exception {
+    public void validRequest_errorResponse_DeleteUnSuccessfull() throws Exception {
 
         Integer userID = 1;
 

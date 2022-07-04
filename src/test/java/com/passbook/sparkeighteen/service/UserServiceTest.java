@@ -163,7 +163,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void missingUser_deleteProfileUnSuccessful() throws Exception {
+    public void inValidPayload_userNotExists_deleteProfileUnsuccessful() throws Exception {
         Integer userID = 1;
 
         when(userRepository.findById(userID)).thenReturn(Optional.empty());
@@ -174,10 +174,10 @@ public class UserServiceTest {
     }
 
     @Test
-    public void userExists_deleteProfileSuccessful() throws Exception {
+    public void validPayload_userExists_deleteProfileSuccessful() throws Exception {
         Integer userID = 1;
 
-        UserEntity hrishi = UserEntity.builder()
+        UserEntity user = UserEntity.builder()
                 .email("hrishi@gmail.com")
                 .dob(LocalDate.of(2000, 2, 25))
                 .password("qwerty")
@@ -185,8 +185,7 @@ public class UserServiceTest {
                 .lastname("Shedge")
                 .firstname("Hrishikesh")
                 .build();
-
-        when(userRepository.findById(userID)).thenReturn(Optional.ofNullable(hrishi));
+        when(userRepository.findById(userID)).thenReturn(Optional.ofNullable(user));
 
         String response = userService.deleteProfile(userID);
         assertEquals("user deleted " + userID, response);
