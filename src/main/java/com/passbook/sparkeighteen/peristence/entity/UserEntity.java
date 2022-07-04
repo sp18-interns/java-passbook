@@ -20,6 +20,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+/**
+ * The type User entity is help us to create table in database for user .
+ */
 @Setter
 @Getter
 @Builder

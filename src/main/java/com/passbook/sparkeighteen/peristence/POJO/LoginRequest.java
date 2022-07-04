@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+/**
+ * The type Login request is for taking credentials from user.
+ */
 @Data
 @Builder
 @AllArgsConstructor

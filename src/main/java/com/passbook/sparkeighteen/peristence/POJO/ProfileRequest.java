@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+/**
+ * The type Profile request is for get this values for update user profile.
+ */
 @Data
 @Builder
 @AllArgsConstructor

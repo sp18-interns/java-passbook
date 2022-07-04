@@ -20,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
 
+/**
+ * The type User controller test.
+ */
 @ExtendWith({MockitoExtension.class})
 public class UserControllerTest {
 
@@ -29,6 +32,11 @@ public class UserControllerTest {
     @InjectMocks
     private UserController userController;
 
+    /**
+     * Check whether the request is valid and having successfull response then the user signUp is successfull.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void validRequest_successfulResponse_SignupSuccessfull() throws Exception {
 
@@ -47,6 +55,11 @@ public class UserControllerTest {
 
     }
 
+    /**
+     * check whether request is valid and having error response then the Signup is SignupunSuccessful
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void validRequest_errorResponse_SignupSuccessful() throws Exception {
 
@@ -63,6 +76,11 @@ public class UserControllerTest {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 
+    /**
+     * when request is valid and having successful response then the login is successfull.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void validRequest_successfulResponse_LoginSuccessfull() throws Exception {
 
@@ -81,6 +99,11 @@ public class UserControllerTest {
 
     }
 
+    /**
+     * when request is valid and having error response then the login is unsuccessfull.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void validRequest_errorResponse_LoginSuccessfull() throws Exception {
 
@@ -99,6 +122,10 @@ public class UserControllerTest {
 
     }
 
+    /**
+     * In this part we check the request is valid and getting successfull response then the Profile is Updated successfully.
+     * @throws Exception when user is not find then it throws error user not find.
+     */
     @Test
     void validRequest_successfulResponse_UserUpdateSuccessfull() throws Exception {
         ProfileRequest profileRequest = ProfileRequest.builder()
@@ -110,6 +137,11 @@ public class UserControllerTest {
         ResponseEntity<ProfileResponse> response = userController.updateProfile(1,profileRequest);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
+
+    /**
+     * When request is getting null then it throws error.
+     * @throws Exception it throws error userID is null.
+     */
     @Test
     void validRequest_errorResponse_UserUpdateUnSuccessfull() throws Exception {
         ProfileRequest profileRequest = ProfileRequest.builder()

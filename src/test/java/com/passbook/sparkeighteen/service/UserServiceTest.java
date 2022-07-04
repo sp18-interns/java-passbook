@@ -26,6 +26,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+/**
+ * The type User service test.
+ */
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
@@ -38,6 +41,10 @@ public class UserServiceTest {
     @InjectMocks
     private UserService userService;
 
+    /**
+     * Check whether the request is valid and having successfull response then the user signUp is successfull.
+     * @throws Exception the exception
+     */
     @Test
     public void validPayload_successResponse_signUpSuccessful() throws Exception {
         SignUpRequest signUpRequest = SignUpRequest.builder()
@@ -71,6 +78,10 @@ public class UserServiceTest {
 
     }
 
+    /**
+     * check whether request is valid and having error response then the Signup is SignupunSuccessful
+     * @throws Exception the exception
+     */
     @Test
     public void validPayload_errorResponse_signUpUnSuccessful() throws Exception {
         SignUpRequest signUpRequest = SignUpRequest.builder()
@@ -98,6 +109,10 @@ public class UserServiceTest {
 
     }
 
+    /**
+     * when request is valid and having successful response then the login is successfull.
+     * @throws Exception the exception
+     */
     @Test
     public void validPayload_successResponse_loginSuccessful() throws Exception {
         LoginRequest request = LoginRequest.builder()
@@ -127,6 +142,10 @@ public class UserServiceTest {
 
     }
 
+    /**
+     * when request is valid and having error response then the login is unsuccessfull.
+     * @throws Exception the exception
+     */
     @Test
     public void validPayload_userNotExists_loginUnSuccessful() throws Exception {
         LoginRequest request = LoginRequest.builder()
@@ -141,6 +160,10 @@ public class UserServiceTest {
 
     }
 
+    /**
+     * when request is valid and having error response then the login is unsuccessfull.
+     * @throws Exception the exception
+     */
     @Test
     public void inValidPayload_passwordMismatch_loginUnSuccessful() throws Exception {
         LoginRequest request = LoginRequest.builder()
@@ -164,6 +187,10 @@ public class UserServiceTest {
 
     }
 
+    /**
+     * When request is getting null then it throws error.
+     * @throws Exception the exception
+     */
     @Test
     void ValidPayload_errorResponse_userUpdateUnSuccessfull() throws Exception {
         ProfileRequest request = ProfileRequest.builder()
@@ -178,6 +205,10 @@ public class UserServiceTest {
 
     }
 
+    /**
+     * In this part we check the request is valid and getting successfull response then the Profile is Updated successfully.
+     * @throws Exception the exception
+     */
     @Test
     void ValidPayLoad_successResponse_userUpdateSuccessfull() throws Exception {
         ProfileRequest request = ProfileRequest.builder()

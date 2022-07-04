@@ -18,6 +18,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+/**
+ * The type Profile entity is help us to create table in database for user.
+ */
 @Setter
 @Getter
 @Builder

@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The type Login response is for when user login successfully then get back a response where get message and others details.
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -21,6 +24,6 @@ public class LoginResponse {
     private String pan;
     private String aadhar;
     private Gender gender;
-
+    private String address;
 
 }

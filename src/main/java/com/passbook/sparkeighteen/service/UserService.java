@@ -17,16 +17,32 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Optional;
 
+/**
+ * The type User service is for all type of task like signUp, login and update profile.
+ */
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final ProfileRepository profileRepository;
 
+    /**
+     * Instantiates a new User service.
+     *
+     * @param userRepository    the user repository is communicate to database for any operation like signup and login.
+     * @param profileRepository the profile repository is communicate to database for any operation for user profile update.
+     */
     public UserService(final UserRepository userRepository, final ProfileRepository profileRepository) {
         this.userRepository = userRepository;
         this.profileRepository = profileRepository;
     }
 
+    /**
+     * Login login response.
+     *
+     * @param userLogin to get the credentials of the user from the repository.
+     * @return the login response of the action performed.
+     * @throws Exception the exception gives error for wrong input or bad request.
+     */
     public LoginResponse login(final LoginRequest userLogin) throws Exception {
         Optional<UserEntity> optionalUser = userRepository
                 .findByEmail(userLogin.getEmail());
@@ -66,6 +82,12 @@ public class UserService {
                 .build();
     }
 
+    /**
+     * Sign up response.
+     *
+     * @param request is for get user credential to create profile.
+     * @return the sign up response of the action performed.
+     */
     public SignUpResponse signUp(@NonNull final SignUpRequest request) {
         final Optional<UserEntity> user =
                 userRepository.findByEmail(request.getEmail());
@@ -101,6 +123,13 @@ public class UserService {
         return Period.between(dob, LocalDate.now()).getYears();
     }
 
+    /**
+     * Update profile profile response.
+     *
+     * @param userID  the user id help us to update specific user.
+     * @param request the request for user details to update there profile.
+     * @return the profile response is user profile update successfully or userID is missing.
+     */
     public ProfileResponse updateProfile(Integer userID, ProfileRequest request) {
         Optional<UserEntity> optionalUser = userRepository.findById(userID);
         if (optionalUser.isEmpty()) {
