@@ -8,8 +8,16 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The interface Transaction repository.
+ */
 @Repository
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Integer> {
 
+    /**
+     * Find by user optional.
+     * @param user function to perform on this particular user
+     * @return the optional - return th user or null
+     */
     Optional<List<TransactionEntity>> findByUser(UserEntity user);
 }

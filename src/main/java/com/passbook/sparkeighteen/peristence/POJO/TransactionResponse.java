@@ -12,11 +12,16 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+/**
+ * details/fields of the transaction requested are displayed
+ */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransactionResponse {
+
+    private Integer txnID;
 
     private Float amount;
 

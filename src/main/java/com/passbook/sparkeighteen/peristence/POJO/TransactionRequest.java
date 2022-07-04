@@ -10,6 +10,9 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.NegativeOrZero;
 import javax.validation.constraints.NotNull;
 
+/**
+ * details/fields of transaction to be requested
+ */
 @Data
 @Builder
 @AllArgsConstructor

@@ -1,5 +1,15 @@
 package com.passbook.sparkeighteen.peristence.POJO;
 
+/**
+ * The enum Transaction type.
+ */
 public enum TransactionType {
-    CREDIT, DEBIT
+    /**
+     * amount to be deposited
+     */
+    CREDIT,
+    /**
+     * amount to be withdrawn
+     */
+    DEBIT
 }

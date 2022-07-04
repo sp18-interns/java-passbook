@@ -14,15 +14,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+/**
+ * The type Transaction controller.
+ */
 @RequestMapping("/api/v1/user")
 @RestController
 public class TransactionController {
     private final TransactionService transactionService;
 
+    /**
+     * Instantiates a new Transaction controller.
+     *
+     * @param transactionService the transaction service
+     */
     public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
 
+    /**
+     * Transact response entity.
+     *
+     * @param userID  used to do the transaction of that particular user
+     * @param request to get request field for performing transaction
+     * @return the response entity of the transaction
+     * @throws Exception the exception / error message
+     */
     @ApiOperation("User can transact")
     @PostMapping("/{userID}/transaction")
     public ResponseEntity<TransactionResponse> transact(@PathVariable Integer userID, @RequestBody final @Valid TransactionRequest request) throws Exception {
