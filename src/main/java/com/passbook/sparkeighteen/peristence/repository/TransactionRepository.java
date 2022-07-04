@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * The interface Transaction repository.
+ * The interface Transaction repository helps to communicate with database where in the data is retrieved / found.
  */
 @Repository
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Integer> {

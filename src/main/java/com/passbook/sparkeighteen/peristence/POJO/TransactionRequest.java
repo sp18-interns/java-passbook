@@ -11,7 +11,7 @@ import javax.validation.constraints.NegativeOrZero;
 import javax.validation.constraints.NotNull;
 
 /**
- * details/fields of transaction to be requested
+ * Transaction request where in request is initiated to perform transaction
  */
 @Data
 @Builder

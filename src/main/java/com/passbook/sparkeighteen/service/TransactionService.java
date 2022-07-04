@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 /**
- * The type Transaction service.
+ * Transaction service helps to provide service to perform transactions
  */
 @Service
 public class TransactionService {
@@ -19,8 +19,7 @@ public class TransactionService {
     private final UserRepository userRepository;
 
     /**
-     * Instantiates a new Transaction service.
-     *
+     * Instantiates a new Transaction service constructor
      * @param transactionRepository to perform operation related to transaction repository like finding user from transaction repository
      * @param userRepository to perform operation related to user repository like finding user id from user repository
      */
@@ -30,8 +29,7 @@ public class TransactionService {
     }
 
     /**
-     * Transact transaction response.
-     *
+     * Create method to do the actual transaction contaning the business logic to add deposit and withdraw and return response according
      * @param userID  to make transaction for specific user.
      * @param request all fields required in transaction
      * @return the transaction response. (CREDIT OR DEBIT)

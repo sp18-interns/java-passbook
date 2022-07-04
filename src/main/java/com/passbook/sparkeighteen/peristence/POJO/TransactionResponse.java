@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
- * details/fields of the transaction requested are displayed
+ * Transaction response where in response is generated on performing a transaction.
  */
 @Data
 @Builder

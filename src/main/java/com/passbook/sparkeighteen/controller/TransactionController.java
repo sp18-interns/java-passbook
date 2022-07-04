@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 /**
- * The type Transaction controller.
+ * The Transaction controller is responsible for processing incoming REST API request, preparing model and returning view to be rendered in response.
  */
 @RequestMapping("/api/v1/user")
 @RestController
@@ -24,18 +24,16 @@ public class TransactionController {
 
     /**
      * Instantiates a new Transaction controller.
-     *
-     * @param transactionService the transaction service
+     * @param transactionService the transaction service is instantiated to perform further operation
      */
     public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
 
     /**
-     * Transact response entity.
-     *
+     * Transact response entity gives the transaction response
      * @param userID  used to do the transaction of that particular user
-     * @param request to get request field for performing transaction
+     * @param request to get transaction request field for performing transaction
      * @return the response entity of the transaction
      * @throws Exception the exception / error message
      */
