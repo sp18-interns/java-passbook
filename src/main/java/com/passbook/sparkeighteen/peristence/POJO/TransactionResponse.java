@@ -21,20 +21,41 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class TransactionResponse {
 
+    /**
+     * To get the transaction details of the particular transaction from transactionId
+     */
     private Integer txnID;
 
+    /**
+     * The amount which have been transacted in the form of credit or debit
+     */
     private Float amount;
 
+    /**
+     * Displayed note or description of the current processed transaction.
+     */
     private String note;
 
+    /**
+     * Display the transaction type of the transaction completed like credit or debit
+     */
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
+    /**
+     * Displays the status of the transaction made
+     */
     @NotBlank(message = "Transaction message cannot be blank")
     private String message;
 
+    /**
+     * shows the latest closing balance of the user
+     */
     private Float closingBalance;
 
+    /**
+     * Displays the exact time and date of the transaction completed.
+     */
     @JsonFormat(pattern = "MMM dd, yyyy hh:mm:ss a", timezone = "Asia/Kolkata")
     @NotNull
     private LocalDateTime time;

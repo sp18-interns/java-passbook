@@ -15,7 +15,13 @@ import java.util.Optional;
 @Service
 public class TransactionService {
 
+    /**
+     * transactionRepository field is used to perform operation related to searching in database of transaction repository
+     */
     private final TransactionRepository transactionRepository;
+    /**
+     * userrepository field is used to perform operation related to search in database of user repository
+     */
     private final UserRepository userRepository;
 
     /**
@@ -47,7 +53,7 @@ public class TransactionService {
     }
 
     /**
-     * This method(getZeroOrLastBalance) is basically used for showing user closingBalance.
+     * This method(getZeroOrLastBalance) is to get balance as zero if its user first transaction or the closing balance of the latest transaction.
      * first assign the balance 0.
      * @param user to get the balance of that specific user.
      * @return updated balance after transaction done.

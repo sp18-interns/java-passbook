@@ -31,7 +31,7 @@ public class TransactionController {
     }
 
     /**
-     * Transact response entity gives the transaction response
+     * Transact response entity - To return response entity of the transaction performed in transaction service
      * @param userID  used to do the transaction of that particular user
      * @param request to get transaction request field for performing transaction
      * @return the response entity of the transaction
