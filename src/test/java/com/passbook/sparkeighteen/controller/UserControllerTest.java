@@ -98,7 +98,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void validRequest_successfulResponse_DeleteSuccessfull() throws Exception {
+    public void deleteProfile_validUserId_deleteProfileSuccessful() throws Exception {
 
         Integer userID = 1;
 
@@ -110,7 +110,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void validRequest_errorResponse_DeleteUnSuccessfull() throws Exception {
+    public void deleteProfile_UserIdNotExist_deleteProfileUnsuccessful() throws Exception {
 
         Integer userID = 1;
 

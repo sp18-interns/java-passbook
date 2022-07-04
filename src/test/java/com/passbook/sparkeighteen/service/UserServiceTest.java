@@ -163,7 +163,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void inValidPayload_userNotExists_deleteProfileUnsuccessful() throws Exception {
+    public void deleteProfile_userIdNotFound_deleteProfileUnsuccessful() throws Exception {
         Integer userID = 1;
 
         when(userRepository.findById(userID)).thenReturn(Optional.empty());
@@ -174,7 +174,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void validPayload_userExists_deleteProfileSuccessful() throws Exception {
+    public void deleteProfile_userIdExist_deleteProfileSuccessful() throws Exception {
         Integer userID = 1;
 
         UserEntity user = UserEntity.builder()
