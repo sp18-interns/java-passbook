@@ -28,7 +28,7 @@ public class TransactionService {
         if (optionalUser.isEmpty())
             return TransactionResponse.builder().message("User not found. Please use a registered user").build();
 
-        UserEntity user = optionalUser.get();
+//        UserEntity user = optionalUser.get();
 
         // TODO: Add deposit/withdraw logic and change below return accordingly
 
