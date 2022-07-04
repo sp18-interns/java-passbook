@@ -34,7 +34,7 @@ public class ProfileEntity {
     private Integer id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "profile")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
 
     @Column(name = "mobile_number")

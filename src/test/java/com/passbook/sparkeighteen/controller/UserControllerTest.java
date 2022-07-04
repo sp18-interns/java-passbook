@@ -97,6 +97,9 @@ public class UserControllerTest {
 
     }
 
+    /**
+     * @throws Exception user deleted with userId.
+     */
     @Test
     public void deleteProfile_validUserId_deleteProfileSuccessful() throws Exception {
 
@@ -109,6 +112,9 @@ public class UserControllerTest {
 
     }
 
+    /**
+     * @throws Exception user id is not found.
+     */
     @Test
     public void deleteProfile_userIdNotExist_deleteProfileUnsuccessful() throws Exception {
 

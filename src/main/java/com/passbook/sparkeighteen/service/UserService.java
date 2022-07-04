@@ -98,6 +98,10 @@ public class UserService {
         return Period.between(dob, LocalDate.now()).getYears();
     }
 
+    /**
+     * @param userId to delete that specific user profile.
+     * @return user deleted or user id is not found.
+     */
     public String deleteProfile(Integer userId) {
         final Optional<UserEntity> userEntity = userRepository.findById(userId);
         if (userEntity.isPresent()) {

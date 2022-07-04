@@ -162,6 +162,9 @@ public class UserServiceTest {
 
     }
 
+    /**
+     * @throws Exception user id is not found.
+     */
     @Test
     public void deleteProfile_userIdNotFound_deleteProfileUnsuccessful() throws Exception {
         Integer userID = 1;
@@ -173,6 +176,9 @@ public class UserServiceTest {
 
     }
 
+    /**
+     * @throws Exception user deleted with userId.
+     */
     @Test
     public void deleteProfile_userIdExist_deleteProfileSuccessful() throws Exception {
         Integer userID = 1;
