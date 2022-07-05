@@ -5,7 +5,6 @@ import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -19,5 +18,5 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
      * @param user function to perform on this particular user
      * @return the optional - return th user or null
      */
-    Optional<List<TransactionEntity>> findByUser(UserEntity user);
+    Optional<TransactionEntity>findByUser(UserEntity user);
 }

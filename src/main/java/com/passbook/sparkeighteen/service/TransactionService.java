@@ -58,7 +58,7 @@ public class TransactionService {
      * @param user to get the balance of that specific user.
      * @return updated balance after transaction done.
      */
-    private Float getZeroOrLastBalance(UserEntity user) {
+    private Float getUpdateBalance(UserEntity user) {
         Float balance = 0f;
         // TODO: Add getting the latest closing balance of the user
         return balance;
