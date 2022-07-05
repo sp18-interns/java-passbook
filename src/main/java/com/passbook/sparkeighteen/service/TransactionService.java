@@ -2,11 +2,13 @@ package com.passbook.sparkeighteen.service;
 
 import com.passbook.sparkeighteen.peristence.POJO.TransactionRequest;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionResponse;
+import com.passbook.sparkeighteen.peristence.entity.TransactionEntity;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.TransactionRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 /**
@@ -26,6 +28,7 @@ public class TransactionService {
 
     /**
      * Create method to do the actual transaction contaning the business logic to add deposit and withdraw and return response according
+     *
      * @param userID  to make transaction for specific user.
      * @param request all fields required in transaction
      * @return the transaction response. (CREDIT OR DEBIT)
@@ -45,6 +48,7 @@ public class TransactionService {
     /**
      * This method(getZeroOrLastBalance) is to get balance as zero if its user first transaction or the closing balance of the latest transaction.
      * first assign the balance 0.
+     *
      * @param user to get the balance of that specific user.
      * @return updated balance after transaction done.
      */
@@ -52,5 +56,32 @@ public class TransactionService {
         Float balance = 0f;
         // TODO: Add getting the latest closing balance of the user
         return balance;
+    }
+
+    public TransactionResponse updateTransaction(Integer transactionID, @Valid TransactionRequest request) {
+        Optional<TransactionEntity> Transaction = transactionRepository.findById(transactionID);
+        if (Transaction.isEmpty()) {
+            return TransactionResponse.builder()
+                    .message("No records have been found.")
+                    .txnID(transactionID)
+                    .build();
+        }
+        final TransactionEntity transaction = Transaction.get();
+
+        transaction.setAmount(request.getAmount());
+        transaction.setNote(request.getNote());
+        transaction.setTransactionType(request.getTransactionType());
+        transactionRepository.save(transaction);
+
+        return TransactionResponse.builder()
+                .txnID(transactionID)
+                .time(transaction.getTime())
+                .amount(request.getAmount())
+                .note(request.getNote())
+                .transactionType(transaction.getTransactionType())
+                .closingBalance(transaction.getClosingBalance())
+                .message("Transaction updated")
+                .build();
+
     }
 }
