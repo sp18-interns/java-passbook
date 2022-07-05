@@ -107,7 +107,7 @@ public class UserControllerTest {
 
         Mockito.when(userService.deleteProfile(any())).thenReturn("user deleted " + userID);
 
-        ResponseEntity<String> response = userController.deleteProfile(userID);
+        ResponseEntity<String> response = userController.deleteUser(userID);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
 
     }
@@ -122,7 +122,7 @@ public class UserControllerTest {
 
         Mockito.when(userService.deleteProfile(any())).thenReturn("user id is not found");
 
-        ResponseEntity<String> response = userController.deleteProfile(userID);
+        ResponseEntity<String> response = userController.deleteUser(userID);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
 
     }
