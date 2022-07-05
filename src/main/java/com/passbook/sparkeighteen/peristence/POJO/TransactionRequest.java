@@ -20,7 +20,6 @@ import javax.validation.constraints.NotNull;
 public class TransactionRequest {
 
     @NotNull(message = "Transaction amount cannot be null")
-    @NegativeOrZero(message = "Transaction amount cannot be zero or negative")
     private Float amount;
 
     private String name;
