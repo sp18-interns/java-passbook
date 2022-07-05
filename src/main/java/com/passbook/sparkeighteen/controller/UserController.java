@@ -45,7 +45,7 @@ public class UserController {
      * @return user is deleted or user id is not found.
      */
     @ApiOperation("delete user profile")
-    @DeleteMapping("/user/{userID}")
+    @DeleteMapping("/user/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable final Integer userId) {
         return new ResponseEntity<>(userService.deleteProfile(userId), HttpStatus.OK);
     }
