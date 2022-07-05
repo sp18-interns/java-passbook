@@ -46,7 +46,7 @@ public class UserServiceTest {
      * @throws Exception the exception
      */
     @Test
-    public void validPayload_successResponse_signUpSuccessful() throws Exception {
+    public void userSignUp_successResponse_signUpSuccessful() throws Exception {
         SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("ketan@gmail.com")
                 .dob(LocalDate.of(2000, 10, 6))
@@ -83,7 +83,7 @@ public class UserServiceTest {
      * @throws Exception the exception
      */
     @Test
-    public void validPayload_errorResponse_signUpUnSuccessful() throws Exception {
+    public void userSignUp_errorResponse_signUpUnSuccessful() throws Exception {
         SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("ketan@gmail.com")
                 .dob(LocalDate.of(2000, 10, 6))
@@ -114,7 +114,7 @@ public class UserServiceTest {
      * @throws Exception the exception
      */
     @Test
-    public void validPayload_successResponse_loginSuccessful() throws Exception {
+    public void userLogin_successResponse_loginSuccessful() throws Exception {
         LoginRequest request = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("password")
@@ -147,7 +147,7 @@ public class UserServiceTest {
      * @throws Exception the exception
      */
     @Test
-    public void validPayload_userNotExists_loginUnSuccessful() throws Exception {
+    public void userLogin_userNotExists_loginUnSuccessful() throws Exception {
         LoginRequest request = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("password")
@@ -165,7 +165,7 @@ public class UserServiceTest {
      * @throws Exception the exception
      */
     @Test
-    public void inValidPayload_passwordMismatch_loginUnSuccessful() throws Exception {
+    public void userLogin_passwordMismatch_loginUnSuccessful() throws Exception {
         LoginRequest request = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("something")
@@ -192,7 +192,7 @@ public class UserServiceTest {
      * @throws Exception the exception
      */
     @Test
-    void ValidPayload_errorResponse_userUpdateUnSuccessfull() throws Exception {
+    void userProfileUpdtae_errorResponse_userProfileUpdateUnSuccessfull() throws Exception {
         ProfileRequest request = ProfileRequest.builder()
                 .aadhar("123456554445")
                 .pan("asdfghjdf")
@@ -210,7 +210,7 @@ public class UserServiceTest {
      * @throws Exception the exception
      */
     @Test
-    void ValidPayLoad_successResponse_userUpdateSuccessfull() throws Exception {
+    void userProfileUpdate_successResponse_userProfileUpdateSuccessfull() throws Exception {
         ProfileRequest request = ProfileRequest.builder()
                 .aadhar("23456789875")
                 .pan("567456765")

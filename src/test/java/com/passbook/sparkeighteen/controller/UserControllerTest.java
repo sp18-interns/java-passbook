@@ -38,7 +38,7 @@ public class UserControllerTest {
      * @throws Exception the exception
      */
     @Test
-    public void validRequest_successfulResponse_SignupSuccessfull() throws Exception {
+    public void userSignUp_validUserDetail_signUpSuccessfull() throws Exception {
 
         SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("test@gmail.com")
@@ -61,7 +61,7 @@ public class UserControllerTest {
      * @throws Exception the exception
      */
     @Test
-    public void validRequest_errorResponse_SignupSuccessful() throws Exception {
+    public void userSignUp_inValidUserDetail_signUpUnSuccessful() throws Exception {
 
         SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("test@gmail.com")
@@ -82,7 +82,8 @@ public class UserControllerTest {
      * @throws Exception the exception
      */
     @Test
-    public void validRequest_successfulResponse_LoginSuccessfull() throws Exception {
+//    public void validRequest_successfulResponse_LoginSuccessfull() throws Exception {
+    public void userLogin_validUserDetail_loginSuccessful() throws Exception {
 
         LoginRequest loginRequest = LoginRequest.builder()
                 .email("test@gmail.com")
@@ -105,7 +106,7 @@ public class UserControllerTest {
      * @throws Exception the exception
      */
     @Test
-    public void validRequest_errorResponse_LoginSuccessfull() throws Exception {
+    public void userLogin_inValidUserDetail_loginUnSuccessfull() throws Exception {
 
         LoginRequest loginRequest = LoginRequest.builder()
                 .email("test@gmail.com")
@@ -127,7 +128,7 @@ public class UserControllerTest {
      * @throws Exception when user is not find then it throws error user not find.
      */
     @Test
-    void validRequest_successfulResponse_UserUpdateSuccessfull() throws Exception {
+    void userProfileUpdate_validUserDetail_userProfileUpdateSuccessful() throws Exception {
         ProfileRequest profileRequest = ProfileRequest.builder()
                 .aadhar("123456554445")
                 .pan("asdfghjdf")
@@ -143,7 +144,7 @@ public class UserControllerTest {
      * @throws Exception it throws error userID is null.
      */
     @Test
-    void validRequest_errorResponse_UserUpdateUnSuccessfull() throws Exception {
+    void userProfileUpdate_inValidUserDetail_userProfileupdateUnSuccessful() throws Exception {
         ProfileRequest profileRequest = ProfileRequest.builder()
                 .aadhar("123456554445")
                 .pan("asdfghjdf")
