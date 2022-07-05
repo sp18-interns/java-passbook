@@ -2,6 +2,7 @@ package com.passbook.sparkeighteen.service;
 
 import com.passbook.sparkeighteen.peristence.POJO.TransactionRequest;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionResponse;
+import com.passbook.sparkeighteen.peristence.entity.TransactionEntity;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.TransactionRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
@@ -19,6 +20,12 @@ public class TransactionService {
 
     private final UserRepository userRepository;
 
+    /**
+     * Instantiates a new Transaction service.
+     *
+     * @param transactionRepository the transaction repository
+     * @param userRepository        the user repository
+     */
     public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
@@ -26,6 +33,7 @@ public class TransactionService {
 
     /**
      * Create method to do the actual transaction contaning the business logic to add deposit and withdraw and return response according
+     *
      * @param userID  to make transaction for specific user.
      * @param request all fields required in transaction
      * @return the transaction response. (CREDIT OR DEBIT)
@@ -52,5 +60,20 @@ public class TransactionService {
         Float balance = 0f;
         // TODO: Add getting the latest closing balance of the user
         return balance;
+    }
+
+    /**
+     * Delete transaction string.
+     *
+     * @param transactionID To delete specific transaction.
+     * @return whether the transaction is deleted successfully or not.
+     */
+    public String deleteTransaction(Integer transactionID) {
+        Optional<TransactionEntity> Transaction = transactionRepository.findById(transactionID);
+        if (Transaction.isPresent()) {
+            transactionRepository.deleteById(transactionID);
+            return "Your TransactionID " + transactionID + " delete successfully.";
+        }
+        return "Entered Transaction ID does not Exists";
     }
 }
