@@ -43,10 +43,9 @@ public class UserServiceTest {
 
     /**
      * Check whether the request is valid and having successfull response then the user signUp is successfull.
-     * @throws Exception the exception
      */
     @Test
-    public void userSignUp_successResponse_signUpSuccessful() throws Exception {
+    public void userSignUp_successResponse_signUpSuccessfull() throws Exception {
         SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("ketan@gmail.com")
                 .dob(LocalDate.of(2000, 10, 6))
@@ -80,10 +79,9 @@ public class UserServiceTest {
 
     /**
      * check whether request is valid and having error response then the Signup is SignupunSuccessful
-     * @throws Exception the exception
      */
     @Test
-    public void userSignUp_errorResponse_signUpUnSuccessful() throws Exception {
+    public void userSignUp_errorResponse_signUpUnSuccessfull() throws Exception {
         SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("ketan@gmail.com")
                 .dob(LocalDate.of(2000, 10, 6))
@@ -111,10 +109,9 @@ public class UserServiceTest {
 
     /**
      * when request is valid and having successful response then the login is successfull.
-     * @throws Exception the exception
      */
     @Test
-    public void userLogin_successResponse_loginSuccessful() throws Exception {
+    public void userLogin_successResponse_loginSuccessfull() throws Exception {
         LoginRequest request = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("password")
@@ -144,10 +141,9 @@ public class UserServiceTest {
 
     /**
      * when request is valid and having error response then the login is unsuccessfull.
-     * @throws Exception the exception
      */
     @Test
-    public void userLogin_userNotExists_loginUnSuccessful() throws Exception {
+    public void userLogin_userNotExists_loginUnSuccessfull() throws Exception {
         LoginRequest request = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("password")
@@ -162,10 +158,9 @@ public class UserServiceTest {
 
     /**
      * when request is valid and having error response then the login is unsuccessfull.
-     * @throws Exception the exception
      */
     @Test
-    public void userLogin_passwordMismatch_loginUnSuccessful() throws Exception {
+    public void userLogin_passwordMismatch_loginUnSuccessfull() throws Exception {
         LoginRequest request = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("something")
@@ -189,7 +184,6 @@ public class UserServiceTest {
 
     /**
      * When request is getting null then it throws error.
-     * @throws Exception the exception
      */
     @Test
     void userProfileUpdtae_errorResponse_userProfileUpdateUnSuccessfull() throws Exception {
@@ -207,7 +201,6 @@ public class UserServiceTest {
 
     /**
      * In this part we check the request is valid and getting successfull response then the Profile is Updated successfully.
-     * @throws Exception the exception
      */
     @Test
     void userProfileUpdate_successResponse_userProfileUpdateSuccessfull() throws Exception {

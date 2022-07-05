@@ -34,8 +34,6 @@ public class UserControllerTest {
 
     /**
      * Check whether the request is valid and having successfull response then the user signUp is successfull.
-     *
-     * @throws Exception the exception
      */
     @Test
     public void userSignUp_validUserDetail_signUpSuccessfull() throws Exception {
@@ -56,12 +54,10 @@ public class UserControllerTest {
     }
 
     /**
-     * check whether request is valid and having error response then the Signup is SignupunSuccessful
-     *
-     * @throws Exception the exception
+     * check whether request is valid and having error response then the Signup is SignupunSuccessfull.
      */
     @Test
-    public void userSignUp_inValidUserDetail_signUpUnSuccessful() throws Exception {
+    public void userSignUp_inValidUserDetail_signUpUnSuccessfull() throws Exception {
 
         SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("test@gmail.com")
@@ -77,13 +73,11 @@ public class UserControllerTest {
     }
 
     /**
-     * when request is valid and having successful response then the login is successfull.
-     *
-     * @throws Exception the exception
+     * when request is valid and having successfull response then the login is successfull.
      */
     @Test
-//    public void validRequest_successfulResponse_LoginSuccessfull() throws Exception {
-    public void userLogin_validUserDetail_loginSuccessful() throws Exception {
+//    public void validRequest_successfullResponse_LoginSuccessfull() throws Exception {
+    public void userLogin_validUserDetail_loginSuccessfull() throws Exception {
 
         LoginRequest loginRequest = LoginRequest.builder()
                 .email("test@gmail.com")
@@ -102,8 +96,6 @@ public class UserControllerTest {
 
     /**
      * when request is valid and having error response then the login is unsuccessfull.
-     *
-     * @throws Exception the exception
      */
     @Test
     public void userLogin_inValidUserDetail_loginUnSuccessfull() throws Exception {
@@ -125,10 +117,9 @@ public class UserControllerTest {
 
     /**
      * In this part we check the request is valid and getting successfull response then the Profile is Updated successfully.
-     * @throws Exception when user is not find then it throws error user not find.
      */
     @Test
-    void userProfileUpdate_validUserDetail_userProfileUpdateSuccessful() throws Exception {
+    void userProfileUpdate_validUserDetail_userProfileUpdateSuccessfull() throws Exception {
         ProfileRequest profileRequest = ProfileRequest.builder()
                 .aadhar("123456554445")
                 .pan("asdfghjdf")
@@ -141,10 +132,9 @@ public class UserControllerTest {
 
     /**
      * When request is getting null then it throws error.
-     * @throws Exception it throws error userID is null.
      */
     @Test
-    void userProfileUpdate_inValidUserDetail_userProfileupdateUnSuccessful() throws Exception {
+    void userProfileUpdate_inValidUserDetail_userProfileupdateUnSuccessfull() throws Exception {
         ProfileRequest profileRequest = ProfileRequest.builder()
                 .aadhar("123456554445")
                 .pan("asdfghjdf")
