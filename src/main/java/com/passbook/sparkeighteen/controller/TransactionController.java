@@ -22,10 +22,6 @@ import javax.validation.Valid;
 public class TransactionController {
     private final TransactionService transactionService;
 
-    /**
-     * Instantiates a new Transaction controller.
-     * @param transactionService the transaction service is instantiated to perform further operation
-     */
     public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }

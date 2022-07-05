@@ -15,20 +15,10 @@ import java.util.Optional;
 @Service
 public class TransactionService {
 
-    /**
-     * transactionRepository field is used to perform operation related to searching in database of transaction repository
-     */
     private final TransactionRepository transactionRepository;
-    /**
-     * userrepository field is used to perform operation related to search in database of user repository
-     */
+
     private final UserRepository userRepository;
 
-    /**
-     * Instantiates a new Transaction service constructor
-     * @param transactionRepository to perform operation related to transaction repository like finding user from transaction repository
-     * @param userRepository to perform operation related to user repository like finding user id from user repository
-     */
     public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
@@ -58,7 +48,7 @@ public class TransactionService {
      * @param user to get the balance of that specific user.
      * @return updated balance after transaction done.
      */
-    private Float getUpdateBalance(UserEntity user) {
+    private Float getUpdatedBalance(UserEntity user) {
         Float balance = 0f;
         // TODO: Add getting the latest closing balance of the user
         return balance;
