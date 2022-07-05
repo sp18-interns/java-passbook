@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 /**
- * The Transaction controller is responsible for processing incoming REST API request, preparing model and returning view to be rendered in response.
+ * To process incoming REST API requests for Transactions and give response from the request body and connecting through transaction service (business logic) is carried out here with the help of Transaction Controller
  */
 @RequestMapping("/api/v1/user")
 @RestController
@@ -31,7 +31,7 @@ public class TransactionController {
     }
 
     /**
-     * Transact response entity - To return response entity of the transaction performed in transaction service
+     * To return response entity of the transaction performed in transaction service
      * @param userID  used to do the transaction of that particular user
      * @param request to get transaction request field for performing transaction
      * @return the response entity of the transaction
