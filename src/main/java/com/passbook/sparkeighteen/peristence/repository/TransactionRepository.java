@@ -5,13 +5,16 @@ import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
-import java.util.List;
-import java.util.Optional;
-
+/**
+ * The interface Transaction repository helps to communicate with database where in the data is retrieved / found.
+ */
 @Repository
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Integer> {
-    Optional<TransactionEntity> findById(BigInteger integer);
 
-    Optional<List<TransactionEntity>> findByUser(UserEntity user);
+    /**
+     * Find by user optional.
+     * @param user function to perform on this particular user
+     * @return the optional - return th user or null
+     */
+    <List>TransactionEntity findByUser(UserEntity user);
 }

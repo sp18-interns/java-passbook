@@ -5,15 +5,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.NegativeOrZero;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Transaction request where in request is initiated to perform transaction
+ */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransactionRequest {
 
-    @NotNull(message = "amount mandatory to transaction ")
+    @NotNull(message = "Transaction amount cannot be null")
+    @NegativeOrZero(message = "Transaction amount cannot be zero or negative")
     private Float amount;
 
     private String name;
@@ -21,5 +28,6 @@ public class TransactionRequest {
     private String note;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 }

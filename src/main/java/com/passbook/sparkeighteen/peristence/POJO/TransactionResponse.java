@@ -8,17 +8,20 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+/**
+ * Transaction response where in response is generated on performing a transaction.
+ */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransactionResponse {
+
+    private Integer txnID;
 
     private Float amount;
 
@@ -27,6 +30,7 @@ public class TransactionResponse {
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
+    @NotBlank(message = "Transaction message cannot be blank")
     private String message;
 
     private Float closingBalance;
@@ -36,4 +40,3 @@ public class TransactionResponse {
     private LocalDateTime time;
 
 }
-

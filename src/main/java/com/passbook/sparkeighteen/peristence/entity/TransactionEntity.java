@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -23,9 +23,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-@Data
+/**
+ * Transaction entity - All the fields in the transaction are listed in database
+ */
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -49,13 +52,8 @@ public class TransactionEntity {
 
     @Column(name = "txt_date_time")
     @NotNull
-    @JsonFormat(pattern = "MMM dd, yyyy hh:mm:ss a", timezone = "Europe/Zagreb")
+    @JsonFormat(pattern = "MMM dd, yyyy hh:mm:ss a", timezone = "Asia/Kolkata")
     private LocalDateTime time;
-
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "ref_number")
-    private UUID referralNumber;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)

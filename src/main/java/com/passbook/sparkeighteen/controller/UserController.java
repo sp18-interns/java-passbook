@@ -8,6 +8,8 @@ import com.passbook.sparkeighteen.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +38,16 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody final LoginRequest request) throws Exception {
         return new ResponseEntity<>(userService.login(request), HttpStatus.OK);
+    }
+
+    /**
+     * @param userId to find particular user
+     * @return user is deleted or user id is not found.
+     */
+    @ApiOperation("delete user profile")
+    @DeleteMapping("/user/{userID}")
+    public ResponseEntity<String> deleteUser(@PathVariable final Integer userId) {
+        return new ResponseEntity<>(userService.deleteProfile(userId), HttpStatus.OK);
     }
 
 }

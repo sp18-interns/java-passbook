@@ -2,21 +2,21 @@ package com.passbook.sparkeighteen.service;
 
 import com.passbook.sparkeighteen.peristence.POJO.TransactionRequest;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionResponse;
-import com.passbook.sparkeighteen.peristence.POJO.TransactionType;
-import com.passbook.sparkeighteen.peristence.entity.TransactionEntity;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.TransactionRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * Transaction service helps to provide service to perform transactions
+ */
 @Service
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
+
     private final UserRepository userRepository;
 
     public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
@@ -24,58 +24,33 @@ public class TransactionService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Create method to do the actual transaction contaning the business logic to add deposit and withdraw and return response according
+     * @param userID  to make transaction for specific user.
+     * @param request all fields required in transaction
+     * @return the transaction response. (CREDIT OR DEBIT)
+     * @throws Exception shows error messages.
+     */
     public TransactionResponse transact(Integer userID, TransactionRequest request) throws Exception {
 
         Optional<UserEntity> optionalUser = userRepository.findById(userID);
         if (optionalUser.isEmpty())
-            return TransactionResponse.builder()
-                    .message("User not found. Please use a registered user")
-                    .build();
+            return TransactionResponse.builder().message("User not found. Please use a registered user").build();
 
-        UserEntity user = optionalUser.get();
+        // TODO: Add deposit/withdraw logic and change below return accordingly
 
-        Optional<TransactionEntity> optionalTxn = transaction(user, request);
-
-        if (optionalTxn.isEmpty())
-            return TransactionResponse.builder()
-                    .message("Deposit amount cannot be 0 or less.")
-                    .build();
-
-        TransactionEntity transaction = optionalTxn.get();
-
-        return TransactionResponse.builder()
-                .amount(transaction.getAmount())
-                .note(transaction.getNote())
-                .time(transaction.getTime())
-                .closingBalance(transaction.getClosingBalance())
-                .transactionType(transaction.getTransactionType())
-                .message(String.format("Your A/C XXXXX has a %s by Rs %.2f on %s ", transaction.getTransactionType(), transaction.getAmount(), transaction.getTime()))
-                .build();
+        return TransactionResponse.builder().build();
     }
 
-    private Optional<TransactionEntity> transaction(UserEntity user, TransactionRequest request) {
-        if (request.getAmount() <= 0) {
-            return Optional.empty();
-        }
-
-        TransactionEntity transaction = transactionRepository.save(TransactionEntity.builder()
-                .amount(request.getAmount())
-                .note(request.getNote())
-                .user(user).closingBalance(request.getAmount() + getZeroOrLastBalance(user))
-                .time(LocalDateTime.now()).transactionType(request.getTransactionType())
-                .build());
-
-        return Optional.of(transaction);
-    }
-
-    private Float getZeroOrLastBalance(UserEntity user) {
+    /**
+     * This method(getZeroOrLastBalance) is to get balance as zero if its user first transaction or the closing balance of the latest transaction.
+     * first assign the balance 0.
+     * @param user to get the balance of that specific user.
+     * @return updated balance after transaction done.
+     */
+    private Float getUpdatedBalance(UserEntity user) {
         Float balance = 0f;
-
-        Optional<List<TransactionEntity>> optionalTxns = transactionRepository.findByUser(user);
-        if (optionalTxns.isPresent()) {
-            List<TransactionEntity> txns = optionalTxns.get();
-            if (txns.size() > 0) balance = txns.get(txns.size() - 1).getClosingBalance();
-        }
+        // TODO: Add getting the latest closing balance of the user
         return balance;
     }
 }
