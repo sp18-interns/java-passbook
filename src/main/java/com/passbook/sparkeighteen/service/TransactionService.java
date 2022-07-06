@@ -1,13 +1,23 @@
 package com.passbook.sparkeighteen.service;
 
+import com.passbook.sparkeighteen.peristence.POJO.PaginatedResponse;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionRequest;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionResponse;
+import com.passbook.sparkeighteen.peristence.entity.TransactionEntity;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.TransactionRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Transaction service helps to provide service to perform transactions
@@ -53,4 +63,53 @@ public class TransactionService {
         // TODO: Add getting the latest closing balance of the user
         return balance;
     }
+
+    public PaginatedResponse getTransaction(String pageNo, String pageSize, @NotNull Integer userID) {
+
+        final Optional<UserEntity> optionalUser = userRepository.findById(userID);
+        if (optionalUser.isEmpty())
+            return PaginatedResponse.builder()
+                    .message("user not found")
+                    .build();
+
+        Pageable paging =
+                PageRequest.of(
+                        Integer.parseInt(pageNo),
+                        Integer.parseInt(pageSize),
+                        Sort.by("time").ascending());
+        Page<TransactionEntity> transactions =
+                transactionRepository.findByUser(paging, optionalUser.get());
+
+        if (transactions.isEmpty())
+            return PaginatedResponse.builder()
+                    .message("No transactions for this user.")
+                    .build();
+
+        List<TransactionResponse> response =
+                transactions.getContent().stream()
+                        .map(this::toTransactionResponse)
+                        .collect(Collectors.toList());
+        return PaginatedResponse.builder()
+                .content(Collections.singletonList(response))
+                .totalPages(transactions.getTotalPages())
+                .currentPage(Integer.parseInt(pageNo))
+                .pageSize(Integer.parseInt(pageSize))
+                .message("return list of transaction")
+                .totalElements(transactions.getTotalElements())
+                .build();
+
+    }
+
+    private TransactionResponse toTransactionResponse(TransactionEntity transaction) {
+
+        return TransactionResponse.builder()
+                .amount(transaction.getAmount())
+                .time(transaction.getTime())
+                .txnID(transaction.getId())
+                .note(transaction.getNote())
+                .closingBalance(transaction.getClosingBalance())
+                .transactionType(transaction.getTransactionType())
+                .build();
+    }
+
 }
