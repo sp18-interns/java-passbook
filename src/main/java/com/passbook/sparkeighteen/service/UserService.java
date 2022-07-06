@@ -169,3 +169,16 @@ public class UserService {
     }
 }
 
+     * @param userId to delete that specific user profile.
+     * @return user deleted or user id is not found.
+     */
+    public String deleteProfile(Integer userId) {
+        final Optional<UserEntity> userEntity = userRepository.findById(userId);
+        if (userEntity.isPresent()) {
+            userRepository.deleteById(userId);
+            return "user deleted " + userId;
+        }
+        return "user id is not found";
+    }
+
+}
