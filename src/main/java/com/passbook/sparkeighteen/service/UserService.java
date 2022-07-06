@@ -1,6 +1,11 @@
 package com.passbook.sparkeighteen.service;
 
-import com.passbook.sparkeighteen.peristence.POJO.*;
+import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
+import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
+import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
+import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.peristence.entity.ProfileEntity;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.ProfileRepository;
