@@ -1,11 +1,6 @@
 package com.passbook.sparkeighteen.controller;
 
-import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
-import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
-import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
-import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
-import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
-import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
+import com.passbook.sparkeighteen.peristence.POJO.*;
 import com.passbook.sparkeighteen.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -145,6 +140,7 @@ public class UserControllerTest {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 
+    /**
      * @throws Exception user deleted with userId.
      */
     @Test

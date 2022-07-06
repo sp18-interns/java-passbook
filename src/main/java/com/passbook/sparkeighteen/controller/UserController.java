@@ -1,23 +1,11 @@
 package com.passbook.sparkeighteen.controller;
 
-import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
-import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
-import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
-import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
-import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
-import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
+import com.passbook.sparkeighteen.peristence.POJO.*;
 import com.passbook.sparkeighteen.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -75,7 +63,9 @@ public class UserController {
     @PutMapping("/user/{userID}/profile")
     public ResponseEntity<ProfileResponse> updateProfile(@PathVariable Integer userID, @Valid @RequestBody final ProfileRequest request) throws Exception {
         return new ResponseEntity<>(userService.updateProfile(userID, request), HttpStatus.OK);
-        
+    }
+
+    /**
      * @param userId to find particular user
      * @return user is deleted or user id is not found.
      */
