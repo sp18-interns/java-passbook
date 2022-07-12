@@ -1,13 +1,27 @@
 package com.passbook.sparkeighteen.service;
 
+import com.passbook.sparkeighteen.peristence.POJO.PaginatedResponse;
+import com.passbook.sparkeighteen.peristence.POJO.TransactionFilter;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionRequest;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionResponse;
+import com.passbook.sparkeighteen.peristence.entity.TransactionEntity;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.TransactionRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
+import org.springframework.data.domain.*;
+import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
 
 /**
  * Transaction service helps to provide service to perform transactions
@@ -53,4 +67,50 @@ public class TransactionService {
         // TODO: Add getting the latest closing balance of the user
         return balance;
     }
+
+    public PaginatedResponse searchTransaction(Integer userID, TransactionFilter filter) {
+        TransactionEntity searchEntity = TransactionEntity.builder()
+                .note(filter.getNote())
+                .build();
+
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withNullHandler(ExampleMatcher.NullHandler.IGNORE)
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreCase()
+                .withIgnoreNullValues();
+
+        Example<TransactionEntity> example = Example.of(searchEntity, matcher);
+        Pageable page = PageRequest.of(0 , 100, Sort.by("time").ascending());
+        Page<TransactionEntity> response = transactionRepository
+                .findAll(getSpecFromDatesAndExample(filter, Example.of(searchEntity, matcher)), page);
+        return PaginatedResponse.builder()
+                .content(response.getContent())
+                .totalPages(response.getTotalPages())
+                .currentPage(0)
+                .pageSize(100)
+                .message("return list of transaction")
+                .totalElements(response.getTotalElements())
+                .build();
+
+    }
+
+    public Specification<TransactionEntity> getSpecFromDatesAndExample(TransactionFilter filter , Example<TransactionEntity> example) {
+
+        return (Specification<TransactionEntity>) (root, query, builder) -> {
+            final List<Predicate> predicates = new ArrayList<>();
+
+            if (filter.getTimeInterval()!= null && filter.getTimeInterval().getFrom() != null) {
+                predicates.add(builder.greaterThan(root.get("time"), filter.getTimeInterval().getFrom()));
+            }
+            if (filter.getTimeInterval()!= null && filter.getTimeInterval().getTo() != null) {
+                predicates.add(builder.lessThan(root.get("time"), filter.getTimeInterval().getTo()));
+            }
+            if (Objects.nonNull(filter.getAmount())) {
+                predicates.add(builder.greaterThan(root.get("amount"), filter.getAmount()));
+            }
+            predicates.add(QueryByExamplePredicateBuilder.getPredicate(root, builder, example));
+
+            return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+        }
+    };
 }
