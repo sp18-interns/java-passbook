@@ -109,8 +109,7 @@ public class TransactionService {
                 predicates.add(builder.greaterThan(root.get("amount"), filter.getAmount()));
             }
             predicates.add(QueryByExamplePredicateBuilder.getPredicate(root, builder, example));
-
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
-        }
-    };
+        };
+    }
 }

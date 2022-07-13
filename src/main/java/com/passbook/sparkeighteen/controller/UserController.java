@@ -41,13 +41,13 @@ public class UserController {
     }
 
     /**
-     * @param userId to find particular user
+     * @param userID to find particular user
      * @return user is deleted or user id is not found.
      */
     @ApiOperation("delete user profile")
     @DeleteMapping("/user/{userID}")
-    public ResponseEntity<String> deleteUser(@PathVariable final Integer userId) {
-        return new ResponseEntity<>(userService.deleteProfile(userId), HttpStatus.OK);
+    public ResponseEntity<String> deleteUser(@PathVariable final Integer userID) {
+        return new ResponseEntity<>(userService.deleteProfile(userID), HttpStatus.OK);
     }
 
 }

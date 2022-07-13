@@ -37,8 +37,8 @@ public class TransactionController {
         return new ResponseEntity<>(transactionService.transact(userID, request), HttpStatus.OK);
     }
 
-    @ApiOperation("User can transact")
-    @PostMapping("/{userID}/transaction")
+    @ApiOperation("User can search transaction")
+    @GetMapping("/searchTransactions")
     public ResponseEntity<PaginatedResponse> searchTransaction(@PathVariable Integer userID,
                                                                @RequestBody final @Valid TransactionFilter filter)
             throws Exception {
