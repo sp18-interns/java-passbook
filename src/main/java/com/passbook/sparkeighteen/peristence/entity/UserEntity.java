@@ -21,6 +21,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+/**
+ * user entity - All the fields in the transaction are listed in database.
+ */
 @Setter
 @Getter
 @Builder
@@ -43,10 +46,9 @@ public class UserEntity {
     private String lastname;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", length = 20)
+    @Column(name = "gender")
     private Gender gender;
 
-    @NotNull
     @Column(name = "dob")
     private LocalDate dob;
 

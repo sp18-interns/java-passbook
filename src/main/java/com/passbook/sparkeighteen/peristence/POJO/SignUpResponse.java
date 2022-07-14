@@ -5,6 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+ * When user successfully signUp then get response in response user get email and password.
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -12,7 +16,6 @@ import lombok.NoArgsConstructor;
 public class SignUpResponse {
 
     private Integer userID;
-
     private String message;
 
 }
