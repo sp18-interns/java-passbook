@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * @param <T>  Entity PaginatedResponse used to get response with these fields.
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

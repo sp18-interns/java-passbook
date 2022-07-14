@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * time interval class used by transaction filter, which will use to filter transaction based on time interval.
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

@@ -68,6 +68,11 @@ public class TransactionService {
         return balance;
     }
 
+    /**
+     * @param userID used to get paginated response of transactions which is relevant to given userID.
+     * @param filter which will used to filter the transactions based on given input fields which are amount, note, timeInterval.
+     * @return paginated response of transactions.
+     */
     public PaginatedResponse searchTransaction(Integer userID, TransactionFilter filter) {
         TransactionEntity searchEntity = TransactionEntity.builder()
                 .note(filter.getNote())
@@ -94,6 +99,11 @@ public class TransactionService {
 
     }
 
+    /**
+     * @param filter which will used to filter the transactions based on given input fields which are amount, note, timeInterval.
+     * @param example is object of TransactionEntity which is wrapped by Example.
+     * @return transaction entity which is wrapped by specification.
+     */
     public Specification<TransactionEntity> getSpecFromDatesAndExample(TransactionFilter filter , Example<TransactionEntity> example) {
 
         return (Specification<TransactionEntity>) (root, query, builder) -> {

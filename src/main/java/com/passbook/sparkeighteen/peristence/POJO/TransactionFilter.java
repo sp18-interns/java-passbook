@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * TransactionFilter class will use to filter the transactions based on the amount, note, timeInterval fields.
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

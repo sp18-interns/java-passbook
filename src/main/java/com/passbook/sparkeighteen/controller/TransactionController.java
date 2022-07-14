@@ -37,6 +37,12 @@ public class TransactionController {
         return new ResponseEntity<>(transactionService.transact(userID, request), HttpStatus.OK);
     }
 
+    /**
+     * @param userID used to get transaction of that particular userID.
+     * @param filter used to filtered transaction response
+     * @return return filtered response of transaction entity.
+     * @throws Exception the exception / error message
+     */
     @ApiOperation("User can search transaction")
     @GetMapping("/searchTransactions")
     public ResponseEntity<PaginatedResponse> searchTransaction(@PathVariable Integer userID,
