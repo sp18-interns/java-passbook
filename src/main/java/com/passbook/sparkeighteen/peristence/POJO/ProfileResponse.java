@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The type Profile response is for when user update their profile then get back response, in response we get this values and message.
+ * When user successfully update their profile then get back response, in response user get their full profile and successful message.
  */
 @Data
 @Builder

@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * The type User controller is responsible for processing incoming REST API request, preparing model and returning view to be rendered in response.
+ * The type User controller is responsible for taking all type of operation (like GET,POST,DELETE).
+ * Take request then send them to their service file then get back to user.
  */
 @RequestMapping("/api/v1")
 @RestController
 public class UserController {
 
+    /**
+     * userService have all business logic, controller send operation to service then service perform all operation and get back values.
+     */
     private final UserService userService;
 
     /**
@@ -32,9 +36,9 @@ public class UserController {
     }
 
     /**
-     * Sign up response entity.
-     *
-     * @param request the request for user details for signup and create profile.
+     * This API is for user SIgnUp.
+     * @Valid this annotation is use for validation.
+     * @param request the request for user details (email, password, first name, last name, DOB, gender) to signup and create profile.
      * @return the response entity returns success message and create user profile.
      */
     @ApiOperation("Sign-Up the user to passbook")
@@ -44,10 +48,9 @@ public class UserController {
     }
 
     /**
-     * Login response entity.
-     *
-     * @param request the request for user credentials(Email and password).
-     * @return the response entity returns login success message and user profile.
+     * This API is for user login.
+     * @param request  for user credentials(Email and password).
+     * @return the response entity returns login success message and user profile or error message.
      * @throws Exception the exception handle bad request or any type of wrong input/values.
      */
     @ApiOperation("login the user to passbook")
@@ -57,8 +60,7 @@ public class UserController {
     }
 
     /**
-     * Update profile response entity.
-     *
+     * This API is for user profile update.
      * @param userID  using userID we update userProfile.
      * @param request the request for user details to update their profile.
      * @return the response entity returns the updated profile.
@@ -71,6 +73,7 @@ public class UserController {
     }
 
     /**
+     *This API is for delete user.
      * @param userId to find particular user
      * @return user is deleted or user id is not found.
      */

@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 
 /**
- * The type User controller test.
+ * User controller test have all operation test case success and error.
  */
 @ExtendWith({MockitoExtension.class})
 public class UserControllerTest {
@@ -33,7 +33,7 @@ public class UserControllerTest {
     private UserController userController;
 
     /**
-     * Check whether the request is valid and having successfull response then the user signUp is successfull.
+     * when user set valid credential(email, password) then successful signUp.
      */
     @Test
     public void userSignUp_validUserDetail_signUpSuccessfull() throws Exception {
@@ -54,7 +54,7 @@ public class UserControllerTest {
     }
 
     /**
-     * check whether request is valid and having error response then the Signup is SignupunSuccessfull.
+     * when user set wrong credential(email, password) then unable to signUp.
      */
     @Test
     public void userSignUp_inValidUserDetail_signUpUnSuccessfull() throws Exception {
@@ -73,10 +73,9 @@ public class UserControllerTest {
     }
 
     /**
-     * when request is valid and having successfull response then the login is successfull.
+     * when user set right email and password then user login successful.
      */
     @Test
-//    public void validRequest_successfullResponse_LoginSuccessfull() throws Exception {
     public void userLogin_validUserDetail_loginSuccessfull() throws Exception {
 
         LoginRequest loginRequest = LoginRequest.builder()
@@ -95,7 +94,7 @@ public class UserControllerTest {
     }
 
     /**
-     * when request is valid and having error response then the login is unsuccessfull.
+     * when user set wrong email and password then user unable to login.
      */
     @Test
     public void userLogin_inValidUserDetail_loginUnSuccessfull() throws Exception {
@@ -116,7 +115,7 @@ public class UserControllerTest {
     }
 
     /**
-     * In this part we check the request is valid and getting successfull response then the Profile is Updated successfully.
+     * when user set right or valid credential(aadhar, PAN, Address, mobileNumber) then user update their profile.
      */
     @Test
     void userProfileUpdate_validUserDetail_userProfileUpdateSuccessfull() throws Exception {
@@ -131,7 +130,7 @@ public class UserControllerTest {
     }
 
     /**
-     * When request is getting null then it throws error.
+     * when user set wrong or invalid credential(aadhar, PAN, Address, mobileNumber) then user unable to update their profile.
      */
     @Test
     void userProfileUpdate_inValidUserDetail_userProfileupdateUnSuccessfull() throws Exception {

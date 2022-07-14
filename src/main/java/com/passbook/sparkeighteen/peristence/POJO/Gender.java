@@ -1,10 +1,19 @@
 package com.passbook.sparkeighteen.peristence.POJO;
 
 /**
- * The enum is create for taking some constant values.
+ * Genders that can be used.
  */
 public enum Gender {
+    /**
+     * Male gender.
+     */
     MALE,
+    /**
+     * Female gender.
+     */
     FEMALE,
-    TRANSGENDER;
+    /**
+     * Transgender gender.
+     */
+    TRANSGENDER
 }

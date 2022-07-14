@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 /**
- * The type Profile request is for get this values for update user profile.
+ * Profile request is for taking user credential(like mobileNumber, address, PAN, aadhar) to update userprofile.
  */
 @Data
 @Builder

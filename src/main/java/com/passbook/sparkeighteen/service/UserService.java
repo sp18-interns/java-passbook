@@ -18,7 +18,7 @@ import java.time.Period;
 import java.util.Optional;
 
 /**
- * The type User service is for all type of task like signUp, login and update profile.
+ * user service have all business logic, service get operations like ( signup, login, updateProfile, deleteProfile) from controller and perform it then give values return to controller.
  */
 @Service
 public class UserService {
@@ -26,8 +26,7 @@ public class UserService {
     private final ProfileRepository profileRepository;
 
     /**
-     * Instantiates a new User service.
-     *
+     * user service get operation from user controller and perform then return response.
      * @param userRepository    the user repository is communicate to database for any operation like signup and login.
      * @param profileRepository the profile repository is communicate to database for any operation for user profile update.
      */
@@ -37,8 +36,7 @@ public class UserService {
     }
 
     /**
-     * Login login response.
-     *
+     * Usr login get operation from userController then perform the operation then get values helps to loginRequest and get back response helps to loginResponse.
      * @param userLogin to get the credentials of the user from the repository.
      * @return the login response of the action performed.
      * @throws Exception the exception gives error for wrong input or bad request.
@@ -83,8 +81,7 @@ public class UserService {
     }
 
     /**
-     * Sign up response.
-     *
+     * Usr SigunUp get operation from userSignUpController then perform the operation then get values helps to signUpRequest and get back response helps to sigunUpResponse.
      * @param request is for get user credential to create profile.
      * @return the sign up response of the action performed.
      */
@@ -124,8 +121,7 @@ public class UserService {
     }
 
     /**
-     * Update profile profile response.
-     *
+     * Usr updateProfile get operation from updateProfileController then perform the operation then get values helps to profileRequest and get back response helps to profileResponse.
      * @param userID  the user id help us to update specific user.
      * @param request the request for user details to update there profile.
      * @return the profile response is user profile update successfully or userID is missing.

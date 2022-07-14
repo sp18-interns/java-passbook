@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 /**
- * The type Sign up request for this credential to create their profile.
+ * Sign up request is request for user credential to user signUp and create profile.
  */
 @Data
 @Builder

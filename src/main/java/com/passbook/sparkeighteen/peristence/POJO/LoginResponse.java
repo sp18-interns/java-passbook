@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The type Login response is for when user login successfully then get back a response where get message and others details.
+ * Login response is get back values(userProfile) in response when user successfully login.
  */
 @Data
 @Builder

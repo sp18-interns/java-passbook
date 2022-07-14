@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
- * The type User entity is help us to create table in database for user .
+ * user entity - All the fields in the transaction are listed in database.
  */
 @Setter
 @Getter

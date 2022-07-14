@@ -5,8 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 /**
- * The type Sign up response is for when user create their profile then get back to this data as response.
+ * When user successfully signUp then get response in response user get email and password.
  */
 @Data
 @Builder
