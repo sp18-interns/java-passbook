@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -110,7 +111,7 @@ public class TransactionServiceTest {
     }
 
     @Test
-    public void transact_Credit_TransactionUnSuccessfull() throws Exception {
+    public void transact_Credit_TransactionSuccessful() throws Exception {
 
         Integer userID = 1;
 
@@ -140,6 +141,75 @@ public class TransactionServiceTest {
                 .build();
 
         Mockito.when(userRepository.findById(userID)).thenReturn(Optional.ofNullable(user));
+        Mockito.when(transactionRepository.save(ArgumentMatchers.any())).thenReturn(transaction);
+
+        TransactionResponse response = transactionService.transact(userID, request);
+        assertEquals(String.format("Your A/C XXXXX has a %s by Rs %.2f on %s ", transaction.getTransactionType(), transaction.getAmount(), transaction.getTime()), response.getMessage());
+
+    }
+
+    @Test
+    public void transact_Debit_TransactionUnSuccessful() throws Exception {
+
+        Integer userID = 1;
+        Float balance = 0f;
+
+        TransactionRequest request = TransactionRequest.builder()
+                .amount(25f)
+                .note("Chocolate")
+                .name("Ketan")
+                .transactionType(TransactionType.DEBIT)
+                .build();
+
+        UserEntity user = UserEntity.builder()
+                .email("ketan@gmail.com")
+                .dob(LocalDate.of(2000, 2, 25))
+                .password("qwerty")
+                .gender(Gender.MALE)
+                .lastname("Shinde")
+                .firstname("ketan")
+                .build();
+
+        Mockito.when(userRepository.findById(userID)).thenReturn(Optional.ofNullable(user));
+        Mockito.when(transactionRepository.findByUser(user)).thenReturn(Optional.empty());
+
+        TransactionResponse response = transactionService.transact(userID, request);
+        assertEquals(String.format("Insufficient balance to withdraw. Current Balance: %.2f", balance), response.getMessage());
+    }
+
+    @Test
+    public void transact_Debit_TransactionSuccessful() throws Exception {
+
+        Integer userID = 1;
+
+        TransactionRequest request = TransactionRequest.builder()
+                .amount(25f)
+                .note("Coldrinks")
+                .name("Ketan")
+                .transactionType(TransactionType.DEBIT)
+                .build();
+
+        UserEntity user = UserEntity.builder()
+                .email("ketan@gmail.com")
+                .dob(LocalDate.of(2000, 2, 25))
+                .password("qwerty")
+                .gender(Gender.MALE)
+                .lastname("Shinde")
+                .firstname("ketan")
+                .build();
+
+        TransactionEntity transaction = TransactionEntity.builder()
+                .amount(request.getAmount())
+                .id(1)
+                .note(request.getNote())
+                .user(user)
+                .time(LocalDateTime.now())
+                .closingBalance(200f)
+                .transactionType(request.getTransactionType())
+                .build();
+
+        Mockito.when(userRepository.findById(userID)).thenReturn(Optional.ofNullable(user));
+        Mockito.when(transactionRepository.findByUser(user)).thenReturn(Optional.of(List.of(transaction)));
         Mockito.when(transactionRepository.save(ArgumentMatchers.any())).thenReturn(transaction);
 
         TransactionResponse response = transactionService.transact(userID, request);
