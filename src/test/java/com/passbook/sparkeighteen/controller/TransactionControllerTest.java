@@ -9,7 +9,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -26,7 +25,7 @@ public class TransactionControllerTest {
     private TransactionController transactionController;
 
     /**
-     * if transaction id is valid then transaction is successfully deleted
+     * if transaction id is valid then transaction is successfully deleted.
      */
     @Test
     public void deleteTransaction_validTransactionId_deleteTransactionSuccessful() throws Exception {

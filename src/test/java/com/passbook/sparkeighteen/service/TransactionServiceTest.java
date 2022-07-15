@@ -8,9 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -26,7 +24,7 @@ public class TransactionServiceTest {
     private TransactionService transactionService;
 
     /**
-     * If transaction id does exist then delete transaction is successful.
+     * If transaction id is right and exist then delete transaction is successful.
      */
     @Test
     public void deleteTransaction_transactionIdExist_deleteTransactionSuccessful() throws Exception {
