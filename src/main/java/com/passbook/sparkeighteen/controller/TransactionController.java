@@ -42,6 +42,13 @@ public class TransactionController {
         return new ResponseEntity<>(transactionService.transact(userID, request), HttpStatus.OK);
     }
 
+    /**
+     * Gets user transaction to return response entity of the transaction performed in transaction service
+     * @param userID   the user id used to show transaction of that particular user.
+     * @param pageSize the page size is give the size of the page.
+     * @param pageNo   you can provide the page no to view the next and previous transaction of that user.
+     * @return the user transaction list by Paginated.
+     */
     @ApiOperation("Get list of all the transaction")
     @GetMapping("/{userID}/transaction")
     public ResponseEntity<PaginatedResponse> getUserTransaction(@PathVariable Integer userID, @RequestParam(required = false, defaultValue = "10") String pageSize, @RequestParam(required = false, defaultValue = "0") String pageNo) {

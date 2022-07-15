@@ -64,6 +64,13 @@ public class TransactionService {
         return balance;
     }
 
+    /**
+     * Gets all the user transactions list by Paginated formatted.
+     * @param pageNo  you can provide the page no to view the next and previous transaction.
+     * @param pageSize the page size is give the size of the page (how many transaction you want to show you in one page).
+     * @param userID   the user id provide to show that particular user transaction list.
+     * @return the transaction list by given request.
+     */
     public PaginatedResponse getTransaction(String pageNo, String pageSize, @NotNull Integer userID) {
 
         final Optional<UserEntity> optionalUser = userRepository.findById(userID);
