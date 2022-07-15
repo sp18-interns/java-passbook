@@ -23,6 +23,9 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * The Transaction service test.
+ */
 @ExtendWith(MockitoExtension.class)
 public class TransactionServiceTest {
 
@@ -35,8 +38,12 @@ public class TransactionServiceTest {
     @InjectMocks
     private TransactionService transactionService;
 
+    /**
+     * If user ID does not exist then the transaction is unsuccessful.
+     * @throws Exception User not found. Please use a registered user
+     */
     @Test
-    public void InvalidPayload_userIdNotFound_transactUnsuccessfull() throws Exception {
+    public void transact_userIdNotFound_transactUnSuccessful() throws Exception {
 
         Integer userID = 1;
 
@@ -54,6 +61,9 @@ public class TransactionServiceTest {
 
     }
 
+    /**
+     * If user ID exist then the transaction is Successful.
+     */
     @Test
     public void transact_userIdExist_transactSuccessful() throws Exception {
         Integer userID = 1;
@@ -91,6 +101,10 @@ public class TransactionServiceTest {
 
     }
 
+    /**
+     * If Transact amount is less than 1 during credit then transaction is unsuccessful.
+     * @throws Exception Invalid Transaction amount
+     */
     @Test
     public void transact_amountLessThanOne_txnTypeCredit_transactUnsuccessful() throws Exception {
         Integer userID = 1;
@@ -102,14 +116,13 @@ public class TransactionServiceTest {
                 .transactionType(TransactionType.CREDIT)
                 .build();
 
-        TransactionEntity txn = TransactionEntity.builder()
-                .amount(request.getAmount())
-                .build();
-
         TransactionResponse response = transactionService.transact(userID, request);
         assertEquals("Invalid Transaction amount", response.getMessage());
     }
 
+    /**
+     * If the request is valid as well as the response, with transaction type credit then the transaction is successful.
+     */
     @Test
     public void transact_Credit_TransactionSuccessful() throws Exception {
 
@@ -148,6 +161,10 @@ public class TransactionServiceTest {
 
     }
 
+    /**
+     * If the current balance is less than the amount to be debited then the transaction is unsuccessful
+     * @throws Exception Insufficient balance to withdraw.
+     */
     @Test
     public void transact_Debit_TransactionUnSuccessful() throws Exception {
 
@@ -177,6 +194,9 @@ public class TransactionServiceTest {
         assertEquals(String.format("Insufficient balance to withdraw. Current Balance: %.2f", balance), response.getMessage());
     }
 
+    /**
+     * If the request is valid as well as response, with type debit then the transaction is successful.
+     */
     @Test
     public void transact_Debit_TransactionSuccessful() throws Exception {
 

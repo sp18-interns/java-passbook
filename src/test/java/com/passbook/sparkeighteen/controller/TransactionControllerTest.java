@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Transaction controller test.
+ */
 @ExtendWith({MockitoExtension.class})
 public class TransactionControllerTest {
     @Mock
@@ -23,8 +26,11 @@ public class TransactionControllerTest {
     @InjectMocks
     private TransactionController transactionController;
 
+    /**
+     * If the request is valid and response is successful then the amount is credited (deposited) successfully
+     */
     @Test
-    public void validRequest_successfulResponse_CreditTransactionSuccessfull() throws Exception {
+    public void validRequest_successfulResponse_CreditTransactionSuccessful() throws Exception {
 
         Integer txnID = 1;
 
@@ -48,8 +54,11 @@ public class TransactionControllerTest {
 
     }
 
+    /**
+     * If the request is Invalid and getting an error response then the credit (deposit) transaction is unsuccessful.
+     */
     @Test
-    public void InvalidRequest_errorResponse_CreditTransactionUnSuccessfull() throws Exception {
+    public void InvalidRequest_errorResponse_CreditTransactionUnSuccessful() throws Exception {
 
         Integer txnID = 1;
 
@@ -71,8 +80,11 @@ public class TransactionControllerTest {
 
     }
 
+    /**
+     * If the request is valid and getting successful response then debit (withdraw) transaction is successful.
+     */
     @Test
-    public void validRequest_successfulResponse_DebitTransactionSuccessfull() throws Exception {
+    public void validRequest_successfulResponse_DebitTransactionSuccessful() throws Exception {
 
         Integer txnID = 1;
 
@@ -96,8 +108,11 @@ public class TransactionControllerTest {
 
     }
 
+    /**
+     * If the request is Invalid and having error response then the debit (withdraw) transaction is unsuccessful.
+     */
     @Test
-    public void InvalidRequest_errorResponse_DebitTransactionUnSuccessfull() throws Exception {
+    public void InvalidRequest_errorResponse_DebitTransactionUnSuccessful() throws Exception {
 
         Integer txnID = 1;
 
