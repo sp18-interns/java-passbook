@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * When user successfully update their profile then get back response, in response user get their full profile and successful message.
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -20,4 +23,5 @@ public class ProfileResponse {
     private String pan;
     private String aadhar;
     private Gender gender;
+    private String address;
 }
