@@ -2,6 +2,8 @@ package com.passbook.sparkeighteen.controller;
 
 import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
 import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.service.UserService;
@@ -18,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
 
+/**
+ * User controller test have all operation test case success and error.
+ */
 @ExtendWith({MockitoExtension.class})
 public class UserControllerTest {
 
@@ -27,8 +32,11 @@ public class UserControllerTest {
     @InjectMocks
     private UserController userController;
 
+    /**
+     * when user set valid credential(email, password) then successful signUp.
+     */
     @Test
-    public void validRequest_successfulResponse_SignupSuccessfull() throws Exception {
+    public void userSignUp_validUserDetail_signUpSuccessfull() throws Exception {
 
         SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("test@gmail.com")
@@ -45,8 +53,11 @@ public class UserControllerTest {
 
     }
 
+    /**
+     * when user set wrong credential(email, password) then unable to signUp.
+     */
     @Test
-    public void validRequest_errorResponse_SignupSuccessful() throws Exception {
+    public void userSignUp_inValidUserDetail_signUpUnSuccessfull() throws Exception {
 
         SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("test@gmail.com")
@@ -61,8 +72,11 @@ public class UserControllerTest {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 
+    /**
+     * when user set right email and password then user login successful.
+     */
     @Test
-    public void validRequest_successfulResponse_LoginSuccessfull() throws Exception {
+    public void userLogin_validUserDetail_loginSuccessfull() throws Exception {
 
         LoginRequest loginRequest = LoginRequest.builder()
                 .email("test@gmail.com")
@@ -79,8 +93,11 @@ public class UserControllerTest {
 
     }
 
+    /**
+     * when user set wrong email and password then user unable to login.
+     */
     @Test
-    public void validRequest_errorResponse_LoginSuccessfull() throws Exception {
+    public void userLogin_inValidUserDetail_loginUnSuccessfull() throws Exception {
 
         LoginRequest loginRequest = LoginRequest.builder()
                 .email("test@gmail.com")
@@ -95,6 +112,36 @@ public class UserControllerTest {
         ResponseEntity<LoginResponse> response = userController.login(loginRequest);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
 
+    }
+
+    /**
+     * when user set right or valid credential(aadhar, PAN, Address, mobileNumber) then user update their profile.
+     */
+    @Test
+    void userProfileUpdate_validUserDetail_userProfileUpdateSuccessfull() throws Exception {
+        ProfileRequest profileRequest = ProfileRequest.builder()
+                .aadhar("123456554445")
+                .pan("asdfghjdf")
+                .address("koparkhairne")
+                .mobileNumber("9022068607")
+                .build();
+        ResponseEntity<ProfileResponse> response = userController.updateProfile(1,profileRequest);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+    }
+
+    /**
+     * when user set wrong or invalid credential(aadhar, PAN, Address, mobileNumber) then user unable to update their profile.
+     */
+    @Test
+    void userProfileUpdate_inValidUserDetail_userProfileupdateUnSuccessfull() throws Exception {
+        ProfileRequest profileRequest = ProfileRequest.builder()
+                .aadhar("123456554445")
+                .pan("asdfghjdf")
+                .address("koparkhairne")
+                .mobileNumber("9022068607")
+                .build();
+        ResponseEntity<ProfileResponse> response = userController.updateProfile(null,profileRequest);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 
     /**

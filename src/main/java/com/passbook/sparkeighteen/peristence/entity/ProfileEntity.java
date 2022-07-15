@@ -17,8 +17,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
+/**
+ * The type Profile entity is help us to create table in database for user.
+ */
 @Setter
 @Getter
 @Builder
@@ -48,12 +50,10 @@ public class ProfileEntity {
     @Column(name = "address")
     private String address;
 
-    @Size(min = 10, max = 10)
-    @Column(name = "pan", length = 10)
+    @Column(name = "pan")
     private String pan;
 
-    @Size(min = 12, max = 12)
-    @Column(name = "aadhar", length = 12)
+    @Column(name = "aadhar")
     private String aadhar;
 
 }
