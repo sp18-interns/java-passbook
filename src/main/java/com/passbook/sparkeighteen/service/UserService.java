@@ -10,21 +10,34 @@ import com.passbook.sparkeighteen.peristence.repository.ProfileRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Optional;
 
+/**
+ * user service have all business logic, service get operations like ( signup, login, updateProfile, deleteProfile) from controller and perform it then give values return to controller.
+ */
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final ProfileRepository profileRepository;
 
+    /**
+     * user service get operation from user controller and perform then return response.
+     * @param userRepository    the user repository is communicate to database for any operation like signup and login.
+     * @param profileRepository the profile repository is communicate to database for any operation for user profile update.
+     */
     public UserService(final UserRepository userRepository, final ProfileRepository profileRepository) {
         this.userRepository = userRepository;
         this.profileRepository = profileRepository;
     }
 
+    /**
+     * User login get operation from userController then perform the operation then get values helps to loginRequest and get back response helps to loginResponse.
+     * @param userLogin to get the credentials of the user from the repository.
+     * @return the login response of the action performed.
+     * @throws Exception the exception gives error for wrong input or bad request.
+     */
     public LoginResponse login(final LoginRequest userLogin) throws Exception {
         Optional<UserEntity> optionalUser = userRepository
                 .findByEmail(userLogin.getEmail());
@@ -63,6 +76,11 @@ public class UserService {
                 .build();
     }
 
+    /**
+     * Usr SigunUp get operation from userSignUpController then perform the operation then get values helps to signUpRequest and get back response helps to sigunUpResponse.
+     * @param request is for get user credential to create profile.
+     * @return the sign up response of the action performed.
+     */
     public SignUpResponse signUp(@NonNull final SignUpRequest request) {
         final Optional<UserEntity> user =
                 userRepository.findByEmail(request.getEmail());
@@ -99,8 +117,8 @@ public class UserService {
     }
 
     /**
-     * @param userID
-     * to delete that specific user profile.
+     * Delete profile string.
+     * @param userID to delete that specific user profile.
      * @return user deleted or user id is not found.
      */
     public String deleteProfile(Integer userID) {
