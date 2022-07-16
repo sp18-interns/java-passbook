@@ -65,11 +65,10 @@ public class TransactionService {
     }
 
     /**
-     * Gets all the user transactions list by Paginated formatted.
-     * @param pageNo  you can provide the page no to view the next and previous transaction.
-     * @param pageSize the page size is give the size of the page (how many transaction you want to show you in one page).
-     * @param userID   the user id provide to show that particular user transaction list.
-     * @return the transaction list by given request.
+     * User gets all transaction list in paginated format.
+     * @param userID is used to show all user performing transaction of that particular user.
+     * @param pageSize is basically used to give the size of the page. user can set a page size to show how many transaction want to show you on a page.
+     * @return the user transaction list by Paginated.
      */
     public PaginatedResponse getTransaction(String pageNo, String pageSize, @NotNull Integer userID) {
 

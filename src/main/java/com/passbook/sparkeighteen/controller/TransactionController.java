@@ -43,10 +43,10 @@ public class TransactionController {
     }
 
     /**
-     * Gets user transaction to return response entity of the transaction performed in transaction service
-     * @param userID   the user id used to show transaction of that particular user.
-     * @param pageSize the page size is give the size of the page.
-     * @param pageNo   you can provide the page no to view the next and previous transaction of that user.
+     * Gets user transaction paginated list to return response entity of the transaction performed in transaction service
+     * @param userID is used to show all user performing transaction of that particular user.
+     * @param pageSize is basically used to give the size of the page.
+     * @param pageNo you can provide the page number to view the next and previous transaction list of that user.
      * @return the user transaction list by Paginated.
      */
     @ApiOperation("Get list of all the transaction")
