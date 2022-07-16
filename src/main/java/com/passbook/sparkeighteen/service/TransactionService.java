@@ -23,7 +23,7 @@ public class TransactionService {
     /**
      * Instantiates a new Transaction service.
      * @param transactionRepository the transaction repository
-     * @param userRepository        the user repository
+     * @param userRepository the user repository
      */
     public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
         this.transactionRepository = transactionRepository;

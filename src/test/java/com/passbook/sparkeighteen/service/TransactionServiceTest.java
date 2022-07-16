@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**
- * The type Transaction service test.
+ * The Transaction service test.
  */
 @ExtendWith(MockitoExtension.class)
 public class TransactionServiceTest {
@@ -45,7 +45,7 @@ public class TransactionServiceTest {
     }
 
     /**
-     * If transaction id does not exist the delete transaction is unsuccessful.
+     * If transaction id does not exist then delete transaction is unsuccessful.
      * @throws Exception of entered transaction id does not exist.
      */
     @Test

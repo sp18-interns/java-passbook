@@ -25,7 +25,6 @@ public class TransactionController {
 
     /**
      * Instantiates a new Transaction controller.
-     *
      * @param transactionService the transaction service
      */
     public TransactionController(TransactionService transactionService) {
