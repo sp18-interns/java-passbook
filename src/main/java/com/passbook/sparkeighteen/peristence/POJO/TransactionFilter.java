@@ -1,6 +1,5 @@
 package com.passbook.sparkeighteen.peristence.POJO;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

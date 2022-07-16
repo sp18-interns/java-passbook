@@ -8,20 +8,20 @@ import com.passbook.sparkeighteen.peristence.entity.TransactionEntity;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.TransactionRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.criteria.Predicate;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
 
 /**
  * Transaction service helps to provide service to perform transactions
