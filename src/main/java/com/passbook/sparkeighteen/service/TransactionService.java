@@ -82,7 +82,7 @@ public class TransactionService {
                 PageRequest.of(
                         Integer.parseInt(pageNo),
                         Integer.parseInt(pageSize),
-                        Sort.by("time").ascending());
+                        Sort.by("time").descending());
         Page<TransactionEntity> transactions =
                 transactionRepository.findByUser(paging, optionalUser.get());
 
