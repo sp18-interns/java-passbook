@@ -11,6 +11,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
+/**
+ * Sign up request is request for user credential to user signUp and create profile.
+ */
 @Data
 @Builder
 @AllArgsConstructor
