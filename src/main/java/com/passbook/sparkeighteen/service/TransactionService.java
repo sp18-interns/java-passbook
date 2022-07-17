@@ -28,6 +28,7 @@ public class TransactionService {
 
     /**
      * Create method to do the actual transaction contaning the business logic to add deposit and withdraw and return response according
+     *
      * @param userID  to make transaction for specific user.
      * @param request all fields required in transaction
      * @return the transaction response. (CREDIT OR DEBIT)
@@ -47,6 +48,7 @@ public class TransactionService {
     /**
      * This method(getZeroOrLastBalance) is to get balance as zero if its user first transaction or the closing balance of the latest transaction.
      * first assign the balance 0.
+     *
      * @param user to get the balance of that specific user.
      * @return updated balance after transaction done.
      */
@@ -55,13 +57,6 @@ public class TransactionService {
         // TODO: Add getting the latest closing balance of the user
         return balance;
     }
-
-    /**
-     * This updateTransaction method is used to update the existing transaction in the repository.
-     * @param transactionID is to specify which transaction the user wants to update.
-     * @param request is for transaction details to update their transaction.
-     * @return the transaction response whether transaction is updated or is empty.
-     */
 
     public TransactionResponse updateTransaction(Integer transactionID, @Valid TransactionRequest request) {
         Optional<TransactionEntity> Transaction = transactionRepository.findById(transactionID);
