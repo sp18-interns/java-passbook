@@ -2,16 +2,18 @@ package com.passbook.sparkeighteen.controller;
 
 import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
 import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
-import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
-import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 /**
@@ -21,7 +23,6 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1")
 @RestController
 public class UserController {
-
     /**
      * userService have all business logic, controller send operation to service then service perform all operation and get back values.
      */
@@ -43,7 +44,7 @@ public class UserController {
      */
     @ApiOperation("Sign-Up the user to passbook")
     @PostMapping("/sign-up")
-    public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody final SignUpRequest request) {
+    public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid final SignUpRequest request) {
         return new ResponseEntity<>(userService.signUp(request), HttpStatus.OK);
     }
 
@@ -60,27 +61,14 @@ public class UserController {
     }
 
     /**
-     * This API is for user profile update.
-     * @param userID  using userID we update userProfile.
-     * @param request the request for user details to update their profile.
-     * @return the response entity returns the updated profile.
-     * @throws Exception the exception handle bad request or any type of wrong input/values.
-     */
-    @ApiOperation("Update user profile")
-    @PutMapping("/user/{userID}/profile")
-    public ResponseEntity<ProfileResponse> updateProfile(@PathVariable Integer userID, @Valid @RequestBody final ProfileRequest request) throws Exception {
-        return new ResponseEntity<>(userService.updateProfile(userID, request), HttpStatus.OK);
-    }
-
-    /**
-     *This API is for delete user.
-     * @param userId to find particular user
+     * Delete user response entity.
+     * @param userID to find particular user
      * @return user is deleted or user id is not found.
      */
     @ApiOperation("delete user profile")
     @DeleteMapping("/user/{userID}")
-    public ResponseEntity<String> deleteUser(@PathVariable final Integer userId) {
-        return new ResponseEntity<>(userService.deleteProfile(userId), HttpStatus.OK);
+    public ResponseEntity<String> deleteUser(@PathVariable final Integer userID) {
+        return new ResponseEntity<>(userService.deleteProfile(userID), HttpStatus.OK);
     }
 
 }

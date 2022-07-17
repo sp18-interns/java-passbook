@@ -2,8 +2,6 @@ package com.passbook.sparkeighteen.service;
 
 import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
 import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
-import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
-import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.peristence.entity.ProfileEntity;
@@ -12,7 +10,6 @@ import com.passbook.sparkeighteen.peristence.repository.ProfileRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Optional;
@@ -36,7 +33,7 @@ public class UserService {
     }
 
     /**
-     * Usr login get operation from userController then perform the operation then get values helps to loginRequest and get back response helps to loginResponse.
+     * User login get operation from userController then perform the operation then get values helps to loginRequest and get back response helps to loginResponse.
      * @param userLogin to get the credentials of the user from the repository.
      * @return the login response of the action performed.
      * @throws Exception the exception gives error for wrong input or bad request.
@@ -70,7 +67,6 @@ public class UserService {
 
         return LoginResponse.builder()
                 .userID(user.getId())
-                .firstname(user.getFirstname())
                 .lastname(user.getLastname())
                 .age(calculateAge(user.getDob()))
                 .aadhar(profile.getAadhar())
@@ -121,58 +117,15 @@ public class UserService {
     }
 
     /**
-     * Usr updateProfile get operation from updateProfileController then perform the operation then get values helps to profileRequest and get back response helps to profileResponse.
-     * @param userID  the user id help us to update specific user.
-     * @param request the request for user details to update there profile.
-     * @return the profile response is user profile update successfully or userID is missing.
-     */
-    public ProfileResponse updateProfile(Integer userID, ProfileRequest request) {
-        Optional<UserEntity> optionalUser = userRepository.findById(userID);
-        if (optionalUser.isEmpty()) {
-            return ProfileResponse.builder()
-                    .message("User ID is missing. Retry with registered user")
-                    .userID(userID)
-                    .build();
-        }
-
-        final UserEntity user = optionalUser.get();
-        Optional<ProfileEntity> optionalProfile = profileRepository.findByUser(user);
-        if (optionalProfile.isEmpty()) {
-            return ProfileResponse.builder()
-                    .message(String.format("Profile for user %s with UserID: %d is missing", user.getFirstname(), user.getId()))
-                    .build();
-        }
-
-        ProfileEntity profile = optionalProfile.get();
-        profile.setAadhar(request.getAadhar() != null ? request.getAadhar() : profile.getAadhar());
-        profile.setPan(request.getPan() != null ? request.getPan() : profile.getPan());
-        profile.setMobileNumber(request.getMobileNumber() != null ? request.getMobileNumber() : profile.getMobileNumber());
-        profile.setAddress(request.getAddress() != null ? request.getAddress() : profile.getAddress());
-        profileRepository.save(profile);
-
-        return ProfileResponse.builder()
-                .userID(profile.getUser().getId())
-                .firstname(user.getFirstname())
-                .lastname(user.getLastname())
-                .age(profile.getAge())
-                .gender(profile.getUser().getGender())
-                .mobileNumber(profile.getMobileNumber())
-                .aadhar(profile.getAadhar())
-                .pan(profile.getPan())
-                .address(profile.getAddress())
-                .message("Profile Updated Successfully")
-                .build();
-    }
-
-    /**
-     * @param userId to delete that specific user profile.
+     * Delete profile string.
+     * @param userID to delete that specific user profile.
      * @return user deleted or user id is not found.
      */
-    public String deleteProfile(Integer userId) {
-        final Optional<UserEntity> userEntity = userRepository.findById(userId);
+    public String deleteProfile(Integer userID) {
+        final Optional<UserEntity> userEntity = userRepository.findById(userID);
         if (userEntity.isPresent()) {
-            userRepository.deleteById(userId);
-            return "user deleted " + userId;
+            userRepository.deleteById(userID);
+            return "user deleted " + userID;
         }
         return "user id is not found";
     }

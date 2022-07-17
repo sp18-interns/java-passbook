@@ -1,19 +1,30 @@
 package com.passbook.sparkeighteen.service;
 
+import com.passbook.sparkeighteen.peristence.POJO.PaginatedResponse;
+import com.passbook.sparkeighteen.peristence.POJO.TransactionFilter;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionRequest;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionResponse;
 import com.passbook.sparkeighteen.peristence.entity.TransactionEntity;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.TransactionRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Transaction service helps to provide service to perform transactions.
+ * Transaction service helps to provide service to perform transactions
  */
 @Service
 public class TransactionService {
@@ -22,18 +33,13 @@ public class TransactionService {
 
     private final UserRepository userRepository;
 
-    /**
-     * Instantiates a new Transaction service.
-     * @param transactionRepository the transaction repository
-     * @param userRepository the user repository
-     */
     public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
     }
 
     /**
-     * Create method to do the actual transaction containing the business logic to add deposit and withdraw and return response according.
+     * Create method to do the actual transaction contaning the business logic to add deposit and withdraw and return response according
      * @param userID  to make transaction for specific user.
      * @param request all fields required in transaction
      * @return the transaction response. (CREDIT OR DEBIT)
@@ -41,62 +47,13 @@ public class TransactionService {
      */
     public TransactionResponse transact(Integer userID, TransactionRequest request) throws Exception {
 
-        if (request.getAmount() <= 0)
-            return TransactionResponse.builder()
-                    .message("Invalid Transaction amount")
-                    .build();
-
         Optional<UserEntity> optionalUser = userRepository.findById(userID);
         if (optionalUser.isEmpty())
-            return TransactionResponse.builder()
-                    .message("User not found. Please use a registered user")
-                    .build();
+            return TransactionResponse.builder().message("User not found. Please use a registered user").build();
 
-        UserEntity user = optionalUser.get();
+        // TODO: Add deposit/withdraw logic and change below return accordingly
 
-        TransactionEntity transaction;
-        switch (request.getTransactionType()) {
-            case CREDIT:
-                transaction = transactionRepository.save(TransactionEntity.builder()
-                        .amount(request.getAmount())
-                        .note(request.getNote())
-                        .user(user)
-                        .closingBalance(request.getAmount() + getUpdatedBalance(user))
-                        .time(LocalDateTime.now())
-                        .transactionType(request.getTransactionType())
-                        .build());
-                break;
-            case DEBIT:
-                if (getUpdatedBalance(user) < request.getAmount()) {
-                    return TransactionResponse.builder()
-                            .message(String.format("Insufficient balance to withdraw. Current Balance: %.2f", getUpdatedBalance(user)))
-                            .build();
-                }
-
-                transaction = transactionRepository.save(TransactionEntity.builder()
-                        .amount(request.getAmount())
-                        .user(user)
-                        .note(request.getNote())
-                        .closingBalance(getUpdatedBalance(user) - request.getAmount())
-                        .time(LocalDateTime.now())
-                        .transactionType(request.getTransactionType())
-                        .build());
-                break;
-            default:
-                return TransactionResponse.builder()
-                        .message(String.format("Unhandled transaction type %s", request.getTransactionType()))
-                        .build();
-        }
-
-        return TransactionResponse.builder()
-                .txnID(transaction.getId())
-                .amount(transaction.getAmount())
-                .note(transaction.getNote())
-                .time(transaction.getTime())
-                .closingBalance(transaction.getClosingBalance())
-                .transactionType(transaction.getTransactionType())
-                .message(String.format("Your A/C XXXXX has a %s by Rs %.2f on %s ", transaction.getTransactionType(), transaction.getAmount(), transaction.getTime()))
-                .build();
+        return TransactionResponse.builder().build();
     }
 
     /**
@@ -107,25 +64,62 @@ public class TransactionService {
      */
     private Float getUpdatedBalance(UserEntity user) {
         Float balance = 0f;
-        Optional<List<TransactionEntity>> optionalTxns = transactionRepository.findByUser(user);
-        if (optionalTxns.isPresent()) {
-            List<TransactionEntity> txns = optionalTxns.get();
-            if (txns.size() > 0) balance = txns.get(txns.size() - 1).getClosingBalance();
-        }
+        // TODO: Add getting the latest closing balance of the user
         return balance;
     }
 
     /**
-     * Delete a specific transaction.
-     * @param transactionID To delete specific transaction.
-     * @return whether the transaction is deleted successfully or not.
+     * @param userID used to get paginated response of transactions which is relevant to given userID.
+     * @param filter which will used to filter the transactions based on given input fields which are amount, note, timeInterval.
+     * @return paginated response of transactions.
      */
-    public String deleteTransaction(Integer transactionID) {
-        Optional<TransactionEntity> Transaction = transactionRepository.findById(transactionID);
-        if (Transaction.isPresent()) {
-            transactionRepository.deleteById(transactionID);
-            return "Your TransactionID " + transactionID + " delete successfully.";
-        }
-        return "Entered Transaction ID does not Exists";
+    public PaginatedResponse searchTransaction(Integer userID, TransactionFilter filter) {
+        TransactionEntity searchEntity = TransactionEntity.builder()
+                .note(filter.getNote())
+                .build();
+
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withNullHandler(ExampleMatcher.NullHandler.IGNORE)
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreCase()
+                .withIgnoreNullValues();
+
+        Example<TransactionEntity> example = Example.of(searchEntity, matcher);
+        Pageable page = PageRequest.of(0 , 100, Sort.by("time").ascending());
+        Page<TransactionEntity> response = transactionRepository
+                .findAll(getSpecFromDatesAndExample(filter, Example.of(searchEntity, matcher)), page);
+        return PaginatedResponse.builder()
+                .content(response.getContent())
+                .totalPages(response.getTotalPages())
+                .currentPage(0)
+                .pageSize(100)
+                .message("return list of transaction")
+                .totalElements(response.getTotalElements())
+                .build();
+
+    }
+
+    /**
+     * @param filter which will used to filter the transactions based on given input fields which are amount, note, timeInterval.
+     * @param example is object of TransactionEntity which is wrapped by Example.
+     * @return transaction entity which is wrapped by specification.
+     */
+    public Specification<TransactionEntity> getSpecFromDatesAndExample(TransactionFilter filter , Example<TransactionEntity> example) {
+
+        return (Specification<TransactionEntity>) (root, query, builder) -> {
+            final List<Predicate> predicates = new ArrayList<>();
+
+            if (filter.getTimeInterval()!= null && filter.getTimeInterval().getFrom() != null) {
+                predicates.add(builder.greaterThan(root.get("time"), filter.getTimeInterval().getFrom()));
+            }
+            if (filter.getTimeInterval()!= null && filter.getTimeInterval().getTo() != null) {
+                predicates.add(builder.lessThan(root.get("time"), filter.getTimeInterval().getTo()));
+            }
+            if (Objects.nonNull(filter.getAmount())) {
+                predicates.add(builder.greaterThan(root.get("amount"), filter.getAmount()));
+            }
+            predicates.add(QueryByExamplePredicateBuilder.getPredicate(root, builder, example));
+            return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+        };
     }
 }
