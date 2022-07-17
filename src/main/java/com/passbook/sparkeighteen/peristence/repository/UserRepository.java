@@ -4,6 +4,7 @@ import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 /**
@@ -18,4 +19,6 @@ public interface UserRepository  extends JpaRepository<UserEntity, Integer> {
      * @return the optional return the user or null.
      */
     Optional<UserEntity> findByEmail(String email);
+
+//    Optional<UserEntity> findById(Integer userID);
 }
