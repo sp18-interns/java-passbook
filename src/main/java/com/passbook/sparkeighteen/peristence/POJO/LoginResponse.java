@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Login response is get back values(userProfile) in response when user successfully login.
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -21,6 +24,6 @@ public class LoginResponse {
     private String pan;
     private String aadhar;
     private Gender gender;
-
+    private String address;
 
 }

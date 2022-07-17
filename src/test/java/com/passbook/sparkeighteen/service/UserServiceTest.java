@@ -3,6 +3,8 @@ package com.passbook.sparkeighteen.service;
 import com.passbook.sparkeighteen.peristence.POJO.Gender;
 import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
 import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
+import com.passbook.sparkeighteen.peristence.POJO.ProfileResponse;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpRequest;
 import com.passbook.sparkeighteen.peristence.POJO.SignUpResponse;
 import com.passbook.sparkeighteen.peristence.entity.ProfileEntity;
@@ -24,6 +26,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+/**
+ * The type User service test.
+ */
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
@@ -36,8 +41,11 @@ public class UserServiceTest {
     @InjectMocks
     private UserService userService;
 
+    /**
+     * Check whether the request is valid and having successfull response then the user signUp is successfull.
+     */
     @Test
-    public void validPayload_successResponse_signUpSuccessful() throws Exception {
+    public void userSignUp_successResponse_signUpSuccessfull() throws Exception {
         SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("ketan@gmail.com")
                 .dob(LocalDate.of(2000, 10, 6))
@@ -69,8 +77,11 @@ public class UserServiceTest {
 
     }
 
+    /**
+     * check whether request is valid and having error response then the Signup is SignupunSuccessful
+     */
     @Test
-    public void validPayload_errorResponse_signUpUnSuccessful() throws Exception {
+    public void userSignUp_errorResponse_signUpUnSuccessfull() throws Exception {
         SignUpRequest signUpRequest = SignUpRequest.builder()
                 .email("ketan@gmail.com")
                 .dob(LocalDate.of(2000, 10, 6))
@@ -96,8 +107,11 @@ public class UserServiceTest {
 
     }
 
+    /**
+     * when request is valid and having successful response then the login is successfull.
+     */
     @Test
-    public void validPayload_successResponse_loginSuccessful() throws Exception {
+    public void userLogin_successResponse_loginSuccessfull() throws Exception {
         LoginRequest request = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("password")
@@ -125,8 +139,11 @@ public class UserServiceTest {
 
     }
 
+    /**
+     * when request is valid and having error response then the login is unsuccessfull.
+     */
     @Test
-    public void validPayload_userNotExists_loginUnSuccessful() throws Exception {
+    public void userLogin_userNotExists_loginUnSuccessfull() throws Exception {
         LoginRequest request = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("password")
@@ -139,8 +156,11 @@ public class UserServiceTest {
 
     }
 
+    /**
+     * when request is valid and having error response then the login is unsuccessfull.
+     */
     @Test
-    public void inValidPayload_passwordMismatch_loginUnSuccessful() throws Exception {
+    public void userLogin_passwordMismatch_loginUnSuccessfull() throws Exception {
         LoginRequest request = LoginRequest.builder()
                 .email("ketan@gmail.com")
                 .password("something")
@@ -163,6 +183,22 @@ public class UserServiceTest {
     }
 
     /**
+     * When request is getting null then it throws error.
+     */
+    @Test
+    void userProfileUpdtae_errorResponse_userProfileUpdateUnSuccessfull() throws Exception {
+        ProfileRequest request = ProfileRequest.builder()
+                .aadhar("123456554445")
+                .pan("asdfghjdf")
+                .address("koparkhairne")
+                .mobileNumber("9022068607")
+                .build();
+
+        ProfileResponse response = userService.updateProfile(1, request);
+        assertEquals("User ID is missing. Retry with registered user", response.getMessage());
+    }
+
+    /**
      * @throws Exception user id is not found.
      */
     @Test
@@ -174,6 +210,39 @@ public class UserServiceTest {
         String response = userService.deleteProfile(userID);
         assertEquals("user id is not found", response);
 
+    }
+
+    /**
+     * In this part we check the request is valid and getting successfull response then the Profile is Updated successfully.
+     */
+    @Test
+    void userProfileUpdate_successResponse_userProfileUpdateSuccessfull() throws Exception {
+        ProfileRequest request = ProfileRequest.builder()
+                .aadhar("23456789875")
+                .pan("567456765")
+                .address("Vashi")
+                .mobileNumber("9922567842")
+                .build();
+
+        UserEntity ketan = UserEntity.builder()
+                .id(1)
+                .email("ketan@gmail.com")
+                .dob(LocalDate.of(2000, 10, 6))
+                .password("password")
+                .gender(Gender.MALE)
+                .lastname("Shinde")
+                .firstname("Ketan")
+                .build();
+
+        ProfileEntity ketansProfile = ProfileEntity.builder()
+                .user(ketan)
+                .age(Period.between(ketan.getDob(), LocalDate.now()).getYears())
+                .build();
+
+        Mockito.when(userRepository.findById(1)).thenReturn(Optional.of(ketan));
+        Mockito.when(profileRepository.findByUser(ketan)).thenReturn(Optional.ofNullable(ketansProfile));
+        ProfileResponse profileResponse = userService.updateProfile(1, request);
+        assertEquals("Profile Updated Successfully", profileResponse.getMessage());
     }
 
     /**

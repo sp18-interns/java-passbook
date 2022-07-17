@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.NegativeOrZero;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -20,7 +18,6 @@ import javax.validation.constraints.NotNull;
 public class TransactionRequest {
 
     @NotNull(message = "Transaction amount cannot be null")
-    @NegativeOrZero(message = "Transaction amount cannot be zero or negative")
     private Float amount;
 
     private String name;
