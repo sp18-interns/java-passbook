@@ -96,7 +96,7 @@ public class TransactionService {
                         .map(this::toTransactionResponse)
                         .collect(Collectors.toList());
         return PaginatedResponse.builder()
-                .content(Collections.singletonList(response))
+                .content(response)
                 .totalPages(transactions.getTotalPages())
                 .currentPage(Integer.parseInt(pageNo))
                 .pageSize(Integer.parseInt(pageSize))
