@@ -101,6 +101,7 @@ public class TransactionServiceTest {
                 .transactionType(TransactionType.DEBIT)
                 .build();
 
+
         Mockito.when(transactionRepository.findById(any())).thenReturn(Optional.empty());
 
         TransactionResponse transactionResponse = transactionService.updateTransaction(1, request);

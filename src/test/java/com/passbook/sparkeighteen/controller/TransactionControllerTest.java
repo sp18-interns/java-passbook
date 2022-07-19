@@ -75,7 +75,7 @@ public class TransactionControllerTest {
      * if the request is invalid and having error response then updating transaction will fail.
      */
     @Test
-    public void InvalidRequest_errorResponse_UpdateTransactionUnSuccessful() throws Exception {
+    public void invalidRequest_errorResponse_UpdateTransactionUnSuccessful() throws Exception {
         TransactionRequest transactionRequest = TransactionRequest.builder()
                 .note(null)
                 .build();

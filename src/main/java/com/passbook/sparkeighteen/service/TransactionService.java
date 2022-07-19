@@ -137,14 +137,14 @@ public class TransactionService {
      * @return the transaction response whether transaction is updated or is empty.
      */
     public TransactionResponse updateTransaction(Integer transactionID, @Valid TransactionRequest request) {
-        Optional<TransactionEntity> Transaction = transactionRepository.findById(transactionID);
-        if (Transaction.isEmpty()) {
+        Optional<TransactionEntity> userTransaction = transactionRepository.findById(transactionID);
+        if (userTransaction.isEmpty()) {
             return TransactionResponse.builder()
                     .message("No records have been found.")
                     .txnID(transactionID)
                     .build();
         }
-        final TransactionEntity transaction = Transaction.get();
+        final TransactionEntity transaction = userTransaction.get();
 
         transaction.setAmount(request.getAmount());
         transaction.setNote(request.getNote());
