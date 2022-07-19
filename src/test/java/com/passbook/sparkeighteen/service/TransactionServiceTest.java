@@ -1,5 +1,4 @@
 package com.passbook.sparkeighteen.service;
-
 import com.passbook.sparkeighteen.peristence.POJO.TransactionRequest;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionResponse;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionType;
@@ -11,9 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -23,6 +20,7 @@ import static org.mockito.Mockito.when;
  */
 @ExtendWith(MockitoExtension.class)
 public class TransactionServiceTest {
+
     @Mock
     private TransactionRepository transactionRepository;
 
@@ -69,7 +67,7 @@ public class TransactionServiceTest {
      * if the transaction id exist then update the transaction of the particular transaction.
      */
     @Test
-    public void updateTransaction_transactionIdExists_transactionUpdateSuccessful() throws Exception {
+    public void updateTransaction_transactionIdExists_transactionUpdateSuccessful() {
         TransactionRequest request = TransactionRequest.builder()
                 .amount(200f)
                 .name("ketan Shinde")
@@ -93,7 +91,7 @@ public class TransactionServiceTest {
      * if the transaction id does not exist then the transaction update is unsuccessful.
      */
     @Test
-    public void updateTransaction_transactionIdNotExists_transactionUpdateUnSuccessful() throws Exception {
+    public void updateTransaction_transactionIdNotExists_transactionUpdateUnSuccessful() {
         TransactionRequest request = TransactionRequest.builder()
                 .amount(200f)
                 .name("ketan Shinde")

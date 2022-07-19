@@ -1,5 +1,4 @@
 package com.passbook.sparkeighteen.controller;
-
 import com.passbook.sparkeighteen.peristence.POJO.TransactionRequest;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionResponse;
 import com.passbook.sparkeighteen.service.TransactionService;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.validation.Valid;
 
 /**
@@ -62,7 +60,6 @@ public class TransactionController {
      * @param request to get transaction field to update.
      * @return the response
      */
-
     @ApiOperation("user can update Transaction")
     @PutMapping("/{userID}/transaction/{transactionID}")
     public ResponseEntity<TransactionResponse> updateTransaction (@PathVariable Integer transactionID, @Valid @RequestBody final TransactionRequest request) {

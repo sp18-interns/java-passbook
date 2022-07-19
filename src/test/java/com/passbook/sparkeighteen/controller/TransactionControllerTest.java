@@ -1,5 +1,4 @@
 package com.passbook.sparkeighteen.controller;
-
 import com.passbook.sparkeighteen.peristence.POJO.TransactionRequest;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionResponse;
 import com.passbook.sparkeighteen.service.TransactionService;
@@ -11,7 +10,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -61,7 +59,7 @@ public class TransactionControllerTest {
      * If the request is valid and the response is successful then the transaction is updated successfully.
      */
     @Test
-    public void validRequest_successfulResponse_UpdateTransactionSuccessful() throws Exception {
+    public void validRequest_successfulResponse_UpdateTransactionSuccessful() {
         TransactionRequest transactionRequest = TransactionRequest.builder()
                 .note("Mobile Phone")
                 .build();
@@ -75,7 +73,7 @@ public class TransactionControllerTest {
      * if the request is invalid and having error response then updating transaction will fail.
      */
     @Test
-    public void invalidRequest_errorResponse_UpdateTransactionUnSuccessful() throws Exception {
+    public void invalidRequest_errorResponse_UpdateTransactionUnSuccessful() {
         TransactionRequest transactionRequest = TransactionRequest.builder()
                 .note(null)
                 .build();
