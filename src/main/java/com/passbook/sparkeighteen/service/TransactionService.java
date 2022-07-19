@@ -8,6 +8,7 @@ import com.passbook.sparkeighteen.peristence.repository.TransactionRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -128,4 +129,38 @@ public class TransactionService {
         }
         return "Entered Transaction ID does not Exists";
     }
+
+    /**
+     * This updateTransaction method is used to update the existing transaction in the repository.
+     * @param transactionID is to specify which transaction the user wants to update.
+     * @param request is for transaction details to update their transaction.
+     * @return the transaction response whether transaction is updated or is empty.
+     */
+    public TransactionResponse updateTransaction(Integer transactionID, @Valid TransactionRequest request) {
+        Optional<TransactionEntity> Transaction = transactionRepository.findById(transactionID);
+        if (Transaction.isEmpty()) {
+            return TransactionResponse.builder()
+                    .message("No records have been found.")
+                    .txnID(transactionID)
+                    .build();
+        }
+        final TransactionEntity transaction = Transaction.get();
+
+        transaction.setAmount(request.getAmount());
+        transaction.setNote(request.getNote());
+        transaction.setTransactionType(request.getTransactionType());
+        transactionRepository.save(transaction);
+
+        return TransactionResponse.builder()
+                .txnID(transactionID)
+                .time(transaction.getTime())
+                .amount(request.getAmount())
+                .note(request.getNote())
+                .transactionType(transaction.getTransactionType())
+                .closingBalance(transaction.getClosingBalance())
+                .message("Transaction updated")
+                .build();
+
+    }
+
 }
