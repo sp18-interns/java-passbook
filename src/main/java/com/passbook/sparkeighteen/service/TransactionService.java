@@ -135,10 +135,16 @@ public class TransactionService {
      * @return the transaction response whether transaction is updated or is empty.
      */
     public TransactionResponse updateTransaction(Integer transactionID, @Valid TransactionRequest request) {
+
+        if (request.getAmount() <= 0)
+            return TransactionResponse.builder()
+                    .message("Invalid Transaction amount")
+                    .build();
+
         Optional<TransactionEntity> userTransaction = transactionRepository.findById(transactionID);
         if (userTransaction.isEmpty()) {
             return TransactionResponse.builder()
-                    .message("No records have been found.")
+                    .message("Transaction does not exist .")
                     .txnID(transactionID)
                     .build();
         }
