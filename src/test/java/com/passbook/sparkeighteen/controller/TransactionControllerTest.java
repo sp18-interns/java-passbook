@@ -79,7 +79,7 @@ public class TransactionControllerTest {
                 .build();
 
         ResponseEntity<TransactionResponse> response = transactionController.updateTransaction(1,transactionRequest);
-        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
 
     }
 }

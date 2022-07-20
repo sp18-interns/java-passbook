@@ -144,7 +144,7 @@ public class TransactionService {
         Optional<TransactionEntity> userTransaction = transactionRepository.findById(transactionID);
         if (userTransaction.isEmpty()) {
             return TransactionResponse.builder()
-                    .message("Transaction does not exist .")
+                    .message("Transaction does not exist.")
                     .txnID(transactionID)
                     .build();
         }
