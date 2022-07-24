@@ -23,4 +23,22 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Verify with Maven
-        run: mvn -B veriy --file pom.xml
+        run: mvn -B verify --file pom.xml
+      - name: Send mail
+        if: always()
+        uses: dawidd6/action-send-mail@v2
+        with:
+         # mail server settings
+         server_address: smtp.gmail.com
+         server_port: 465
+         # user credentials
+         username: Passbook@spring.com
+         password: ddtdnxblrvhwjdnq
+         # email subject
+         subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+         # email body as text
+         body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+         # comma-separated string, send email to
+         to: bhavesh.kadam@sparkeighteen.com,bhavesh@pelligent.in
+         # from email name
+         from: Bhavesh kadam
