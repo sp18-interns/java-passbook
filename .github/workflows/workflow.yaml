@@ -32,8 +32,8 @@ jobs:
          server_address: smtp.gmail.com
          server_port: 465
          # user credentials
-         username: Passbook@spring.com
-         password: ddtdnxblrvhwjdnq
+         username: passbook@spring.com
+         password: leyfmgpswhbutfpp
          # email subject
          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
          # email body as text
@@ -41,4 +41,4 @@ jobs:
          # comma-separated string, send email to
          to: bhavesh@pelligent.in
          # from email name
-         from: Bhavesh
+         from: Bhavesh pelligent
