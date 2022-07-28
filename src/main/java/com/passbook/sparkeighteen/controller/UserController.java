@@ -55,7 +55,7 @@ public class UserController {
      */
     @ApiOperation("login the user to passbook")
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@Valid @RequestBody final LoginRequest request) throws Exception {
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody final LoginRequest request) {
         return new ResponseEntity<>(userService.login(request), HttpStatus.OK);
     }
 
@@ -68,7 +68,7 @@ public class UserController {
      */
     @ApiOperation("Update user profile")
     @PutMapping("/user/{userID}/profile")
-    public ResponseEntity<ProfileResponse> updateProfile(@PathVariable Integer userID, @Valid @RequestBody final ProfileRequest request) throws Exception {
+    public ResponseEntity<ProfileResponse> updateProfile(@PathVariable Integer userID, @Valid @RequestBody final ProfileRequest request) {
         return new ResponseEntity<>(userService.updateProfile(userID, request), HttpStatus.OK);
     }
 

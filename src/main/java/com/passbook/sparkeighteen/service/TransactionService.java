@@ -1,11 +1,14 @@
 package com.passbook.sparkeighteen.service;
 
+import com.passbook.sparkeighteen.constant.PassbookApplicationConstant;
+import com.passbook.sparkeighteen.exception.PassbookException;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionRequest;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionResponse;
 import com.passbook.sparkeighteen.peristence.entity.TransactionEntity;
 import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.TransactionRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -39,20 +42,17 @@ public class TransactionService {
      * @return the transaction response. (CREDIT OR DEBIT)
      * @throws Exception shows error messages.
      */
-    public TransactionResponse transact(Integer userID, TransactionRequest request) throws Exception {
+    public TransactionResponse transact(Integer userID, TransactionRequest request) {
 
         if (request.getAmount() <= 0)
-            return TransactionResponse.builder()
-                    .message("Invalid Transaction amount")
-                    .build();
+            throw new PassbookException(PassbookApplicationConstant.INVALID_TRANSACTION_AMOUNT, HttpStatus.BAD_REQUEST);
 
-        Optional<UserEntity> optionalUser = userRepository.findById(userID);
-        if (optionalUser.isEmpty())
-            return TransactionResponse.builder()
-                    .message("User not found. Please use a registered user")
-                    .build();
+        final UserEntity optionalUser = userRepository.findById(userID)
+                .orElseThrow(
+                        () ->
+                                new PassbookException(PassbookApplicationConstant.USER_ID_NOT_FOUND, HttpStatus.BAD_REQUEST));
 
-        UserEntity user = optionalUser.get();
+        UserEntity user = optionalUser;
 
         TransactionEntity transaction;
         switch (request.getTransactionType()) {
@@ -68,9 +68,7 @@ public class TransactionService {
                 break;
             case DEBIT:
                 if (getUpdatedBalance(user) < request.getAmount()) {
-                    return TransactionResponse.builder()
-                            .message(String.format("Insufficient balance to withdraw. Current Balance: %.2f", getUpdatedBalance(user)))
-                            .build();
+                    throw new PassbookException(PassbookApplicationConstant.INSUFFICIENT_BALANCE, HttpStatus.BAD_REQUEST);
                 }
 
                 transaction = transactionRepository.save(TransactionEntity.builder()
@@ -83,9 +81,7 @@ public class TransactionService {
                         .build());
                 break;
             default:
-                return TransactionResponse.builder()
-                        .message(String.format("Unhandled transaction type %s", request.getTransactionType()))
-                        .build();
+                throw new PassbookException(PassbookApplicationConstant.UNHANDLED_TRANSACTION_TYPE, HttpStatus.BAD_REQUEST);
         }
 
         return TransactionResponse.builder()
@@ -121,11 +117,11 @@ public class TransactionService {
      * @return whether the transaction is deleted successfully or not.
      */
     public String deleteTransaction(Integer transactionID) {
-        Optional<TransactionEntity> Transaction = transactionRepository.findById(transactionID);
-        if (Transaction.isPresent()) {
-            transactionRepository.deleteById(transactionID);
-            return "Your TransactionID " + transactionID + " delete successfully.";
-        }
-        return "Entered Transaction ID does not Exists";
+        final TransactionEntity Transaction = transactionRepository.findById(transactionID).orElseThrow(
+                () ->
+                        new PassbookException(
+                                PassbookApplicationConstant.INVALID_TRANSACTION_ID, HttpStatus.BAD_REQUEST));
+        transactionRepository.deleteById(transactionID);
+        return "Your TransactionID " + transactionID + " delete successfully.";
     }
 }

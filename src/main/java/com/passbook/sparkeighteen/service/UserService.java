@@ -1,5 +1,7 @@
 package com.passbook.sparkeighteen.service;
 
+import com.passbook.sparkeighteen.constant.PassbookApplicationConstant;
+import com.passbook.sparkeighteen.exception.PassbookException;
 import com.passbook.sparkeighteen.peristence.POJO.LoginRequest;
 import com.passbook.sparkeighteen.peristence.POJO.LoginResponse;
 import com.passbook.sparkeighteen.peristence.POJO.ProfileRequest;
@@ -11,6 +13,7 @@ import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.ProfileRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
 import lombok.NonNull;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -41,32 +44,25 @@ public class UserService {
      * @return the login response of the action performed.
      * @throws Exception the exception gives error for wrong input or bad request.
      */
-    public LoginResponse login(final LoginRequest userLogin) throws Exception {
+    public LoginResponse login(final LoginRequest userLogin) {
         Optional<UserEntity> optionalUser = userRepository
                 .findByEmail(userLogin.getEmail());
         if (optionalUser.isEmpty()) {
-            return LoginResponse.builder()
-                    .message("User not registered with provided email")
-                    .build();
+            throw new PassbookException(PassbookApplicationConstant.INVALID_EMAIL, HttpStatus.BAD_REQUEST);
         } else {
             UserEntity userEntity = optionalUser.get();
             if (!userEntity.getPassword().equals(userLogin.getPassword())) {
-                return LoginResponse.builder()
-                        .message("Enter valid password to continue")
-                        .build();
+                throw new PassbookException(PassbookApplicationConstant.INVALID_PASSWORD, HttpStatus.BAD_REQUEST);
             }
 
         }
         UserEntity user = optionalUser.get();
-        Optional<ProfileEntity> optionalProfile = profileRepository.findByUser(user);
 
-        if (optionalProfile.isEmpty())
-            return LoginResponse.builder()
-                    .userID(user.getId())
-                    .message("Profile for UserID doesn't exist. Make sure User is registered.")
-                    .build();
-
-        ProfileEntity profile = optionalProfile.get();
+        ProfileEntity profile = profileRepository.findByUser(user)
+                .orElseThrow(
+                        () ->
+                                new PassbookException(
+                                        PassbookApplicationConstant.INVALID_USER_ID, HttpStatus.BAD_REQUEST));
 
         return LoginResponse.builder()
                 .userID(user.getId())
@@ -86,14 +82,12 @@ public class UserService {
      * @return the sign up response of the action performed.
      */
     public SignUpResponse signUp(@NonNull final SignUpRequest request) {
-        final Optional<UserEntity> user =
-                userRepository.findByEmail(request.getEmail());
-
-        if (user.isPresent()) {
-            return SignUpResponse.builder()
-                    .message("Email already exists.")
-                    .build();
-        }
+        final UserEntity user =
+                userRepository.findByEmail(request.getEmail())
+                        .orElseThrow(
+                                () ->
+                                        new PassbookException(
+                                                PassbookApplicationConstant.EMAIL_ALREADY_EXISTS, HttpStatus.BAD_REQUEST));
 
         UserEntity savedUser = userRepository.save(UserEntity.builder()
                 .firstname(request.getFirstname())
@@ -127,23 +121,20 @@ public class UserService {
      * @return the profile response is user profile update successfully or userID is missing.
      */
     public ProfileResponse updateProfile(Integer userID, ProfileRequest request) {
-        Optional<UserEntity> optionalUser = userRepository.findById(userID);
-        if (optionalUser.isEmpty()) {
-            return ProfileResponse.builder()
-                    .message("User ID is missing. Retry with registered user")
-                    .userID(userID)
-                    .build();
-        }
+        final UserEntity optionalUser = userRepository.findById(userID)
+                .orElseThrow(
+                        () ->
+                                new PassbookException(
+                                        PassbookApplicationConstant.USER_ID_MISSING, HttpStatus.BAD_REQUEST));
 
-        final UserEntity user = optionalUser.get();
-        Optional<ProfileEntity> optionalProfile = profileRepository.findByUser(user);
-        if (optionalProfile.isEmpty()) {
-            return ProfileResponse.builder()
-                    .message(String.format("Profile for user %s with UserID: %d is missing", user.getFirstname(), user.getId()))
-                    .build();
-        }
+        final UserEntity user = optionalUser;
+        final ProfileEntity optionalProfile = profileRepository.findByUser(user)
+                .orElseThrow(
+                        () ->
+                                new PassbookException(
+                                        String.format("Profile for user %s with UserID: %d is missing", user.getFirstname(), user.getId()), HttpStatus.BAD_REQUEST));
 
-        ProfileEntity profile = optionalProfile.get();
+        ProfileEntity profile = optionalProfile;
         profile.setAadhar(request.getAadhar() != null ? request.getAadhar() : profile.getAadhar());
         profile.setPan(request.getPan() != null ? request.getPan() : profile.getPan());
         profile.setMobileNumber(request.getMobileNumber() != null ? request.getMobileNumber() : profile.getMobileNumber());
@@ -169,12 +160,12 @@ public class UserService {
      * @return user deleted or user id is not found.
      */
     public String deleteProfile(Integer userId) {
-        final Optional<UserEntity> userEntity = userRepository.findById(userId);
-        if (userEntity.isPresent()) {
+        final UserEntity userEntity = userRepository.findById(userId)
+                        .orElseThrow(
+                                () ->
+                                        new PassbookException(
+                                                PassbookApplicationConstant.USER_ID_NOT_FOUND, HttpStatus.BAD_REQUEST));
             userRepository.deleteById(userId);
-            return "user deleted " + userId;
+            return "user " + userId + " deleted successfully.";
         }
-        return "user id is not found";
-    }
-
 }
