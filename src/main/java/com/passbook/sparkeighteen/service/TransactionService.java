@@ -150,18 +150,17 @@ public class TransactionService {
         }
         final TransactionEntity transaction = userTransaction.get();
 
-        transaction.setAmount(request.getAmount());
         transaction.setNote(request.getNote());
-        transaction.setTransactionType(request.getTransactionType());
-        transactionRepository.save(transaction);
+
+        final TransactionEntity saveTransaction = transactionRepository.save(transaction);
 
         return TransactionResponse.builder()
                 .txnID(transactionID)
-                .time(transaction.getTime())
-                .amount(request.getAmount())
-                .note(request.getNote())
-                .transactionType(transaction.getTransactionType())
-                .closingBalance(transaction.getClosingBalance())
+                .time(saveTransaction.getTime())
+                .amount(saveTransaction.getAmount())
+                .note(saveTransaction.getNote())
+                .transactionType(saveTransaction.getTransactionType())
+                .closingBalance(saveTransaction.getClosingBalance())
                 .message("Transaction updated")
                 .build();
 

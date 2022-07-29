@@ -59,7 +59,7 @@ public class TransactionControllerTest {
      * If the request is valid and the response is successful then the transaction is updated successfully.
      */
     @Test
-    public void validRequest_successfulResponse_UpdateTransactionSuccessful() {
+    public void validRequest_successfulResponse_updateTransactionSuccessful() {
         TransactionRequest transactionRequest = TransactionRequest.builder()
                 .note("Mobile Phone")
                 .build();
@@ -73,7 +73,7 @@ public class TransactionControllerTest {
      * if the request is invalid and having error response then updating transaction will fail.
      */
     @Test
-    public void invalidRequest_errorResponse_UpdateTransactionUnSuccessful() {
+    public void invalidRequest_errorResponse_updateTransactionUnSuccessful() {
         TransactionRequest transactionRequest = TransactionRequest.builder()
                 .note(null)
                 .build();
@@ -83,3 +83,4 @@ public class TransactionControllerTest {
 
     }
 }
+
