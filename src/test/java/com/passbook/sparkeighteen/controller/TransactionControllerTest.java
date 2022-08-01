@@ -1,5 +1,6 @@
 package com.passbook.sparkeighteen.controller;
-
+import com.passbook.sparkeighteen.peristence.POJO.TransactionRequest;
+import com.passbook.sparkeighteen.peristence.POJO.TransactionResponse;
 import com.passbook.sparkeighteen.service.TransactionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,4 +54,33 @@ public class TransactionControllerTest {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
 
     }
+
+    /**
+     * If the request is valid and the response is successful then the transaction is updated successfully.
+     */
+    @Test
+    public void validRequest_successfulResponse_updateTransactionSuccessful() {
+        TransactionRequest transactionRequest = TransactionRequest.builder()
+                .note("Mobile Phone")
+                .build();
+
+        ResponseEntity<TransactionResponse> response = transactionController.updateTransaction(1,transactionRequest);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+    }
+
+    /**
+     * if the request is invalid and having error response then updating transaction will fail.
+     */
+    @Test
+    public void invalidRequest_errorResponse_updateTransactionUnSuccessful() {
+        TransactionRequest transactionRequest = TransactionRequest.builder()
+                .note(null)
+                .build();
+
+        ResponseEntity<TransactionResponse> response = transactionController.updateTransaction(1,transactionRequest);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+    }
 }
+

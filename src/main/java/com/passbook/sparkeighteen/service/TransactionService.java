@@ -1,5 +1,4 @@
 package com.passbook.sparkeighteen.service;
-
 import com.passbook.sparkeighteen.peristence.POJO.TransactionRequest;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionResponse;
 import com.passbook.sparkeighteen.peristence.entity.TransactionEntity;
@@ -7,7 +6,7 @@ import com.passbook.sparkeighteen.peristence.entity.UserEntity;
 import com.passbook.sparkeighteen.peristence.repository.TransactionRepository;
 import com.passbook.sparkeighteen.peristence.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -128,4 +127,43 @@ public class TransactionService {
         }
         return "Entered Transaction ID does not Exists";
     }
+
+    /**
+     * This updateTransaction method is used to update the existing transaction in the repository.
+     * @param transactionID is to specify which transaction the user wants to update.
+     * @param request is for transaction details to update their transaction.
+     * @return the transaction response whether transaction is updated or is empty.
+     */
+    public TransactionResponse updateTransaction(Integer transactionID, @Valid TransactionRequest request) {
+
+        if (request.getAmount() <= 0)
+            return TransactionResponse.builder()
+                    .message("Invalid Transaction amount")
+                    .build();
+
+        Optional<TransactionEntity> userTransaction = transactionRepository.findById(transactionID);
+        if (userTransaction.isEmpty()) {
+            return TransactionResponse.builder()
+                    .message("Transaction does not exist.")
+                    .txnID(transactionID)
+                    .build();
+        }
+        final TransactionEntity transaction = userTransaction.get();
+
+        transaction.setNote(request.getNote());
+
+        final TransactionEntity saveTransaction = transactionRepository.save(transaction);
+
+        return TransactionResponse.builder()
+                .txnID(transactionID)
+                .time(saveTransaction.getTime())
+                .amount(saveTransaction.getAmount())
+                .note(saveTransaction.getNote())
+                .transactionType(saveTransaction.getTransactionType())
+                .closingBalance(saveTransaction.getClosingBalance())
+                .message("Transaction updated")
+                .build();
+
+    }
+
 }

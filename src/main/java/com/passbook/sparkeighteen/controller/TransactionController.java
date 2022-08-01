@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,6 +54,18 @@ public class TransactionController {
     @DeleteMapping("/user/{userId}//transaction/{transactionID}")
     public ResponseEntity<String> deleteTransaction(@PathVariable final Integer transactionID) {
         return new ResponseEntity<>(transactionService.deleteTransaction(transactionID), HttpStatus.OK);
+    }
+
+    /**
+     * Update transaction API.
+     * @param transactionID to update specific transaction ID
+     * @param request to get transaction field to update.
+     * @return the response
+     */
+    @ApiOperation("user can update Transaction")
+    @PatchMapping("/{userID}/transaction/{transactionID}")
+    public ResponseEntity<TransactionResponse> updateTransaction (@PathVariable Integer transactionID, @Valid @RequestBody final TransactionRequest request) {
+        return new ResponseEntity<>(transactionService.updateTransaction(transactionID, request), HttpStatus.OK);
     }
 
 }
