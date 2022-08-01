@@ -82,6 +82,7 @@ public class TransactionServiceTest {
 
 
         Mockito.when(transactionRepository.findById(1)).thenReturn(Optional.ofNullable(ketansTransaction));
+        Mockito.when(transactionRepository.save(ketansTransaction)).thenReturn(ketansTransaction);
 
         TransactionResponse transactionResponse = transactionService.updateTransaction(1, request);
         assertEquals("Transaction updated", transactionResponse.getMessage());
