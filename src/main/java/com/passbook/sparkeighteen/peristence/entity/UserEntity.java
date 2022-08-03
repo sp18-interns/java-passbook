@@ -16,11 +16,18 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+/**
+ * user entity - All the fields in the transaction are listed in database.
+ */
 @Setter
 @Getter
 @Builder
@@ -43,10 +50,9 @@ public class UserEntity {
     private String lastname;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", length = 20)
+    @Column(name = "gender")
     private Gender gender;
 
-    @NotNull
     @Column(name = "dob")
     private LocalDate dob;
 

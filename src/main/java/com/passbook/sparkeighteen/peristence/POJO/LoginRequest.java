@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+/**
+ * Login request is for taking user credential (like email, password) for user login.
+ */
 @Data
 @Builder
 @AllArgsConstructor

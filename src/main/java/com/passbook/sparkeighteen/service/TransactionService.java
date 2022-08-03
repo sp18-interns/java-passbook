@@ -13,14 +13,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
+
+import java.time.LocalDateTime;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Transaction service helps to provide service to perform transactions
+ * Transaction service helps to provide service to perform transactions.
  */
 @Service
 public class TransactionService {
@@ -29,13 +33,18 @@ public class TransactionService {
 
     private final UserRepository userRepository;
 
+    /**
+     * Instantiates a new Transaction service.
+     * @param transactionRepository the transaction repository
+     * @param userRepository the user repository
+     */
     public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
     }
 
     /**
-     * Create method to do the actual transaction contaning the business logic to add deposit and withdraw and return response according
+     * Create method to do the actual transaction containing the business logic to add deposit and withdraw and return response according.
      * @param userID  to make transaction for specific user.
      * @param request all fields required in transaction
      * @return the transaction response. (CREDIT OR DEBIT)
@@ -43,13 +52,62 @@ public class TransactionService {
      */
     public TransactionResponse transact(Integer userID, TransactionRequest request) throws Exception {
 
+        if (request.getAmount() <= 0)
+            return TransactionResponse.builder()
+                    .message("Invalid Transaction amount")
+                    .build();
+
         Optional<UserEntity> optionalUser = userRepository.findById(userID);
         if (optionalUser.isEmpty())
-            return TransactionResponse.builder().message("User not found. Please use a registered user").build();
+            return TransactionResponse.builder()
+                    .message("User not found. Please use a registered user")
+                    .build();
 
-        // TODO: Add deposit/withdraw logic and change below return accordingly
+        UserEntity user = optionalUser.get();
 
-        return TransactionResponse.builder().build();
+        TransactionEntity transaction;
+        switch (request.getTransactionType()) {
+            case CREDIT:
+                transaction = transactionRepository.save(TransactionEntity.builder()
+                        .amount(request.getAmount())
+                        .note(request.getNote())
+                        .user(user)
+                        .closingBalance(request.getAmount() + getUpdatedBalance(user))
+                        .time(LocalDateTime.now())
+                        .transactionType(request.getTransactionType())
+                        .build());
+                break;
+            case DEBIT:
+                if (getUpdatedBalance(user) < request.getAmount()) {
+                    return TransactionResponse.builder()
+                            .message(String.format("Insufficient balance to withdraw. Current Balance: %.2f", getUpdatedBalance(user)))
+                            .build();
+                }
+
+                transaction = transactionRepository.save(TransactionEntity.builder()
+                        .amount(request.getAmount())
+                        .user(user)
+                        .note(request.getNote())
+                        .closingBalance(getUpdatedBalance(user) - request.getAmount())
+                        .time(LocalDateTime.now())
+                        .transactionType(request.getTransactionType())
+                        .build());
+                break;
+            default:
+                return TransactionResponse.builder()
+                        .message(String.format("Unhandled transaction type %s", request.getTransactionType()))
+                        .build();
+        }
+
+        return TransactionResponse.builder()
+                .txnID(transaction.getId())
+                .amount(transaction.getAmount())
+                .note(transaction.getNote())
+                .time(transaction.getTime())
+                .closingBalance(transaction.getClosingBalance())
+                .transactionType(transaction.getTransactionType())
+                .message(String.format("Your A/C XXXXX has a %s by Rs %.2f on %s ", transaction.getTransactionType(), transaction.getAmount(), transaction.getTime()))
+                .build();
     }
 
     /**
@@ -60,7 +118,11 @@ public class TransactionService {
      */
     private Float getUpdatedBalance(UserEntity user) {
         Float balance = 0f;
-        // TODO: Add getting the latest closing balance of the user
+        Optional<List<TransactionEntity>> optionalTxns = transactionRepository.findByUser(user);
+        if (optionalTxns.isPresent()) {
+            List<TransactionEntity> txns = optionalTxns.get();
+            if (txns.size() > 0) balance = txns.get(txns.size() - 1).getClosingBalance();
+        }
         return balance;
     }
 
@@ -117,5 +179,18 @@ public class TransactionService {
                 .transactionType(transaction.getTransactionType())
                 .build();
     }
-
+    
+    /**
+     * Delete a specific transaction.
+     * @param transactionID To delete specific transaction.
+     * @return whether the transaction is deleted successfully or not.
+     */
+    public String deleteTransaction(Integer transactionID) {
+        Optional<TransactionEntity> Transaction = transactionRepository.findById(transactionID);
+        if (Transaction.isPresent()) {
+            transactionRepository.deleteById(transactionID);
+            return "Your TransactionID " + transactionID + " delete successfully.";
+        }
+        return "Entered Transaction ID does not Exists";
+    }
 }
