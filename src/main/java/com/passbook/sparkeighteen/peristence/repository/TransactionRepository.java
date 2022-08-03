@@ -24,7 +24,5 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
      
     Page<TransactionEntity> findByUser(Pageable page, UserEntity user);
 
+    Optional<List<TransactionEntity>> findByUser(UserEntity user);
 }
-
-    Optional<List<TransactionEntity>> findByUser(UserEntity user);}
-
