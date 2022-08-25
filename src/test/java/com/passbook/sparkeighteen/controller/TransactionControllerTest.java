@@ -1,5 +1,6 @@
 package com.passbook.sparkeighteen.controller;
 
+import com.passbook.sparkeighteen.peristence.POJO.PaginatedResponse;
 import com.passbook.sparkeighteen.service.TransactionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 
 /**
  * The Transaction controller test.
@@ -50,6 +52,27 @@ public class TransactionControllerTest {
         Mockito.when(transactionService.deleteTransaction(any())).thenReturn("transaction id is not found");
 
         ResponseEntity<String> response = transactionController.deleteTransaction(transactionID);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+    }
+
+    @Test
+    public void getUserTransaction_validParams_successful() throws Exception {
+        Integer userID = 1;
+        String pageSize = "10";
+        String pageNo = "0";
+
+        Mockito.when(transactionService.getTransaction(any(),any(),any())).thenReturn(PaginatedResponse.builder()
+                .message("return list of transaction")
+                .pageSize(Integer.parseInt(pageSize))
+                .totalPages(1)
+                .currentPage(Integer.parseInt(pageNo))
+                .content(any())
+                .totalElements(1L)
+                .build());
+
+        ResponseEntity<PaginatedResponse> response = transactionController.getUserTransaction(userID, eq(pageSize), eq(pageNo));
+
         assertEquals(response.getStatusCode(), HttpStatus.OK);
 
     }
