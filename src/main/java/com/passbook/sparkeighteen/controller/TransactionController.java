@@ -40,7 +40,7 @@ public class TransactionController {
      */
     @ApiOperation("User can transact")
     @PostMapping("/{userID}/transaction")
-    public ResponseEntity<TransactionResponse> transact(@PathVariable Integer userID, @RequestBody final @Valid TransactionRequest request) throws Exception {
+    public ResponseEntity<TransactionResponse> transact(@PathVariable Integer userID, @RequestBody final @Valid TransactionRequest request)  {
         return new ResponseEntity<>(transactionService.transact(userID, request), HttpStatus.OK);
     }
 
