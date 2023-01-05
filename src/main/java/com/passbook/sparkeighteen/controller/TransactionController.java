@@ -1,8 +1,10 @@
 package com.passbook.sparkeighteen.controller;
 
+import com.passbook.sparkeighteen.peristence.POJO.KafkaTransactionRequest;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionRequest;
 import com.passbook.sparkeighteen.peristence.POJO.TransactionResponse;
 import com.passbook.sparkeighteen.service.TransactionService;
+import com.passbook.sparkeighteen.service.producer.TransactionProducer;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +25,16 @@ import javax.validation.Valid;
 public class TransactionController {
     private final TransactionService transactionService;
 
+    private final TransactionProducer transactionProducer;
+
     /**
      * Instantiates a new Transaction controller.
      * @param transactionService the transaction service
+     * @param transactionProducer the producer
      */
-    public TransactionController(TransactionService transactionService) {
+    public TransactionController(TransactionService transactionService, TransactionProducer transactionProducer) {
         this.transactionService = transactionService;
+        this.transactionProducer = transactionProducer;
     }
 
     /**
@@ -41,6 +47,10 @@ public class TransactionController {
     @ApiOperation("User can transact")
     @PostMapping("/{userID}/transaction")
     public ResponseEntity<TransactionResponse> transact(@PathVariable Integer userID, @RequestBody final @Valid TransactionRequest request) throws Exception {
+        this.transactionProducer.sendMessage(KafkaTransactionRequest.builder()
+                .userID(userID)
+                .request(request)
+                .build());
         return new ResponseEntity<>(transactionService.transact(userID, request), HttpStatus.OK);
     }
 
